@@ -20,7 +20,7 @@ public class MainServeur {
 			leServeur = new ServerSocket(portEcho);
 		} catch (IOException ex) {
 			// fin de connexion
-			System.err.println("Impossible de crÃ©er un socket serveur sur ce port : "+ ex);
+			System.err.println("Impossible de créer un socket serveur sur ce port : "+ ex);
 			try {
 				// on demande un port anonyme
 				leServeur = new ServerSocket(0);
@@ -41,13 +41,14 @@ public class MainServeur {
 					entreeSocket = connexionCourante.getInputStream();
 					sortieSocket = connexionCourante.getOutputStream();
 					//Switch case
-//					TraitementClient traitementClient=new TraitementClient(connexionCourante,entreeSocket,sortieSocket,gestion);					
-//					traitementClient.start();					
+					Traitement traitement1 = new Traitement(connexionCourante,entreeSocket,sortieSocket);					
+					traitement1.start();					
 				}
 			} catch (Exception ex) {
 				// erreur de connexion
 				System.err.println("Une erreur est survenue : " + ex);
 				ex.printStackTrace();
+				
 			}
 		}
 	}

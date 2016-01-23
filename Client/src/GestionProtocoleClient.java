@@ -11,11 +11,13 @@ public class GestionProtocoleClient {
 //			V.maMethode(part1, sommeIni);
 //		}
 		
-	public String connexion(){
+		public String connexion(){
 		
-		return null;
+			//chaine
+			
+			return null;
 		
-	}
+		}
 	
 	}
 	

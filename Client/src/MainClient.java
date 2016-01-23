@@ -4,7 +4,7 @@ import java.net.*;
 public class MainClient {
 
 	public static void main(String args[]) {
-		String reponse;
+		String requete, reponse=null;
 		BufferedReader fluxEntreeStandard;
 		Socket leSocket;
 		PrintStream fluxSortieSocket;
@@ -28,9 +28,9 @@ public class MainClient {
 
 				System.out.println("requete? ");
 
-				reponse = gestionClient.traitement();
-				if (reponse != null) {
-					fluxSortieSocket.println(reponse);
+				requete = gestionClient.traitement();
+				if (requete != null) {
+					fluxSortieSocket.println(requete);
 
 					String retour = fluxEntreeSocket.readLine();
 

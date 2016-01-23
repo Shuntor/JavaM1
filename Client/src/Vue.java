@@ -45,7 +45,7 @@ public class Vue {
 	public String traitement() throws IOException {
 		
 		boolean continuer = true;
-		String reponse = null;
+		String reponse, reponseNom, reponsePrenom, reponseMail, reponseTel, reponseAnneeDiplo, reponseMotDePasse, confidentialAnneeDip, confidentialTel, ConfidentialMail, requete = null;
 		boolean quitter=false;
 		
 		//le flux à lire sera l'imput entrée par l'utilisateur
@@ -56,26 +56,75 @@ public class Vue {
 				+ "2) Creer un compte\n" + "3) Modifier son profil\n" + "4) Consulter l'anuaire\n"
 				+ "5) Deconnexion\n" + "6) Quitter");
 		
-		//récupère le flux d'entré et le stock dans reponse
+		//récupère le flux d'entré et le stock dans réponse
 		reponse = fluxEntreeStandard.readLine();
 		
 		while (continuer) {
 			switch (reponse) {
 			case "1":
-				reponse = "SE CONNECTER";
 				
+				System.out.println("Votre adresse e-mail?");
+				reponseMail = fluxEntreeStandard.readLine();
+				System.out.println("Votre mot de passe?");
+				reponseMotDePasse = fluxEntreeStandard.readLine();
+				requete= "connexion" +" "+ reponseMail +" "+ reponseMotDePasse;
+				System.out.println(requete);
 				continuer = false;
-				break;
+				return requete;
+				//break;
+				
+				
+				
 			case "2":
-				reponse = "CREER UN COMPTE";
+				System.out.println("Votre nom?");
+				reponseNom = fluxEntreeStandard.readLine();
+				System.out.println("Votre prénom?");
+				reponsePrenom = fluxEntreeStandard.readLine();
+				System.out.println("Votre année Diplomante?");
+				reponseAnneeDiplo = fluxEntreeStandard.readLine();
+				System.out.println("Souhaitez-vous partager votre année diplomante avec les visiteurs? [o/n]");
+				confidentialAnneeDip = fluxEntreeStandard.readLine();
+				System.out.println("Votre numéro de Téléphone?");
+				reponseTel = fluxEntreeStandard.readLine();
+				System.out.println("Souhaitez-vous partager votre numéro de téléphone avec les visiteurs? [o/n]");
+				confidentialTel = fluxEntreeStandard.readLine();
+				System.out.println("Votre adresse e-mail? (Servira à vous connecter)");
+				reponseMail = fluxEntreeStandard.readLine();
+				System.out.println("Souhaitez-vous partager votre adresse e-mail avec les visiteurs?");
+				ConfidentialMail = fluxEntreeStandard.readLine();
+				System.out.println("Votre mot de passe?");
+				reponseMotDePasse = fluxEntreeStandard.readLine();
+				requete= "inscription" +" "+ reponsePrenom +" "+ reponseNom +" "+ reponseMotDePasse +" "+ reponseAnneeDiplo +" "+ confidentialAnneeDip +" "+ reponseTel +" "+ confidentialTel +" "+ reponseMail +" "+ ConfidentialMail;
+				System.out.println(requete);
+				//reponse=GestionProtocoleClient.inscription;
 				continuer = false;
-				break;
+				return "OK";
 			case "3":
-				reponse = "MODIFIER SON PROFIL";
+				System.out.println("Votre nom?");
+				reponseNom = fluxEntreeStandard.readLine();
+				System.out.println("Votre prénom?");
+				reponsePrenom = fluxEntreeStandard.readLine();
+				System.out.println("Votre année Diplomante?");
+				reponseAnneeDiplo = fluxEntreeStandard.readLine();
+				System.out.println("Souhaitez-vous partager votre année diplomante avec les visiteurs? [o/n]");
+				confidentialAnneeDip = fluxEntreeStandard.readLine();
+				System.out.println("Votre numéro de Téléphone?");
+				reponseTel = fluxEntreeStandard.readLine();
+				System.out.println("Souhaitez-vous partager votre numéro de téléphone avec les visiteurs? [o/n]");
+				confidentialTel = fluxEntreeStandard.readLine();
+				System.out.println("Votre adresse e-mail? (Servira à vous connecter)");
+				reponseMail = fluxEntreeStandard.readLine();
+				System.out.println("Souhaitez-vous partager votre adresse e-mail avec les visiteurs?");
+				ConfidentialMail = fluxEntreeStandard.readLine();
+				System.out.println("Votre mot de passe?");
+				reponseMotDePasse = fluxEntreeStandard.readLine();
+				requete= "inscription" +" "+ reponsePrenom +" "+ reponseNom +" "+ reponseMotDePasse +" "+ reponseAnneeDiplo +" "+ confidentialAnneeDip +" "+ reponseTel +" "+ confidentialTel +" "+ reponseMail +" "+ ConfidentialMail;
+				System.out.println(requete);
+				//reponse=GestionProtocoleClient.inscription;
 				continuer = false;
-				break;
+				return "OK";
 			case "4":
-				reponse = "CONSULTER L'ANNAUAIRE";
+				reponse = "CONSULTER L'ANNUAIRE";
 				continuer = false;
 				break;
 			case "5":

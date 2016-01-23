@@ -14,13 +14,13 @@ public class Traitement extends Thread {
 	private InputStream entreeSocket;
 	private OutputStream sortieSocket;
 	private String requete;
-	private String motClef;
+	
 //	private BDD BDD;
 
 	String chaine;
 
 	public Traitement(Socket connexionCourante, InputStream entreeSocket,
-			OutputStream sortieSocket, String requete) {
+			OutputStream sortieSocket) {
 
 //		this.gestion = gestion;
 		this.chaine = null;
@@ -34,26 +34,31 @@ public class Traitement extends Thread {
 
 	public void run() {
 
+		String motClef=null;
 		while (!fermeture) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					entreeSocket));
 			
 			try {
 				requete=reader.readLine();
+				System.out.println("requete recue = "+requete);
 				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			String[] tabRequete=requete.split("|");
+			String tabRequete[]=requete.split(" ");
 			motClef=tabRequete[0];
+			System.out.println("motClef="+tabRequete[0]);
 			/*****/
 			switch (motClef){
 			case "inscription":
-				BDD.insert(tabRequete[1],tabRequete[2],tabRequete[3],tabRequete[4],tabRequete[5],tabRequete[6], tabRequete[7],tabRequete[8],tabRequete[9] );
+				//BDD.insert(tabRequete[1],tabRequete[2],tabRequete[3],tabRequete[4],tabRequete[5],tabRequete[6], tabRequete[7],tabRequete[8],tabRequete[9] );
+				System.out.println("J'ai reçu une "+ motClef);
 				break;
 			case "connexion":
-				 
+				System.out.println("J'ai reçu une "+ motClef);
+				chaine="OK";
 				break;
 			case "consulter":
 				 
