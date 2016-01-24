@@ -13,7 +13,7 @@ public class Traitement extends Thread {
 	private Socket connexionCourante;
 	private InputStream entreeSocket;
 	private OutputStream sortieSocket;
-	private String requete;
+	
 	
 //	private BDD BDD;
 
@@ -28,13 +28,15 @@ public class Traitement extends Thread {
 		this.entreeSocket = entreeSocket;
 		this.sortieSocket = sortieSocket;
 		this.fermeture = false;
-		this.requete = null;
+		
 		
 	}
 
 	public void run() {
 
-		String motClef=null;
+		Boolean connecte=false;
+		String motClef, requete=null;
+		
 		while (!fermeture) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					entreeSocket));
@@ -47,7 +49,7 @@ public class Traitement extends Thread {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			String tabRequete[]=requete.split(" ");
+			String tabRequete[]=requete.split("#");
 			motClef=tabRequete[0];
 			System.out.println("motClef="+tabRequete[0]);
 			/*****/
@@ -59,9 +61,15 @@ public class Traitement extends Thread {
 			case "connexion":
 				System.out.println("J'ai reçu une "+ motClef);
 				chaine="OK";
+				connecte=true;
 				break;
 			case "consulter":
-				 
+				if (connecte==true){
+					chaine ="connecté";
+				}
+				else {
+					chaine="non connecté";
+				}
 				break;
 			case "modifier":
 				 
@@ -69,8 +77,16 @@ public class Traitement extends Thread {
 			case "recherche":
 				 
 				break;
-			case "déconnexion":
-				 
+			case "deconnexion":
+				System.out.println("1: "+tabRequete[0] + "et 2: "+tabRequete[1]);
+				connecte=false; 
+				if (tabRequete[1]=="quitter"){
+					fermeture=true;
+					chaine =null;
+				}
+				else{
+					chaine="Déconnexion confirmée";
+				}
 				break;
 			default:
 				System.out.println("ERREUR (défaut)");

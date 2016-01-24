@@ -11,12 +11,21 @@ public class GestionProtocoleClient {
 //			V.maMethode(part1, sommeIni);
 //		}
 		
-		public String connexion(){
 		
-			//chaine
-			
-			return null;
 		
+		/****
+		 * serialisation
+		 * @param args
+		 * @return
+		 * Mise en forme des trames
+		 */
+		public String serialisation(String... args){
+			String chaine = "";
+			for (String arg:args){
+				chaine+=arg;
+				chaine+="#";
+			}
+			return chaine;
 		}
 	
 	}

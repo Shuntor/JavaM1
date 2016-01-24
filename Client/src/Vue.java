@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Vue {
-
+	GestionProtocoleClient GestionProtocole = new GestionProtocoleClient();
 //	private JFrame frame;
 //
 //	/**
@@ -41,7 +41,12 @@ public class Vue {
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //	}
 
-	
+	/*****
+	 * traintement()
+	 * @return 
+	 * @throws IOException
+	 * Thread gerant les clients
+	 */
 	public String traitement() throws IOException {
 		
 		boolean continuer = true;
@@ -67,7 +72,7 @@ public class Vue {
 				reponseMail = fluxEntreeStandard.readLine();
 				System.out.println("Votre mot de passe?");
 				reponseMotDePasse = fluxEntreeStandard.readLine();
-				requete= "connexion" +" "+ reponseMail +" "+ reponseMotDePasse;
+				requete= GestionProtocole.serialisation("connexion", reponseMail, reponseMotDePasse);
 				System.out.println(requete);
 				continuer = false;
 				return requete;
@@ -94,11 +99,11 @@ public class Vue {
 				ConfidentialMail = fluxEntreeStandard.readLine();
 				System.out.println("Votre mot de passe?");
 				reponseMotDePasse = fluxEntreeStandard.readLine();
-				requete= "inscription" +" "+ reponsePrenom +" "+ reponseNom +" "+ reponseMotDePasse +" "+ reponseAnneeDiplo +" "+ confidentialAnneeDip +" "+ reponseTel +" "+ confidentialTel +" "+ reponseMail +" "+ ConfidentialMail;
+				requete= GestionProtocole.serialisation("inscription",reponsePrenom,reponseNom,reponseMotDePasse,reponseAnneeDiplo,confidentialAnneeDip,reponseTel,confidentialTel,reponseMail,ConfidentialMail);
 				System.out.println(requete);
 				//reponse=GestionProtocoleClient.inscription;
 				continuer = false;
-				return "OK";
+				return requete;
 			case "3":
 				System.out.println("Votre nom?");
 				reponseNom = fluxEntreeStandard.readLine();
@@ -118,24 +123,25 @@ public class Vue {
 				ConfidentialMail = fluxEntreeStandard.readLine();
 				System.out.println("Votre mot de passe?");
 				reponseMotDePasse = fluxEntreeStandard.readLine();
-				requete= "inscription" +" "+ reponsePrenom +" "+ reponseNom +" "+ reponseMotDePasse +" "+ reponseAnneeDiplo +" "+ confidentialAnneeDip +" "+ reponseTel +" "+ confidentialTel +" "+ reponseMail +" "+ ConfidentialMail;
+				requete= GestionProtocole.serialisation("modification",reponsePrenom,reponseNom,reponseMotDePasse,reponseAnneeDiplo,confidentialAnneeDip,reponseTel,confidentialTel,reponseMail,ConfidentialMail);
 				System.out.println(requete);
 				//reponse=GestionProtocoleClient.inscription;
 				continuer = false;
-				return "OK";
+				return requete;
 			case "4":
-				reponse = "CONSULTER L'ANNUAIRE";
+				requete="consulter";
 				continuer = false;
-				break;
+				return requete;
 			case "5":
-				reponse = "DECONNECTION";
+				requete="deconnexion#simple";
 				continuer = false;
-				break;
+				return requete;
 			case "6":
 				System.out.println("BYE");
+				requete="deconnexion#quitter";
 				continuer = false;
 				quitter=true;
-				break;
+				return requete;
 			default:
 				System.out.println("Ce choix n'est pas disponible");
 			}
@@ -147,7 +153,9 @@ public class Vue {
 			return reponse;
 		}	
 		
-		return null;
+		else{
+			return null;
+		}
 		
 	}
 	

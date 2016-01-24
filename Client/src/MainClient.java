@@ -4,13 +4,13 @@ import java.net.*;
 public class MainClient {
 
 	public static void main(String args[]) {
-		String requete, reponse=null;
+		String requete=null;
 		BufferedReader fluxEntreeStandard;
 		Socket leSocket;
 		PrintStream fluxSortieSocket;
 		BufferedReader fluxEntreeSocket;
 		boolean continuer = true;
-		Vue gestionClient = new Vue();
+		Vue vue = new Vue();
 
 		try {
 			fluxEntreeStandard = new BufferedReader(new InputStreamReader(System.in));
@@ -28,7 +28,7 @@ public class MainClient {
 
 				System.out.println("requete? ");
 
-				requete = gestionClient.traitement();
+				requete = vue.traitement();
 				if (requete != null) {
 					fluxSortieSocket.println(requete);
 
@@ -36,7 +36,7 @@ public class MainClient {
 
 					System.out.println("Reponse du serveur : " + retour);
 				}
-				System.out.println("continuer? \"oui\"/\"non\"");
+				/*System.out.println("continuer? \"oui\"/\"non\"");
 				reponse = fluxEntreeStandard.readLine();
 				switch (reponse) {
 				case "non":
@@ -46,9 +46,13 @@ public class MainClient {
 				default:
 					System.out.println("continuer...");
 					break;
+				}*/
+				if (requete=="deconnexion#quitter"){
+					leSocket.close();
+					continuer=false;
 				}
 			}
-			leSocket.close();
+			
 		} catch (UnknownHostException ex) {
 			System.err.println("Machine inconnue : " + ex);
 			ex.printStackTrace();
