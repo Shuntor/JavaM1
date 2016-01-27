@@ -67,10 +67,12 @@ public class Traitement extends Thread {
 				break;
 			case "consulter":
 				if (connecte==true){
+
 					chaine ="connecté";
 				}
 				else {
 					chaine="non connecté";
+
 				}
 				break;
 			case "modifier":

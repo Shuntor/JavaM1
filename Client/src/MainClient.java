@@ -33,8 +33,9 @@ public class MainClient {
 					fluxSortieSocket.println(requete);
 
 					String retour = fluxEntreeSocket.readLine();
-
+					
 					System.out.println("Reponse du serveur : " + retour);
+					
 				}
 				/*System.out.println("continuer? \"oui\"/\"non\"");
 				reponse = fluxEntreeStandard.readLine();
