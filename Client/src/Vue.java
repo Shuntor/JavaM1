@@ -4,6 +4,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.*;
 
 public class Vue {
 	GestionProtocoleClient GestionProtocole = new GestionProtocoleClient();
@@ -52,6 +53,7 @@ public class Vue {
 		boolean continuer = true;
 		String reponse, reponseNom, reponsePrenom, reponseMail, reponseTel, reponseAnneeDiplo, reponseMotDePasse, confidentialAnneeDip, confidentialTel, ConfidentialMail, requete = null;
 		boolean quitter=false;
+		boolean verifMail=false;
 		
 		//le flux à lire sera l'imput entrée par l'utilisateur
 		BufferedReader fluxEntreeStandard = new BufferedReader(
@@ -68,8 +70,25 @@ public class Vue {
 			switch (reponse) {
 			case "1":
 				
-				System.out.println("Votre adresse e-mail?");
-				reponseMail = fluxEntreeStandard.readLine();
+				do{
+					System.out.println("Votre adresse e-mail?");
+					reponseMail = fluxEntreeStandard.readLine();
+					String masque = "^[a-zA-Z]+[a-zA-Z0-9\\._-]*[a-zA-Z0-9]@[a-zA-Z]+"
+	                        + "[a-zA-Z0-9\\._-]*[a-zA-Z0-9]+\\.[a-zA-Z]{2,4}$";
+					Pattern pattern = Pattern.compile(masque);
+					Matcher controler = pattern.matcher(reponseMail);
+					if (controler.matches()){
+						verifMail=true;
+					}
+					else {
+						System.out.println("L'adresse mail n'est pas valide");
+						continuer = false;
+						verifMail=false;
+					}
+				}
+				while(verifMail==false);
+				
+				//Ok : la saisie est bonne
 				System.out.println("Votre mot de passe?");
 				reponseMotDePasse = fluxEntreeStandard.readLine();
 				requete= GestionProtocole.serialisation("connexion", reponseMail, reponseMotDePasse);
@@ -77,7 +96,6 @@ public class Vue {
 				continuer = false;
 				return requete;
 				//break;
-				
 				
 				
 			case "2":
