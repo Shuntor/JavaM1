@@ -1,3 +1,5 @@
+package STRI.JavaConnect;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,7 +9,7 @@ import java.net.*;
 
 public class MainServeur {
 	
-	/* Port par défaut */
+	/* Port par dï¿½faut */
 	public final static int portEcho = 50000;
 	
 	public static void main(String[] args) {
@@ -20,13 +22,13 @@ public class MainServeur {
 			leServeur = new ServerSocket(portEcho);
 		} catch (IOException ex) {
 			// fin de connexion
-			System.err.println("Impossible de créer un socket serveur sur ce port : "+ ex);
+			System.err.println("Impossible de crï¿½er un socket serveur sur ce port : "+ ex);
 			try {
 				// on demande un port anonyme
 				leServeur = new ServerSocket(0);
 			} catch (IOException ex2) {
 				// fin de connexion
-				System.err.println("Impossible de créer un socket serveur : "+ ex);
+				System.err.println("Impossible de crï¿½er un socket serveur : "+ ex);
 			}
 		}
 		

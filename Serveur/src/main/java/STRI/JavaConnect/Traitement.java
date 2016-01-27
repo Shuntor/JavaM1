@@ -1,3 +1,5 @@
+package STRI.JavaConnect;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,19 +58,19 @@ public class Traitement extends Thread {
 			switch (motClef){
 			case "inscription":
 				//BDD.insert(tabRequete[1],tabRequete[2],tabRequete[3],tabRequete[4],tabRequete[5],tabRequete[6], tabRequete[7],tabRequete[8],tabRequete[9] );
-				System.out.println("J'ai reçu une "+ motClef);
+				System.out.println("J'ai reï¿½u une "+ motClef);
 				break;
 			case "connexion":
-				System.out.println("J'ai reçu une "+ motClef);
+				System.out.println("J'ai reï¿½u une "+ motClef);
 				chaine="OK";
 				connecte=true;
 				break;
 			case "consulter":
 				if (connecte==true){
-					chaine ="connecté";
+					chaine ="connectÃ©";
 				}
 				else {
-					chaine="non connecté";
+					chaine="non connectÃ©";
 				}
 				break;
 			case "modifier":
@@ -85,11 +87,11 @@ public class Traitement extends Thread {
 					chaine =null;
 				}
 				else{
-					chaine="Déconnexion confirmée";
+					chaine="Dï¿½connexion confirmï¿½e";
 				}
 				break;
 			default:
-				System.out.println("ERREUR (défaut)");
+				System.out.println("ERREUR (dï¿½faut)");
 			}
 			
 			
