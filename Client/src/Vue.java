@@ -4,6 +4,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.regex.*;
 
 public class Vue {
 	GestionProtocoleClient GestionProtocole = new GestionProtocoleClient();
@@ -70,13 +71,23 @@ public class Vue {
 				
 				System.out.println("Votre adresse e-mail?");
 				reponseMail = fluxEntreeStandard.readLine();
-				System.out.println("Votre mot de passe?");
-				reponseMotDePasse = fluxEntreeStandard.readLine();
-				requete= GestionProtocole.serialisation("connexion", reponseMail, reponseMotDePasse);
-				System.out.println(requete);
-				continuer = false;
-				return requete;
-				//break;
+				String masque = "^[a-zA-Z]+[a-zA-Z0-9\\._-]*[a-zA-Z0-9]@[a-zA-Z]+"
+                        + "[a-zA-Z0-9\\._-]*[a-zA-Z0-9]+\\.[a-zA-Z]{2,4}$";
+				Pattern pattern = Pattern.compile(masque);
+				Matcher controler = pattern.matcher(reponseMail);
+				if (controler.matches()){
+					//Ok : la saisie est bonne
+					System.out.println("Votre mot de passe?");
+					reponseMotDePasse = fluxEntreeStandard.readLine();
+					requete= GestionProtocole.serialisation("connexion", reponseMail, reponseMotDePasse);
+					System.out.println(requete);
+					continuer = false;
+					return requete;
+					//break;
+				}else{
+					System.out.println("L'adresse mail n'est pas valide");
+				}
+				
 				
 				
 				
