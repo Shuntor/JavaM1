@@ -2,7 +2,6 @@ package STRI.JavaConnect;
 
 
 
-
 public class GestionProtocoleServeur {
 	
 //	public void analyser (String requete){
