@@ -5,29 +5,30 @@ create table Utilisateurs(
 	prenom varchar(50),
 	mail varchar(80),
 	AnneDiplomation int(4),
+	tel int(15),
+	mdp varchar(50),
 	constraint pk_utlisateur PRIMARY KEY(mail)
 	#constraint ck_athletes check (type in ('F','M','A')),
 );
 
 create table Competences(
-	idComp int(4) auto_increment,
-	description varchar(300),
-	constraint pk_competences PRIMARY KEY(idComp)
+	description varchar(200),
+	constraint pk_competences PRIMARY KEY(description)
 );
 
 create table Acquerir(
 	mail varchar(80),
-	idComp int(4),
-	constraint pk_acquerir PRIMARY KEY(mail, idComp),
+	description varchar(200),
+	constraint pk_acquerir PRIMARY KEY(mail, description),
 	constraint fk_acquerir_utlisateur foreign key(mail) references Utilisateurs(mail),
-	constraint fk_acquerir_competences foreign key(idComp) references Competences(idComp)
+	constraint fk_acquerir_competences foreign key(description) references Competences(description)
 );
 
 
 INSERT INTO Utilisateurs values
-	('Vaurigaud', 'Jordan', 'jojo@gmail.com', 2016	),
-	('Hernandez', 'Quentin', 'kent@yahoo.fr', 2018	),
-	('Iungmann', 'Victor', 'vic@gmail.com', 2017	);
+	('Vaurigaud', 'Jordan', 'jojo@gmail.com', 2016, "0689784556", "root"	),
+	('Hernandez', 'Quentin', 'kent@yahoo.fr', 2018, "0689784556", "root"	),
+	('Iungmann', 'Victor', 'vic@gmail.com', 2017, "0689784556", "root"	);
 
 
 
@@ -41,17 +42,14 @@ INSERT INTO Competences(description) values
 	('Chimie'),
 	('Gestion');
 
-INSERT INTO Acquerir values
-	('kent@yahoo.fr','2'),
-	('kent@yahoo.fr','7'),
-	('jojo@gmail.com','1'),
-	('jojo@gmail.com','2'),
-	('jojo@gmail.com','3'),
-	('jojo@gmail.com','4'),
-	('vic@gmail.com','2'),
-	('vic@gmail.com','5'),
-	('vic@gmail.com','6');
-
-
+	INSERT INTO Acquerir values
+		('kent@yahoo.fr','Repassage'),
+		('jojo@gmail.com','Maths'),
+		('jojo@gmail.com','Chimie'),
+		('jojo@gmail.com','Physique'),
+		('jojo@gmail.com','Gestion'),
+		('vic@gmail.com','BDD'),
+		('vic@gmail.com','Maths'),
+		('vic@gmail.com','Informatique');
 
 

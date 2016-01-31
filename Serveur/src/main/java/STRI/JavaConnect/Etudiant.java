@@ -4,14 +4,23 @@ public class Etudiant {
 	
 	    private String nom;
 	    private String prenom;
-	    private String anneeDip;
+	    private int anneeDip;
 	    private String mail;
-	    private String tel;
-	    
+	    private int tel;
+	    private String mdp;
 	    
 	   
 
-	    public Etudiant(String nom, String prenom, String anneeDip, String mail, String tel) {
+	    public Etudiant(String nom, String prenom, int anneeDip, String mail, int tel, String mdp) {
+	        this.nom=nom;
+	        this.prenom=prenom;
+	        this.anneeDip=anneeDip;
+	        this.mail=mail;
+	        this.tel=tel;
+	        this.mdp=mdp;
+	        
+	    }
+	    public Etudiant(String nom, String prenom, int anneeDip, String mail, int tel) {
 	        this.nom=nom;
 	        this.prenom=prenom;
 	        this.anneeDip=anneeDip;
@@ -19,6 +28,15 @@ public class Etudiant {
 	        this.tel=tel;
 	        
 	    }
+	    public Etudiant(String mail) {
+	    	this.nom="";
+	        this.prenom="";
+	        this.anneeDip=0;
+	    	this.mail=mail;
+	    	this.tel=0;
+	    	this.mdp="root";
+	    }
+	    
 
 
 
@@ -51,14 +69,14 @@ public class Etudiant {
 
 
 
-		public String getAnneeDip() {
+		public int getAnneeDip() {
 			return anneeDip;
 		}
 
 
 
 
-		public void setAnneeDip(String anneeDip) {
+		public void setAnneeDip(int anneeDip) {
 			this.anneeDip = anneeDip;
 		}
 
@@ -79,14 +97,14 @@ public class Etudiant {
 
 
 
-		public String getTel() {
+		public int getTel() {
 			return tel;
 		}
 
 
 
 
-		public void setTel(String tel) {
+		public void setTel(int tel) {
 			this.tel = tel;
 		}
 
