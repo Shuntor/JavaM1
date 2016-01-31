@@ -21,41 +21,41 @@ public class MainServeur {
 		
 		
 		
-//		try {
-//			leServeur = new ServerSocket(portEcho);
-//		} catch (IOException ex) {
-//			// fin de connexion
-//			System.err.println("Impossible de cr�er un socket serveur sur ce port : "+ ex);
-//			try {
-//				// on demande un port anonyme
-//				leServeur = new ServerSocket(0);
-//			} catch (IOException ex2) {
-//				// fin de connexion
-//				System.err.println("Impossible de cr�er un socket serveur : "+ ex);
-//			}
-//		}
-//		
-//		if (leServeur != null) {
-//			try {
-//				System.err.println("En attente de connexion sur le port : "+ leServeur.getLocalPort());
-//				while (true) {
-//					
-//					connexionCourante = leServeur.accept();					
-//					System.err.println("Nouvelle connexion : "+ connexionCourante);
-//					
-//					entreeSocket = connexionCourante.getInputStream();
-//					sortieSocket = connexionCourante.getOutputStream();
-//					//Switch case
-//					Traitement traitement1 = new Traitement(connexionCourante,entreeSocket,sortieSocket);					
-//					traitement1.start();					
-//				}
-//			} catch (Exception ex) {
-//				// erreur de connexion
-//				System.err.println("Une erreur est survenue : " + ex);
-//				ex.printStackTrace();
-//				
-//			}
-//		}
+		try {
+			leServeur = new ServerSocket(portEcho);
+		} catch (IOException ex) {
+			// fin de connexion
+			System.err.println("Impossible de cr�er un socket serveur sur ce port : "+ ex);
+			try {
+				// on demande un port anonyme
+				leServeur = new ServerSocket(0);
+			} catch (IOException ex2) {
+				// fin de connexion
+				System.err.println("Impossible de cr�er un socket serveur : "+ ex);
+			}
+		}
+		
+		if (leServeur != null) {
+			try {
+				System.err.println("En attente de connexion sur le port : "+ leServeur.getLocalPort());
+				while (true) {
+					
+					connexionCourante = leServeur.accept();					
+					System.err.println("Nouvelle connexion : "+ connexionCourante);
+					
+					entreeSocket = connexionCourante.getInputStream();
+					sortieSocket = connexionCourante.getOutputStream();
+					//Switch case
+					Traitement traitement1 = new Traitement(connexionCourante,entreeSocket,sortieSocket);					
+					traitement1.start();					
+				}
+			} catch (Exception ex) {
+				// erreur de connexion
+				System.err.println("Une erreur est survenue : " + ex);
+				ex.printStackTrace();
+				
+			}
+		}
 	}
 
 }
