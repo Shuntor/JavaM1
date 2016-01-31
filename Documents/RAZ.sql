@@ -11,7 +11,7 @@ create table Utilisateurs(
 );
 
 create table Competences(
-	description varchar(300),
+	description varchar(200),
 	constraint pk_competences PRIMARY KEY(description)
 );
 
