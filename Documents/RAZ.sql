@@ -17,7 +17,7 @@ create table Competences(
 
 create table Acquerir(
 	mail varchar(80),
-	description varchar(300),
+	description varchar(200),
 	constraint pk_acquerir PRIMARY KEY(mail, description),
 	constraint fk_acquerir_utlisateur foreign key(mail) references Utilisateurs(mail),
 	constraint fk_acquerir_competences foreign key(description) references Competences(description)
