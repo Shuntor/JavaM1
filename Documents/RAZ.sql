@@ -6,6 +6,7 @@ create table Utilisateurs(
 	mail varchar(80),
 	AnneDiplomation int(4),
 	tel int(15),
+	mdp varchar(50),
 	constraint pk_utlisateur PRIMARY KEY(mail)
 	#constraint ck_athletes check (type in ('F','M','A')),
 );
