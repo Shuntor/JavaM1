@@ -11,17 +11,16 @@ create table Utilisateurs(
 );
 
 create table Competences(
-	idComp int(4) auto_increment,
 	description varchar(300),
-	constraint pk_competences PRIMARY KEY(idComp)
+	constraint pk_competences PRIMARY KEY(description)
 );
 
 create table Acquerir(
 	mail varchar(80),
-	idComp int(4),
-	constraint pk_acquerir PRIMARY KEY(mail, idComp),
+	description varchar(300),
+	constraint pk_acquerir PRIMARY KEY(mail, description),
 	constraint fk_acquerir_utlisateur foreign key(mail) references Utilisateurs(mail),
-	constraint fk_acquerir_competences foreign key(idComp) references Competences(idComp)
+	constraint fk_acquerir_competences foreign key(description) references Competences(description)
 );
 
 
