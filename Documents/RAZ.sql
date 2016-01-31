@@ -5,6 +5,7 @@ create table Utilisateurs(
 	prenom varchar(50),
 	mail varchar(80),
 	AnneDiplomation int(4),
+	tel int(4),
 	constraint pk_utlisateur PRIMARY KEY(mail)
 	#constraint ck_athletes check (type in ('F','M','A')),
 );
@@ -25,9 +26,9 @@ create table Acquerir(
 
 
 INSERT INTO Utilisateurs values
-	('Vaurigaud', 'Jordan', 'jojo@gmail.com', 2016	),
-	('Hernandez', 'Quentin', 'kent@yahoo.fr', 2018	),
-	('Iungmann', 'Victor', 'vic@gmail.com', 2017	);
+	('Vaurigaud', 'Jordan', 'jojo@gmail.com', 2016, "0689784556"	),
+	('Hernandez', 'Quentin', 'kent@yahoo.fr', 2018, "0689784556"	),
+	('Iungmann', 'Victor', 'vic@gmail.com', 2017, "0689784556"	);
 
 
 
