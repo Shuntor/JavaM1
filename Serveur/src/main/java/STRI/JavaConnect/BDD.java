@@ -24,9 +24,9 @@ public class BDD {
 //
 //        return messages;
 //    } 
-	public static void main(String[] args){
-		insererCompetence2("Cuisine", "kent@yahoo.fr");
-	}
+//	public static void main(String[] args){
+//		insererCompetence2("Cuisine", "kent@yahoo.fr");
+//	}
 	
 	/* Inserer une competence*/
 	public static void insererCompetence(String competence){
@@ -59,7 +59,7 @@ public class BDD {
 		/* Connexion à la base de données */
 		String url = "jdbc:mysql://localhost:3306/CONNECT";
 		String login = "root";
-		String passwd = "43046721";
+		String passwd = "root";
 		java.sql.Connection cn = null;
 		Statement st = null;
 		
@@ -98,7 +98,7 @@ public class BDD {
 		/* Connexion à la base de données */
 		String url = "jdbc:mysql://localhost:3306/CONNECT";
 		String login = "root";
-		String passwd = "43046721";
+		String passwd = "root";
 		java.sql.Connection cn = null;
 		Statement st = null;
 		ResultSet res = null;
