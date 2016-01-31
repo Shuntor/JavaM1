@@ -5,7 +5,7 @@ create table Utilisateurs(
 	prenom varchar(50),
 	mail varchar(80),
 	AnneDiplomation int(4),
-	tel int(4),
+	tel int(15),
 	constraint pk_utlisateur PRIMARY KEY(mail)
 	#constraint ck_athletes check (type in ('F','M','A')),
 );
