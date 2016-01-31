@@ -91,7 +91,14 @@ public class BDD {
 //		this(requete2);
 //	}
 	
-	/* Selection d'un utilisateur */
+	/* Selection d'un utilisateur (Nom, prenom, adresse, mail et annee de diplomation)*/
+	public static ArrayList<Etudiant> SelectionInfosUtiliateur( ){
+		String sql = "SELECT nom, prenom, mail, AnneDiplomation FROM Utilisateurs;";
+		requeteInsertion(sql);
+	}
+	/*Recherche d'un utilisateur à partir du nom */
+	
+	/*Selection de toute les competences */
 	
 	/* Requete generale de selection */
 	private static ResultSet requeteSelection(String requete){
