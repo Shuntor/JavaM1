@@ -1,7 +1,7 @@
 #Creation de la base
 
 create table Utilisateurs(
-	nomA varchar(50),
+	nom varchar(50),
 	prenom varchar(50),
 	mail varchar(80),
 	AnneDiplomation int(4),
