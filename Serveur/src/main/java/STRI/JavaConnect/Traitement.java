@@ -9,6 +9,10 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class Traitement extends Thread {
 
 	private boolean fermeture;
@@ -21,6 +25,11 @@ public class Traitement extends Thread {
 
 	String chaine;
 
+	/**
+	 * @param connexionCourante
+	 * @param entreeSocket
+	 * @param sortieSocket
+	 */
 	public Traitement(Socket connexionCourante, InputStream entreeSocket,
 			OutputStream sortieSocket) {
 
@@ -34,6 +43,9 @@ public class Traitement extends Thread {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 
 		Boolean connecte=false;

@@ -7,6 +7,10 @@ import java.net.*;
 
 
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class MainServeur {
 	
 	/* Port par d�faut */

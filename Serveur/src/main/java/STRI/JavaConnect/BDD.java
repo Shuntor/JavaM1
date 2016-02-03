@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class BDD {
 //	/* La liste qui contiendra tous les résultats de nos essais */
 //    private List<String> messages = new ArrayList<String>();
@@ -25,6 +29,9 @@ public class BDD {
 //
 //        return messages;
 //    } 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args){
 		Etudiant etu = null;
 		ArrayList<String> comp;
@@ -36,17 +43,32 @@ public class BDD {
 		}
 	}
 	
-	/* Inserer une competence*/
+
+	/** Inserer une competence
+	 * @param competence
+	 */
 	public static void insererCompetence(String competence){
 		String sql = "INSERT INTO Competences(description) values('" + competence + "');";
 		requeteInsertion(sql);
 	}
-	/* Inserer un utilisateur */
+
+	/** Inserer un utlisateur
+	 * @param nom
+	 * @param prenom
+	 * @param mail
+	 * @param anneDiplomation
+	 * @param tel
+	 * @param mdp
+	 */
 	public static void insererUtilisateur(String nom, String prenom, String mail,int anneDiplomation, int tel, String mdp ){
 		String sql = "INSERT INTO Utilisateurs values('" + nom + "','" + prenom + "','" + mail + "'," + anneDiplomation + "," + tel + "," + mdp + ");";
 		requeteInsertion(sql);
 	}
-	/* Lier une competence à un utilisateur (insertion dans Acquerir) */
+
+	/** Lier une competence à un utilisateur (insertion dans Acquerir)
+	 * @param mail
+	 * @param comp
+	 */
 	public static void insererAcquerir(String mail, String comp ){
 		String sql = "INSERT INTO Acquerir values('" + mail + "','" + comp + "');";
 		requeteInsertion(sql);
@@ -54,7 +76,9 @@ public class BDD {
 
 	
 	
-	/*Requête generale d'insertion*/
+	/** Requête generale d'insertion
+	 * @param requete
+	 */
 	private static void requeteInsertion(String requete){
 		/* Connexion à la base de données */
 		String url = "jdbc:mysql://localhost:3306/CONNECT";
@@ -91,7 +115,9 @@ public class BDD {
 //		this(requete2);
 //	}
 	
-	/* Selection des utilisateurs (Nom, prenom, adresse, mail et annee de diplomation)*/
+	/** Selection des utilisateurs (Nom, prenom, adresse, mail et annee de diplomation)
+	 * @return
+	 */
 	public static ArrayList<Etudiant> SelectionInfosUtiliateur( ){
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		Etudiant etu ;
@@ -115,7 +141,10 @@ public class BDD {
 		}
 		return res;
 	}
-	/*Recherche d'un utilisateur à partir du nom */
+	/** Recherche d'un utilisateur à partir du nom
+	 * @param nom
+	 * @return
+	 */
 	public static Etudiant RechercheEtudiant(String nom ){
 		ResultSet result;
 		Etudiant etu = null;
@@ -132,7 +161,10 @@ public class BDD {
 		}
 		return etu;
 	}
-	/*Selection de toutes les competences */
+	
+	/** Selection de toutes les competences
+	 * @return
+	 */
 	public static ArrayList<String> SelectionCompetences( ){
 		ResultSet result;
 		ArrayList<String> competences = new ArrayList<String>();
@@ -148,7 +180,12 @@ public class BDD {
 		}
 		return competences;
 	}
-	/*Connexion */
+	
+	/** Connexion
+	 * @param mail
+	 * @param mdp
+	 * @return
+	 */
 	public static Etudiant Connexion(String mail, String mdp ){
 		ResultSet result;
 		Etudiant etu = null;
@@ -165,7 +202,10 @@ public class BDD {
 		}
 		return etu;
 	}
-	/* Requete generale de selection */
+	/**Requete generale de selection
+	 * @param requete
+	 * @return
+	 */
 	private static ResultSet requeteSelection(String requete){
 		/* Connexion à la base de données */
 		String url = "jdbc:mysql://localhost:3306/CONNECT";

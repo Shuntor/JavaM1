@@ -1,6 +1,10 @@
 import java.io.*;
 import java.net.*;
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class MainClient {
 
 	public static void main(String args[]) {
@@ -19,7 +23,7 @@ public class MainClient {
 
 			leSocket = new Socket("127.0.0.1", 50000); // @IP du serveur
 
-			System.err.println("Connecté sur : " + leSocket);
+			System.err.println("Connectï¿½ sur : " + leSocket);
 
 			fluxSortieSocket = new PrintStream(leSocket.getOutputStream());
 			fluxEntreeSocket = new BufferedReader(new InputStreamReader(leSocket.getInputStream()));

@@ -2,6 +2,10 @@ package STRI.JavaConnect;
 
 
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class GestionProtocoleServeur {
 	
 //	public void analyser (String requete){

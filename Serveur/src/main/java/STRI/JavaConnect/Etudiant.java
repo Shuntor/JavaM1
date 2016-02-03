@@ -1,5 +1,9 @@
 package STRI.JavaConnect;
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class Etudiant {
 	
 	    private String nom;
@@ -11,6 +15,14 @@ public class Etudiant {
 	    
 	   
 
+	    /**
+	     * @param nom
+	     * @param prenom
+	     * @param anneeDip
+	     * @param mail
+	     * @param tel
+	     * @param mdp
+	     */
 	    public Etudiant(String nom, String prenom, int anneeDip, String mail, int tel, String mdp) {
 	        this.nom=nom;
 	        this.prenom=prenom;
@@ -20,6 +32,13 @@ public class Etudiant {
 	        this.mdp=mdp;
 	        
 	    }
+	    /**
+	     * @param nom
+	     * @param prenom
+	     * @param anneeDip
+	     * @param mail
+	     * @param tel
+	     */
 	    public Etudiant(String nom, String prenom, int anneeDip, String mail, int tel) {
 	        this.nom=nom;
 	        this.prenom=prenom;
@@ -28,6 +47,9 @@ public class Etudiant {
 	        this.tel=tel;
 	        
 	    }
+	    /**
+	     * @param mail
+	     */
 	    public Etudiant(String mail) {
 	    	this.nom="";
 	        this.prenom="";

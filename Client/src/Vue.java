@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.regex.*;
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class Vue {
 	GestionProtocoleClient GestionProtocole = new GestionProtocoleClient();
 //	private JFrame frame;
@@ -55,7 +59,7 @@ public class Vue {
 		boolean quitter=false;
 		boolean verifMail=false;
 		
-		//le flux à lire sera l'imput entrée par l'utilisateur
+		//le flux ï¿½ lire sera l'imput entrï¿½e par l'utilisateur
 		BufferedReader fluxEntreeStandard = new BufferedReader(
 				new InputStreamReader(System.in));
 		
@@ -63,7 +67,7 @@ public class Vue {
 				+ "2) Creer un compte\n" + "3) Modifier son profil\n" + "4) Consulter l'anuaire\n"
 				+ "5) Deconnexion\n" + "6) Quitter");
 		
-		//récupère le flux d'entré et le stock dans réponse
+		//rï¿½cupï¿½re le flux d'entrï¿½ et le stock dans rï¿½ponse
 		reponse = fluxEntreeStandard.readLine();
 		
 		while (continuer) {
@@ -101,17 +105,17 @@ public class Vue {
 			case "2":
 				System.out.println("Votre nom?");
 				reponseNom = fluxEntreeStandard.readLine();
-				System.out.println("Votre prénom?");
+				System.out.println("Votre prï¿½nom?");
 				reponsePrenom = fluxEntreeStandard.readLine();
-				System.out.println("Votre année Diplomante?");
+				System.out.println("Votre annï¿½e Diplomante?");
 				reponseAnneeDiplo = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre année diplomante avec les visiteurs? [o/n]");
+				System.out.println("Souhaitez-vous partager votre annï¿½e diplomante avec les visiteurs? [o/n]");
 				confidentialAnneeDip = fluxEntreeStandard.readLine();
-				System.out.println("Votre numéro de Téléphone?");
+				System.out.println("Votre numï¿½ro de Tï¿½lï¿½phone?");
 				reponseTel = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre numéro de téléphone avec les visiteurs? [o/n]");
+				System.out.println("Souhaitez-vous partager votre numï¿½ro de tï¿½lï¿½phone avec les visiteurs? [o/n]");
 				confidentialTel = fluxEntreeStandard.readLine();
-				System.out.println("Votre adresse e-mail? (Servira à vous connecter)");
+				System.out.println("Votre adresse e-mail? (Servira ï¿½ vous connecter)");
 				reponseMail = fluxEntreeStandard.readLine();
 				System.out.println("Souhaitez-vous partager votre adresse e-mail avec les visiteurs?");
 				ConfidentialMail = fluxEntreeStandard.readLine();
@@ -125,17 +129,17 @@ public class Vue {
 			case "3":
 				System.out.println("Votre nom?");
 				reponseNom = fluxEntreeStandard.readLine();
-				System.out.println("Votre prénom?");
+				System.out.println("Votre prï¿½nom?");
 				reponsePrenom = fluxEntreeStandard.readLine();
-				System.out.println("Votre année Diplomante?");
+				System.out.println("Votre annï¿½e Diplomante?");
 				reponseAnneeDiplo = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre année diplomante avec les visiteurs? [o/n]");
+				System.out.println("Souhaitez-vous partager votre annï¿½e diplomante avec les visiteurs? [o/n]");
 				confidentialAnneeDip = fluxEntreeStandard.readLine();
-				System.out.println("Votre numéro de Téléphone?");
+				System.out.println("Votre numï¿½ro de Tï¿½lï¿½phone?");
 				reponseTel = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre numéro de téléphone avec les visiteurs? [o/n]");
+				System.out.println("Souhaitez-vous partager votre numï¿½ro de tï¿½lï¿½phone avec les visiteurs? [o/n]");
 				confidentialTel = fluxEntreeStandard.readLine();
-				System.out.println("Votre adresse e-mail? (Servira à vous connecter)");
+				System.out.println("Votre adresse e-mail? (Servira ï¿½ vous connecter)");
 				reponseMail = fluxEntreeStandard.readLine();
 				System.out.println("Souhaitez-vous partager votre adresse e-mail avec les visiteurs?");
 				ConfidentialMail = fluxEntreeStandard.readLine();
@@ -166,7 +170,7 @@ public class Vue {
 		}
 		
 		if(!quitter){
-			System.out.print("requête: "+reponse +" ");
+			System.out.print("requï¿½te: "+reponse +" ");
 			reponse = reponse + fluxEntreeStandard.readLine();
 			return reponse;
 		}	
