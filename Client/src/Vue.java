@@ -138,29 +138,22 @@ public class Vue {
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 		
-<<<<<<< HEAD
-		//le flux ï¿½ lire sera l'imput entrï¿½e par l'utilisateur
-		BufferedReader fluxEntreeStandard = new BufferedReader(
-				new InputStreamReader(System.in));
-=======
+
 		JLabel lblTl = new JLabel("T\u00E9l.:");
 		lblTl.setBounds(10, 87, 46, 14);
 		panel.add(lblTl);
->>>>>>> 5f3d9966e4f6f86179d1d201e88c9b92fef46138
+
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(50, 84, 86, 20);
 		panel.add(textField_2);
 		textField_2.setColumns(10);
 		
-<<<<<<< HEAD
-		//rï¿½cupï¿½re le flux d'entrï¿½ et le stock dans rï¿½ponse
-		reponse = fluxEntreeStandard.readLine();
-=======
+
 		JLabel lblAnneDeDiplomation = new JLabel("Ann\u00E9e de diplomation:");
 		lblAnneDeDiplomation.setBounds(169, 87, 117, 14);
 		panel.add(lblAnneDeDiplomation);
->>>>>>> 5f3d9966e4f6f86179d1d201e88c9b92fef46138
+
 		
 		textField_3 = new JTextField();
 		textField_3.setBounds(294, 84, 106, 20);
@@ -318,74 +311,9 @@ public class Vue {
 				}
 					
 				
-<<<<<<< HEAD
-			case "2":
-				System.out.println("Votre nom?");
-				reponseNom = fluxEntreeStandard.readLine();
-				System.out.println("Votre prï¿½nom?");
-				reponsePrenom = fluxEntreeStandard.readLine();
-				System.out.println("Votre annï¿½e Diplomante?");
-				reponseAnneeDiplo = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre annï¿½e diplomante avec les visiteurs? [o/n]");
-				confidentialAnneeDip = fluxEntreeStandard.readLine();
-				System.out.println("Votre numï¿½ro de Tï¿½lï¿½phone?");
-				reponseTel = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre numï¿½ro de tï¿½lï¿½phone avec les visiteurs? [o/n]");
-				confidentialTel = fluxEntreeStandard.readLine();
-				System.out.println("Votre adresse e-mail? (Servira ï¿½ vous connecter)");
-				reponseMail = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre adresse e-mail avec les visiteurs?");
-				ConfidentialMail = fluxEntreeStandard.readLine();
-				System.out.println("Votre mot de passe?");
-				reponseMotDePasse = fluxEntreeStandard.readLine();
-				requete= GestionProtocole.serialisation("inscription",reponsePrenom,reponseNom,reponseMotDePasse,reponseAnneeDiplo,confidentialAnneeDip,reponseTel,confidentialTel,reponseMail,ConfidentialMail);
-				System.out.println(requete);
-				//reponse=GestionProtocoleClient.inscription;
-				continuer = false;
-				return requete;
-			case "3":
-				System.out.println("Votre nom?");
-				reponseNom = fluxEntreeStandard.readLine();
-				System.out.println("Votre prï¿½nom?");
-				reponsePrenom = fluxEntreeStandard.readLine();
-				System.out.println("Votre annï¿½e Diplomante?");
-				reponseAnneeDiplo = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre annï¿½e diplomante avec les visiteurs? [o/n]");
-				confidentialAnneeDip = fluxEntreeStandard.readLine();
-				System.out.println("Votre numï¿½ro de Tï¿½lï¿½phone?");
-				reponseTel = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre numï¿½ro de tï¿½lï¿½phone avec les visiteurs? [o/n]");
-				confidentialTel = fluxEntreeStandard.readLine();
-				System.out.println("Votre adresse e-mail? (Servira ï¿½ vous connecter)");
-				reponseMail = fluxEntreeStandard.readLine();
-				System.out.println("Souhaitez-vous partager votre adresse e-mail avec les visiteurs?");
-				ConfidentialMail = fluxEntreeStandard.readLine();
-				System.out.println("Votre mot de passe?");
-				reponseMotDePasse = fluxEntreeStandard.readLine();
-				requete= GestionProtocole.serialisation("modification",reponsePrenom,reponseNom,reponseMotDePasse,reponseAnneeDiplo,confidentialAnneeDip,reponseTel,confidentialTel,reponseMail,ConfidentialMail);
-				System.out.println(requete);
-				//reponse=GestionProtocoleClient.inscription;
-				continuer = false;
-				return requete;
-			case "4":
-				requete="consulter";
-				continuer = false;
-				return requete;
-			case "5":
-				requete="deconnexion#simple";
-				continuer = false;
-				return requete;
-			case "6":
-				System.out.println("BYE");
-				requete="deconnexion#quitter";
-				continuer = false;
-				quitter=true;
-				return requete;
-			default:
-				System.out.println("Ce choix n'est pas disponible");
-=======
+
 				jDialogConnexion.dispose();
->>>>>>> 5f3d9966e4f6f86179d1d201e88c9b92fef46138
+
 			}
 		});
         
@@ -395,13 +323,7 @@ public class Vue {
 			}
 		});
 		
-<<<<<<< HEAD
-		if(!quitter){
-			System.out.print("requï¿½te: "+reponse +" ");
-			reponse = reponse + fluxEntreeStandard.readLine();
-			return reponse;
-		}	
-=======
+
 
 		/********************************************************************
 		 * PopUp de gestion infos
@@ -422,7 +344,7 @@ public class Vue {
 		textField_NomModif.setBounds(60, 43, 86, 20);
 		jDialogModif.getContentPane().add(textField_NomModif);
 		textField_NomModif.setColumns(10);
->>>>>>> 5f3d9966e4f6f86179d1d201e88c9b92fef46138
+
 		
 		jLabelPrenomModif = new JLabel("Prénom:");
 		jLabelPrenomModif.setBounds(350, 10, 117, 23);
