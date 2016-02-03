@@ -98,7 +98,7 @@ public class Vue {
 		 ********************************************************************/
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 574);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addWindowListener(new MyWindowListener());
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);	
 		
@@ -190,6 +190,13 @@ public class Vue {
 		JMenu mnConnexion = new JMenu("Connexion");
 		menuBar.add(mnConnexion);
 		
+		JMenuItem mntmSinscrire = new JMenuItem("S'Inscrire");
+		mntmSinscrire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jDialogInscription.setVisible(true);
+			}
+		});
+		mnConnexion.add(mntmSinscrire);
 		
 		JMenuItem mntmSeConnecter = new JMenuItem("Se Connecter");
 		mntmSeConnecter.addActionListener(new ActionListener() {
@@ -212,15 +219,21 @@ public class Vue {
 				}
 				if (confirm==true){
 					connecte=false;
-					if(connecte==true){
+					if(connecte==false){
 						mntmSeDconnecter.setEnabled(false);
 						mntmSeConnecter.setEnabled(true);
+						mntmSinscrire.setEnabled(true);
 					}
-					else{
+					
+				} 
+				else{
+					connecte=true;
+					if(connecte==true){
 						mntmSeDconnecter.setEnabled(true);
 						mntmSeConnecter.setEnabled(false);
+						mntmSinscrire.setEnabled(false);
 					}
-				} 
+				}
 			}
 		});
 		if(connecte==false){
@@ -228,13 +241,7 @@ public class Vue {
 		}
 		mnConnexion.add(mntmSeDconnecter);
 		
-		JMenuItem mntmSinscrire = new JMenuItem("S'Inscrire");
-		mntmSinscrire.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jDialogInscription.setVisible(true);
-			}
-		});
-		mnConnexion.add(mntmSinscrire);
+		
 		
 		JMenu mnGestionDuCompte = new JMenu("Gestion du compte");
 		menuBar.add(mnGestionDuCompte);
@@ -304,15 +311,22 @@ public class Vue {
 				}
 				if (confirm==true){
 					connecte=true;
+					jOption.showMessageDialog(null, "INFO: Vous �tes bien connect�", "Information", JOptionPane.INFORMATION_MESSAGE);
 					if(connecte==true){
 						mntmSeDconnecter.setEnabled(true);
 						mntmSeConnecter.setEnabled(false);
-						jOption.showMessageDialog(null, "INFO: Vous �tes bien connect�", "Information", JOptionPane.INFORMATION_MESSAGE);
+						mntmSinscrire.setEnabled(false);
+						
 					}
-					else{
+					
+				}
+				else{
+					connecte=false;
+					jOption.showMessageDialog(null, "ERREUR: Echec de la connexion", "Erreur", JOptionPane.ERROR_MESSAGE);
+					if (connecte==false){
 						mntmSeDconnecter.setEnabled(false);
 						mntmSeConnecter.setEnabled(true);
-						jOption.showMessageDialog(null, "ERREUR: Echec de la connexion", "Erreur", JOptionPane.ERROR_MESSAGE);
+						mntmSinscrire.setEnabled(true);
 					}
 				}
 					

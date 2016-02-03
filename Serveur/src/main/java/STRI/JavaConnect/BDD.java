@@ -31,7 +31,7 @@ public class BDD {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		Etudiant etu = null;
 		ArrayList<String> comp;
 //		etu = Connexion("vic@gmail.com","root");
@@ -40,7 +40,7 @@ public class BDD {
 		for (int i = 0; i < comp.size(); i++) {
 			System.out.println(comp);
 		}
-	}
+	}*/
 	
 
 	/** Inserer une competence
@@ -239,6 +239,28 @@ public class BDD {
 		return res;
 	}
 	
+	public static String ConnexionClient(String mail, String mdp ){
+		ResultSet result;
+		Etudiant etu = null;
+		
+		
+		String sql = "SELECT nom, prenom, mail, AnneDiplomation, tel FROM Utilisateurs where mail='"+mail+"' AND mdp='"+mdp+"';";
+//		System.out.println(sql);
+		result=requeteSelection(sql);
+		try {
+			result.next();
+			etu = new Etudiant(result.getString("nom"), result.getString("prenom"), result.getInt("AnneDiplomation"), result.getString("mail"), result.getInt("tel"), mdp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "NOK";
+		}
+		if (etu.getNom()!=null){
+			return "OK";
+		}else{
+			return "NOK";
+		}
+	}
 	
 	
 }

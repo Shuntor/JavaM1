@@ -95,6 +95,16 @@ public class GestionProtocoleClient {
 			
 		}
 		
+		public void arret() throws IOException{
+			String requete, retour=null;
+			
+			requete=serialisation("arret","arret");
+			retour = envoiTrame(requete);
+			System.out.println("retour = "+retour);
+			
+			
+		}
+		
 		public boolean envoiInfo(String nom, String prenom, String mail, String tel, String anneeDipl) throws IOException{
 			String requete, retour=null;
 			

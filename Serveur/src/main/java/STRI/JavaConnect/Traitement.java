@@ -49,12 +49,15 @@ public class Traitement extends Thread {
 	 */
 	public void run() {
 
+		
 		int anneeDipl;
 		Boolean connecte=false;
 		String motClef, requete=null;
 		BDD base=new BDD();
 		GestionProtocoleServeur gestionProtocoleServeur=new GestionProtocoleServeur();
 		while (!fermeture) {
+			
+			chaine=null;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					entreeSocket));
 			
@@ -81,8 +84,10 @@ public class Traitement extends Thread {
 
 				break;
 			case "connexion":
+				Etudiant etu=null;
 				System.out.println("J'ai recu une "+ motClef);
-				chaine="OK";
+				chaine=base.ConnexionClient(tabRequete[1], tabRequete[2]);
+				
 				connecte=true;
 				break;
 			case "consulter":
@@ -111,15 +116,12 @@ public class Traitement extends Thread {
 			case "deconnexion":
 				System.out.println("1: "+tabRequete[0] + "et 2: "+tabRequete[1]);
 				connecte=false; 
-				if (tabRequete[1]=="quitter"){
-					fermeture=true;
-					chaine =null;
-				}
-				else{
-					chaine="Deconnexion confirmee";
-				}
+				chaine="OK";
+				
 				break;
-			
+			case "arret":
+				fermeture=true;
+				chaine="OK";
 			default:
 
 				
