@@ -532,13 +532,13 @@ public class Vue {
 		ArrayList<String> listeComps=null;
 		
 		
-		/*try {
-			listeComp= gestion.recupererCompetences();
+		try{
+			listeComps= gestion.recupererCompetences();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			
-		}*/
+		}
 		listeCompetences=new JList();
 		listeCompetences.setBounds(30, 320, 130, 170);
 		jDialogInscription.add(listeCompetences);

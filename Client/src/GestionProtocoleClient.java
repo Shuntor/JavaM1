@@ -107,15 +107,16 @@ public class GestionProtocoleClient {
 			}
 		}
 		
-		public String[] recupererCompetences() throws IOException{
-			connexion();
+		public ArrayList<String> recupererCompetences() throws IOException{
+			ArrayList<String> liste = null;
 			int x=0;
-			String[] listeRequete = null;
 			String requete="recupCompetence";
 			String retour=envoiTrame(requete);
-			String tabRequete[]=deserialisation(retour);
-			
-			return listeRequete;
+			String listeRequete[] = retour.split("#");
+			for(int i=0;i<listeRequete.length;i++){
+				liste.add(listeRequete[i]);
+			}
+			return liste;
 			
 				
 			
