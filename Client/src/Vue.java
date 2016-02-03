@@ -48,8 +48,10 @@ public class Vue {
 	private boolean connecte=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JOptionPane jOption;
-	JList listeCompetences, listeCompetencesSelectionnees ;
+	static JList listeCompetences, listeCompetencesSelectionnees;
 	private String listeComps[];
+	private static DefaultListModel<String> DLM2;
+	private ArrayList<String> listeComps2=null;
 	/**
 	 * Launch the application.
 	 */
@@ -57,9 +59,13 @@ public class Vue {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					Vue window = new Vue();
+					
 					window.frame.setVisible(true);
 					gestion.connexion();
+					chargerCompetences();
+					System.out.println("SYSO");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -87,7 +93,7 @@ public class Vue {
 		
 		/********************************************************************
 		 * 
-		 * Fenêtre Principale.
+		 * Fenï¿½tre Principale.
 		 * 
 		 ********************************************************************/
 		frame = new JFrame();
@@ -301,7 +307,7 @@ public class Vue {
 					if(connecte==true){
 						mntmSeDconnecter.setEnabled(true);
 						mntmSeConnecter.setEnabled(false);
-						jOption.showMessageDialog(null, "INFO: Vous êtes bien connecté", "Information", JOptionPane.INFORMATION_MESSAGE);
+						jOption.showMessageDialog(null, "INFO: Vous ï¿½tes bien connectï¿½", "Information", JOptionPane.INFORMATION_MESSAGE);
 					}
 					else{
 						mntmSeDconnecter.setEnabled(false);
@@ -346,7 +352,7 @@ public class Vue {
 		textField_NomModif.setColumns(10);
 
 		
-		jLabelPrenomModif = new JLabel("Prénom:");
+		jLabelPrenomModif = new JLabel("Prï¿½nom:");
 		jLabelPrenomModif.setBounds(350, 10, 117, 23);
 		jDialogModif.getContentPane().add(jLabelPrenomModif);
         
@@ -364,7 +370,7 @@ public class Vue {
 		jDialogModif.getContentPane().add(textField_MailModif);
 		textField_MailModif.setColumns(10);
 		
-		jLabelTelModif = new JLabel("Tél.:");
+		jLabelTelModif = new JLabel("Tï¿½l.:");
 		jLabelTelModif.setBounds(350, 80, 117, 23);
 		jDialogModif.getContentPane().add(jLabelTelModif);
         
@@ -373,7 +379,7 @@ public class Vue {
 		jDialogModif.getContentPane().add(textField_TelModif);
 		textField_TelModif.setColumns(10);
 		
-		jLabelAnneeModif = new JLabel("Année:");
+		jLabelAnneeModif = new JLabel("Annï¿½e:");
 		jLabelAnneeModif.setBounds(200, 150, 117, 23);
 		jDialogModif.getContentPane().add(jLabelAnneeModif);
         
@@ -422,7 +428,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_NomInscription);
 		textField_NomInscription.setColumns(10);
 		
-		jLabelPrenomInscription = new JLabel("Prénom:");
+		jLabelPrenomInscription = new JLabel("Prï¿½nom:");
 		jLabelPrenomInscription.setBounds(200, 10, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelPrenomInscription);
         
@@ -440,7 +446,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_MailInscription);
 		textField_MailInscription.setColumns(10);
 		
-		jLabelTelInscription = new JLabel("Tél.:");
+		jLabelTelInscription = new JLabel("Tï¿½l.:");
 		jLabelTelInscription.setBounds(350, 10, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelTelInscription);
         
@@ -449,7 +455,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_TelInscription);
 		textField_TelInscription.setColumns(10);
 		
-		jLabelAnneeInscription = new JLabel("Année diplomation:");
+		jLabelAnneeInscription = new JLabel("Annï¿½e diplomation:");
 		jLabelAnneeInscription.setBounds(60, 147, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelAnneeInscription);
         
@@ -476,18 +482,20 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_MDPConfInscription);
 		textField_MDPConfInscription.setColumns(10);
 		
-		btnNewComp=new JButton("Créer une compétence");
+		btnNewComp=new JButton("Crï¿½er une compï¿½tence");
 		btnNewComp.setBounds(275, 230, 200, 20);
 		jDialogInscription.getContentPane().add(btnNewComp);
 		btnNewComp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int i=0,longueurListe;
-				Competence comp=new Competence("lala");
-				//i=listeCompetences.getSelectedIndex();
-				//Vi= (Component) listeCompetences.getSelectedValue();
-				DefaultListModel<Competence> dlm = null;
-				dlm.addElement(comp);
-				listeCompetences.setModel(dlm);
+				
+				try {
+					gestion.creerCompetence(jTextField_NewCompetence.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				chargerCompetences();
+				
 				;
 			}
 		});
@@ -524,33 +532,18 @@ public class Vue {
 			}
 		});
 		
-		jLabelCompetences = new JLabel("Selectionner vos compétences:");
+		jLabelCompetences = new JLabel("Selectionner vos compï¿½tences:");
 		jLabelCompetences.setBounds(20, 295, 250, 23);
 		jDialogInscription.getContentPane().add(jLabelCompetences);
 		
-		
-		ArrayList<String> listeComps=null;
-		
-		
-		try{
-			listeComps= gestion.recupererCompetences();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			
-		}
 		listeCompetences=new JList();
 		listeCompetences.setBounds(30, 320, 130, 170);
 		jDialogInscription.add(listeCompetences);
 		
-		DefaultListModel DLM = new DefaultListModel();
-        for (int i = 0; i < listeComps.size(); i++)
-            {
-                 DLM.addElement(listeComps.get(i)); 
-            }
-        listeCompetences.setModel(DLM);
 		
-		jLabelCompetences = new JLabel("Compétences sélectionnées:");
+       
+		
+		jLabelCompetences = new JLabel("Compï¿½tences sï¿½lectionnï¿½es:");
 		jLabelCompetences.setBounds(300, 295, 250, 23);
 		jDialogInscription.getContentPane().add(jLabelCompetences);
 		
@@ -561,6 +554,11 @@ public class Vue {
 		btnAddComp = new JButton("Add >>");
 		btnAddComp.setBounds(188, 365, 110, 30);
 		jDialogInscription.getContentPane().add(btnAddComp);
+		btnAddComp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AjouterCompetence((String) listeCompetences.getSelectedValue());
+			}
+		});
 		
 		btnDeleteComp = new JButton("<< Delete");
 		btnDeleteComp.setBounds(188, 400, 110, 30);
@@ -575,4 +573,36 @@ public class Vue {
 			this.connecte=false;
 		}
 	}
+	public static void chargerCompetences(){
+		listeCompetences.removeAll();
+		ArrayList<String> listeComps=null;	
+		try{
+			listeComps= gestion.recupererCompetences();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			
+		}
+		DefaultListModel DLM = new DefaultListModel();
+        for (int i = 0; i < listeComps.size(); i++)
+            {
+                 DLM.addElement(listeComps.get(i)); 
+            }
+        listeCompetences.setModel(DLM);
+	}
+	
+	public static void AjouterCompetence(String competence){
+			
+//		try{
+//			listeComps= gestion.assignerCompetences();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+		
+        System.out.println("competences: "+competence);
+        DLM2.addElement(competence); 
+        listeCompetencesSelectionnees.setModel(DLM2);
+	}
+	
 }

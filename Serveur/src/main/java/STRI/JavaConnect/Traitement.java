@@ -106,8 +106,8 @@ public class Traitement extends Thread {
 				ArrayList<String> comp = new ArrayList<String>();
 				comp = BDD.SelectionCompetences(); //On recupere toutes les competences dans la BDD
 				chaine = gestionProtocoleServeur.serialisation(comp); //On serialise
-					
-			break;
+				System.out.println("chaine = "+chaine);
+				break;
 			case "deconnexion":
 				System.out.println("1: "+tabRequete[0] + "et 2: "+tabRequete[1]);
 				connecte=false; 

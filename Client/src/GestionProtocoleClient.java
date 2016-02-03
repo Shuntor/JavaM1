@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GestionProtocoleClient {
 
@@ -52,8 +53,9 @@ public class GestionProtocoleClient {
 		}
 		
 		private String envoiTrame(String requete) throws IOException{
+			System.out.println(requete);
 			fluxSortieSocket.println(requete);
-
+			
 			String retour = fluxEntreeSocket.readLine();
 			return retour;
 		}
@@ -108,15 +110,23 @@ public class GestionProtocoleClient {
 		}
 		
 		public ArrayList<String> recupererCompetences() throws IOException{
-			ArrayList<String> liste = null;
+			ArrayList<String> liste = null ;
 			int x=0;
 			String requete="recupCompetence";
 			String retour=envoiTrame(requete);
+			System.out.println("retour = "+retour);
 			String listeRequete[] = retour.split("#");
-			for(int i=0;i<listeRequete.length;i++){
-				liste.add(listeRequete[i]);
-			}
+			liste = new ArrayList<String>(Arrays.asList(listeRequete));
 			return liste;
+			
+				
+			
+		}
+		
+		public void creerCompetence(String c) throws IOException{
+			String retour, requete = null;
+			requete="nouvelleCompetence#"+c;
+			retour = envoiTrame(requete);
 			
 				
 			
