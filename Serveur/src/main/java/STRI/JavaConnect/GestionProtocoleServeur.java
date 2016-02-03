@@ -1,5 +1,7 @@
 package STRI.JavaConnect;
 
+import java.util.ArrayList;
+
 
 
 /**
@@ -34,6 +36,13 @@ public class GestionProtocoleServeur {
 		}
 		return chaine;
 	}
-
+	public String serialisation(ArrayList<String> args){
+		String chaine = "";
+		for (int i = 0; i < args.size(); i++) {
+			chaine+=args.get(i);
+			chaine+="#";
+		}
+		return chaine;
+	}
 }
 

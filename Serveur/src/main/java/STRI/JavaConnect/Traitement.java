@@ -101,6 +101,13 @@ public class Traitement extends Thread {
 			case "recherche":
 				 
 				break;
+				
+			case "recupCompetence":
+				ArrayList<String> comp = new ArrayList<String>();
+				comp = BDD.SelectionCompetences(); //On recupere toutes les competences dans la BDD
+				chaine = gestionProtocoleServeur.serialisation(comp); //On serialise
+					
+			break;
 			case "deconnexion":
 				System.out.println("1: "+tabRequete[0] + "et 2: "+tabRequete[1]);
 				connecte=false; 
@@ -112,16 +119,7 @@ public class Traitement extends Thread {
 					chaine="Deconnexion confirmee";
 				}
 				break;
-			case "recupCompetence":
-				ArrayList<String> comp;
-				chaine=null;
-				int x=0;
-				comp=BDD.SelectionCompetences();
-				while (comp.get(x)!=null){
-					chaine=chaine+comp.get(x);
-					chaine=chaine+"#";
-				}
-				break;
+			
 			default:
 
 				
@@ -150,4 +148,5 @@ public class Traitement extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 }

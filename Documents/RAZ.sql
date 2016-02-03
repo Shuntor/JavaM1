@@ -42,14 +42,14 @@ INSERT INTO Competences(description) values
 	('Chimie'),
 	('Gestion');
 
-	INSERT INTO Acquerir values
-		('kent@yahoo.fr','Repassage'),
-		('jojo@gmail.com','Maths'),
-		('jojo@gmail.com','Chimie'),
-		('jojo@gmail.com','Physique'),
-		('jojo@gmail.com','Gestion'),
-		('vic@gmail.com','BDD'),
-		('vic@gmail.com','Maths'),
-		('vic@gmail.com','Informatique');
+INSERT INTO Acquerir values
+	('kent@yahoo.fr','Repassage'),
+	('jojo@gmail.com','Maths'),
+	('jojo@gmail.com','Chimie'),
+	('jojo@gmail.com','Physique'),
+	('jojo@gmail.com','Gestion'),
+	('vic@gmail.com','BDD'),
+	('vic@gmail.com','Maths'),
+	('vic@gmail.com','Informatique');
 
 
