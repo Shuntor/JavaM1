@@ -12,7 +12,6 @@ import com.mysql.jdbc.Statement;
  *
  */
 public class BDD {
-//	/* La liste qui contiendra tous les résultats de nos essais */
 //    private List<String> messages = new ArrayList<String>();
 //
 //    public List<String> executerTests( String requete ) {
@@ -21,7 +20,7 @@ public class BDD {
 //    	    Class.forName( "com.mysql.jdbc.Driver" );
 //	    
 //    	} catch ( ClassNotFoundException e ) {
-//    	    /* Gérer les éventuelles erreurs ici. */
+//    	    /* Gerer les eventuelles erreurs ici. */
 //    	}
 //    	
 //    	
@@ -56,16 +55,16 @@ public class BDD {
 	 * @param nom
 	 * @param prenom
 	 * @param mail
-	 * @param anneDiplomation
+//	 * @param tabRequete
 	 * @param tel
 	 * @param mdp
 	 */
-	public static void insererUtilisateur(String nom, String prenom, String mail,int anneDiplomation, int tel, String mdp ){
-		String sql = "INSERT INTO Utilisateurs values('" + nom + "','" + prenom + "','" + mail + "'," + anneDiplomation + "," + tel + "," + mdp + ");";
+	public static void insererUtilisateur(String nom, String prenom, String mail,String tabRequete, int tel, String mdp ){
+		String sql = "INSERT INTO Utilisateurs values('" + nom + "','" + prenom + "','" + mail + "'," + tabRequete + "," + tel + "," + mdp + ");";
 		requeteInsertion(sql);
 	}
 
-	/** Lier une competence à un utilisateur (insertion dans Acquerir)
+	/** Lier une competence a un utilisateur (insertion dans Acquerir)
 	 * @param mail
 	 * @param comp
 	 */
@@ -76,11 +75,11 @@ public class BDD {
 
 	
 	
-	/** Requête generale d'insertion
+	/** Requete generale d'insertion
 	 * @param requete
 	 */
 	private static void requeteInsertion(String requete){
-		/* Connexion à la base de données */
+		/* Connexion a la base de donnees */
 		String url = "jdbc:mysql://localhost:3306/CONNECT";
 		String login = "root";
 		String passwd = "root";
@@ -94,7 +93,7 @@ public class BDD {
 			cn = DriverManager.getConnection(url, login, passwd);
 			//Etape 3 : Creation d'un statement
 			st = (Statement) cn.createStatement();
-			//Etape 4 : execution requête
+			//Etape 4 : execution requete
 			st.executeUpdate(requete);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,7 +101,7 @@ public class BDD {
 			e.printStackTrace();
 		} finally {
 			try {
-				//Etape 5 : libérer ressources de la memoire
+				//Etape 5 : liberer ressources de la memoire
 				cn.close();
 				st.close();
 			} catch (SQLException e2) {
@@ -156,13 +155,13 @@ public class BDD {
 			result.next();
 			etu = new Etudiant(nom, result.getString("prenom"), result.getInt("AnneDiplomation"), result.getString("mail"), result.getInt("tel"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return etu;
 	}
 	
-	/** Selection de toutes les competences
+	/** Selection de toutes les compétences
 	 * @return
 	 */
 	public static ArrayList<String> SelectionCompetences( ){
@@ -202,12 +201,12 @@ public class BDD {
 		}
 		return etu;
 	}
-	/**Requete generale de selection
+	/**Requête générale de selection
 	 * @param requete
 	 * @return
 	 */
 	private static ResultSet requeteSelection(String requete){
-		/* Connexion à la base de données */
+		/* Connexion a la base de donnees */
 		String url = "jdbc:mysql://localhost:3306/CONNECT";
 		String login = "root";
 		String passwd = "root";
@@ -222,7 +221,7 @@ public class BDD {
 			cn = DriverManager.getConnection(url, login, passwd);
 			//Etape 3 : Creation d'un statement
 			st = (Statement) cn.createStatement();
-			//Etape 4 : execution requête
+			//Etape 4 : execution requete
 			res=st.executeQuery(requete);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -230,7 +229,7 @@ public class BDD {
 			e.printStackTrace();
 		} finally {
 //			try {
-//				//Etape 5 : libérer ressources de la memoire
+//				//Etape 5 : liberer ressources de la memoire
 //				//cn.close();
 //				//st.close();
 //			} catch (SQLException e2) {
