@@ -48,9 +48,11 @@ public class Traitement extends Thread {
 	 */
 	public void run() {
 
+		int anneeDipl;
 		Boolean connecte=false;
 		String motClef, requete=null;
-		
+		BDD base=new BDD();
+		GestionProtocoleServeur gestionProtocoleServeur=new GestionProtocoleServeur();
 		while (!fermeture) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					entreeSocket));
@@ -69,7 +71,9 @@ public class Traitement extends Thread {
 			/*****/
 			switch (motClef){
 			case "inscription":
-				//BDD.insert(tabRequete[1],tabRequete[2],tabRequete[3],tabRequete[4],tabRequete[5],tabRequete[6], tabRequete[7],tabRequete[8],tabRequete[9] );
+				
+				
+				base.insererUtilisateur(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], anneeDipl =Integer.parseInt(tabRequete[5]), tabRequete[6]);
 				System.out.println("J'ai re�u une "+ motClef);
 				break;
 			case "connexion":
