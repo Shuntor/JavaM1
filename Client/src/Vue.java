@@ -5,10 +5,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -19,6 +24,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -27,17 +33,19 @@ public class Vue {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField txtPrnom;
-	private JTextField textField_1, textField_MailConnexion, textField_MDPConnexion, textField_MailModif, textField_NomModif, textField_prenomModif, textField_TelModif, textField_anneeModif, textField_MailInscription, textField_NomInscription, textField_prenomInscription, textField_TelInscription, textField_anneeInscription, textField_MDPInscription, textField_MDPConfInscription;
+	private JTextField jTextField_NewCompetence, textField_1, textField_MailConnexion, textField_MDPConnexion, textField_MailModif, textField_NomModif, textField_prenomModif, textField_TelModif, textField_anneeModif, textField_MailInscription, textField_NomInscription, textField_prenomInscription, textField_TelInscription, textField_anneeInscription, textField_MDPInscription, textField_MDPConfInscription;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JDialog jDialogConnexion, jDialogModif, jDialogInscription;
-	private JButton btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
+	private JButton btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
 	private JTable table_1;
-	private JLabel jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
+	private JLabel jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
 	private boolean connecte=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JOptionPane jOption;
+	JList listeCompetences, listeCompetencesSelectionnees ;
+	private String listeComps[];
 	/**
 	 * Launch the application.
 	 */
@@ -387,7 +395,7 @@ public class Vue {
 		 * 
 		 ********************************************************************/
 		jDialogInscription = new JDialog();
-		jDialogInscription.setMinimumSize(new java.awt.Dimension(500, 400));
+		jDialogInscription.setMinimumSize(new java.awt.Dimension(500, 600));
 		jDialogInscription.setLocationRelativeTo(null);
 		jDialogInscription.setModal(true);
 		jDialogInscription.getContentPane().setLayout(null);
@@ -398,16 +406,16 @@ public class Vue {
 		jDialogInscription.getContentPane().add(jLabelNomInscription);
         
 		textField_NomInscription = new JTextField();
-		textField_NomInscription.setBounds(60, 43, 86, 20);
+		textField_NomInscription.setBounds(60, 35, 86, 20);
 		jDialogInscription.getContentPane().add(textField_NomInscription);
 		textField_NomInscription.setColumns(10);
 		
 		jLabelPrenomInscription = new JLabel("Prénom:");
-		jLabelPrenomInscription.setBounds(350, 10, 117, 23);
+		jLabelPrenomInscription.setBounds(200, 10, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelPrenomInscription);
         
 		textField_prenomInscription = new JTextField();
-		textField_prenomInscription.setBounds(350, 43, 86, 20);
+		textField_prenomInscription.setBounds(200, 35, 86, 20);
 		jDialogInscription.getContentPane().add(textField_prenomInscription);
 		textField_prenomInscription.setColumns(10);
 
@@ -416,52 +424,73 @@ public class Vue {
         jDialogInscription.getContentPane().add(jLabelEmailInscription);
 		
 		textField_MailInscription = new JTextField();
-		textField_MailInscription.setBounds(60, 113, 86, 20);
+		textField_MailInscription.setBounds(60, 105, 86, 20);
 		jDialogInscription.getContentPane().add(textField_MailInscription);
 		textField_MailInscription.setColumns(10);
 		
 		jLabelTelInscription = new JLabel("Tél.:");
-		jLabelTelInscription.setBounds(350, 80, 117, 23);
+		jLabelTelInscription.setBounds(350, 10, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelTelInscription);
         
 		textField_TelInscription = new JTextField();
-		textField_TelInscription.setBounds(350, 117, 86, 20);
+		textField_TelInscription.setBounds(350, 35, 86, 20);
 		jDialogInscription.getContentPane().add(textField_TelInscription);
 		textField_TelInscription.setColumns(10);
 		
 		jLabelAnneeInscription = new JLabel("Année diplomation:");
-		jLabelAnneeInscription.setBounds(60, 150, 117, 23);
+		jLabelAnneeInscription.setBounds(60, 147, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelAnneeInscription);
         
 		textField_anneeInscription = new JTextField();
-		textField_anneeInscription.setBounds(60, 183, 86, 20);
+		textField_anneeInscription.setBounds(60, 175, 86, 20);
 		jDialogInscription.getContentPane().add(textField_anneeInscription);
 		textField_anneeInscription.setColumns(10);
 		
 		jLabelMDPInscription = new JLabel("Mot de Passe:");
-		jLabelMDPInscription.setBounds(350, 150, 117, 23);
+		jLabelMDPInscription.setBounds(350, 80, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelMDPInscription);
         
 		textField_MDPInscription = new JTextField();
-		textField_MDPInscription.setBounds(350, 183, 86, 20);
+		textField_MDPInscription.setBounds(350, 105, 86, 20);
 		jDialogInscription.getContentPane().add(textField_MDPInscription);
 		textField_MDPInscription.setColumns(10);
 		
 		jLabelMDPConfInscription = new JLabel("Confirmer:");
-		jLabelMDPConfInscription.setBounds(350, 223, 117, 23);
+		jLabelMDPConfInscription.setBounds(350, 147, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelMDPConfInscription);
         
 		textField_MDPConfInscription = new JTextField();
-		textField_MDPConfInscription.setBounds(350, 256, 86, 20);
+		textField_MDPConfInscription.setBounds(350, 175, 86, 20);
 		jDialogInscription.getContentPane().add(textField_MDPConfInscription);
 		textField_MDPConfInscription.setColumns(10);
 		
+		btnNewComp=new JButton("Créer une compétence");
+		btnNewComp.setBounds(275, 230, 200, 20);
+		jDialogInscription.getContentPane().add(btnNewComp);
+		btnNewComp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i=0,longueurListe;
+				Competence comp=new Competence("lala");
+				//i=listeCompetences.getSelectedIndex();
+				//Vi= (Component) listeCompetences.getSelectedValue();
+				DefaultListModel<Competence> dlm = null;
+				dlm.addElement(comp);
+				listeCompetences.setModel(dlm);
+				;
+			}
+		});
+		
+		jTextField_NewCompetence = new JTextField();
+		jTextField_NewCompetence.setBounds(20, 230, 250, 20);
+		jDialogInscription.getContentPane().add(jTextField_NewCompetence);
+		jTextField_NewCompetence.setColumns(10);
+		
 		btnAnnulerInscription = new JButton("Annuler");
-		btnAnnulerInscription.setBounds(20, 310, 200, 23);
+		btnAnnulerInscription.setBounds(20, 510, 200, 23);
 		jDialogInscription.getContentPane().add(btnAnnulerInscription);
         
         btnInscription = new JButton("Envoyer les informations");
-        btnInscription.setBounds(270, 310, 200, 23);
+        btnInscription.setBounds(270, 510, 200, 23);
 		jDialogInscription.getContentPane().add(btnInscription);
 		
 		btnInscription.addActionListener(new ActionListener() {
@@ -483,6 +512,40 @@ public class Vue {
 			}
 		});
 		
+		jLabelCompetences = new JLabel("Selectionner vos compétences:");
+		jLabelCompetences.setBounds(20, 295, 250, 23);
+		jDialogInscription.getContentPane().add(jLabelCompetences);
+		
+		
+		String listeComps[]={"aa","bb"};
+		
+		/*try {
+			listeComp= gestion.recupererCompetences();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			
+		}*/
+		listeCompetences=new JList(listeComps);
+		listeCompetences.setBounds(30, 320, 130, 170);
+		jDialogInscription.add(listeCompetences);
+		
+		
+		jLabelCompetences = new JLabel("Compétences sélectionnées:");
+		jLabelCompetences.setBounds(300, 295, 250, 23);
+		jDialogInscription.getContentPane().add(jLabelCompetences);
+		
+		listeCompetencesSelectionnees=new JList();
+		listeCompetencesSelectionnees.setBounds(320, 320, 130, 170);
+		jDialogInscription.add(listeCompetencesSelectionnees);
+		
+		btnAddComp = new JButton("Add >>");
+		btnAddComp.setBounds(188, 365, 110, 30);
+		jDialogInscription.getContentPane().add(btnAddComp);
+		
+		btnDeleteComp = new JButton("<< Delete");
+		btnDeleteComp.setBounds(188, 400, 110, 30);
+		jDialogInscription.getContentPane().add(btnDeleteComp);
 	}
 	
 	public void setConnecte(boolean entree){

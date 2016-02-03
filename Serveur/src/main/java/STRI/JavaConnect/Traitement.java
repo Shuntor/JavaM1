@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 public class Traitement extends Thread {
@@ -61,7 +62,7 @@ public class Traitement extends Thread {
 			case "inscription":
 				
 				
-				base.insererUtilisateur(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], anneeDipl =Integer.parseInt(tabRequete[5]), tabRequete[6]);
+		//		base.insererUtilisateur(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], anneeDipl =Integer.parseInt(tabRequete[5]), tabRequete[6]);
 				System.out.println("J'ai re�u une "+ motClef);
 				break;
 			case "connexion":
@@ -96,8 +97,18 @@ public class Traitement extends Thread {
 					chaine="D�connexion confirm�e";
 				}
 				break;
+			case "recupCompetence":
+				ArrayList<String> comp;
+				chaine=null;
+				int x=0;
+				comp=BDD.SelectionCompetences();
+				while (comp.get(x)!=null){
+					chaine=chaine+comp.get(x);
+					chaine=chaine+"#";
+				}
+				break;
 			default:
-				System.out.println("ERREUR (d�faut)");
+				System.out.println("ERREUR (défaut)");
 			}
 			
 			
