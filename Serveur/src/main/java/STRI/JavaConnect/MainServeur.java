@@ -7,9 +7,13 @@ import java.net.*;
 
 
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class MainServeur {
 	
-	/* Port par d�faut */
+	/* Port par defaut */
 	public final static int portEcho = 50000;
 	
 	public static void main(String[] args) {
@@ -25,13 +29,13 @@ public class MainServeur {
 			leServeur = new ServerSocket(portEcho);
 		} catch (IOException ex) {
 			// fin de connexion
-			System.err.println("Impossible de cr�er un socket serveur sur ce port : "+ ex);
+			System.err.println("Impossible de creer un socket serveur sur ce port : "+ ex);
 			try {
 				// on demande un port anonyme
 				leServeur = new ServerSocket(0);
 			} catch (IOException ex2) {
 				// fin de connexion
-				System.err.println("Impossible de cr�er un socket serveur : "+ ex);
+				System.err.println("Impossible de creer un socket serveur : "+ ex);
 			}
 		}
 		
