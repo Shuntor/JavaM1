@@ -529,7 +529,8 @@ public class Vue {
 		jDialogInscription.getContentPane().add(jLabelCompetences);
 		
 		
-		String listeComps[]={"aa","bb"};
+		ArrayList<String> listeComps=null;
+		
 		
 		/*try {
 			listeComp= gestion.recupererCompetences();
@@ -538,10 +539,16 @@ public class Vue {
 			e1.printStackTrace();
 			
 		}*/
-		listeCompetences=new JList(listeComps);
+		listeCompetences=new JList();
 		listeCompetences.setBounds(30, 320, 130, 170);
 		jDialogInscription.add(listeCompetences);
 		
+		DefaultListModel DLM = new DefaultListModel();
+        for (int i = 0; i < listeComps.size(); i++)
+            {
+                 DLM.addElement(listeComps.get(i)); 
+            }
+        listeCompetences.setModel(DLM);
 		
 		jLabelCompetences = new JLabel("Compétences sélectionnées:");
 		jLabelCompetences.setBounds(300, 295, 250, 23);
