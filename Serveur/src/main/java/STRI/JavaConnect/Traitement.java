@@ -74,8 +74,11 @@ public class Traitement extends Thread {
 			case "inscription":
 				
 				
+
+
 				base.insererUtilisateur(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], anneeDipl =Integer.parseInt(tabRequete[5]), tabRequete[6]);
 				System.out.println("J'ai recu une "+ motClef);
+
 				break;
 			case "connexion":
 				System.out.println("J'ai recu une "+ motClef);
@@ -116,8 +119,13 @@ public class Traitement extends Thread {
 					chaine="Deconnexion confirmee";
 				}
 				break;
+			
 			default:
+
+				
+
 				System.out.println("ERREUR (defaut)");
+
 			}
 			
 			

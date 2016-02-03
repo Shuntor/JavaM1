@@ -80,7 +80,7 @@ public class BDD {
 	 */
 	private static void requeteInsertion(String requete){
 		/* Connexion a la base de donnees */
-		String url = "jdbc:mysql://localhost:3306/CONNECT";
+		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
 		String passwd = "root";
 		java.sql.Connection cn = null;
@@ -207,7 +207,7 @@ public class BDD {
 	 */
 	private static ResultSet requeteSelection(String requete){
 		/* Connexion a la base de donnees */
-		String url = "jdbc:mysql://localhost:3306/CONNECT";
+		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
 		String passwd = "root";
 		java.sql.Connection cn = null;

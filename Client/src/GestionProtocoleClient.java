@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class GestionProtocoleClient {
 
@@ -37,6 +38,11 @@ public class GestionProtocoleClient {
 			return chaine;
 		}
 		
+		public String[] deserialisation(String requete){
+			String tabRequete[]=requete.split("#");
+			return tabRequete;
+		}
+		
 		public void connexion() throws UnknownHostException, IOException{
 			leSocket = new Socket("127.0.0.1", 50000); // @IP du serveur
 			
@@ -44,6 +50,7 @@ public class GestionProtocoleClient {
 			fluxEntreeSocket = new BufferedReader(new InputStreamReader(leSocket.getInputStream()));
 			System.out.println("Connecté!");
 		}
+		
 		private String envoiTrame(String requete) throws IOException{
 			fluxSortieSocket.println(requete);
 
@@ -98,6 +105,20 @@ public class GestionProtocoleClient {
 			else{
 				return false;
 			}
+		}
+		
+		public String[] recupererCompetences() throws IOException{
+			connexion();
+			int x=0;
+			String[] listeRequete = null;
+			String requete="recupCompetence";
+			String retour=envoiTrame(requete);
+			String tabRequete[]=deserialisation(retour);
+			
+			return listeRequete;
+			
+				
+			
 		}
 		
 		
