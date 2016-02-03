@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 /**
@@ -97,6 +98,13 @@ public class Traitement extends Thread {
 			case "recherche":
 				 
 				break;
+				
+			case "recupCompetence":
+				ArrayList<String> comp = new ArrayList<String>();
+				comp = BDD.SelectionCompetences(); //On recupere toutes les competences dans la BDD
+				chaine = gestionProtocoleServeur.serialisation(comp); //On serialise
+					
+			break;
 			case "deconnexion":
 				System.out.println("1: "+tabRequete[0] + "et 2: "+tabRequete[1]);
 				connecte=false; 
@@ -132,4 +140,5 @@ public class Traitement extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 }
