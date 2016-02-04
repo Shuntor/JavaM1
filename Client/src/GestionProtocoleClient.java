@@ -135,10 +135,18 @@ public class GestionProtocoleClient {
 		
 		public void creerCompetence(String c) throws IOException{
 			String retour, requete = null;
-			requete="nouvelleCompetence#"+c;
+			requete="ajoutCompetence#"+c;
 			retour = envoiTrame(requete);
 			
 				
+			
+		}
+		
+		public String recupEtudiants() throws IOException{
+			String retour, requete = null;
+			requete="recupEtudiant#etu";
+			retour=envoiTrame(requete);
+			return retour;
 			
 		}
 		

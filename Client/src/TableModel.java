@@ -74,5 +74,6 @@ public class TableModel extends DefaultTableModel {
 	        listeEtu.remove(row);
 	        fireTableStructureChanged();
 	    }
-	
+	    
+	    
 }

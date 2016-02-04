@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
@@ -52,6 +54,7 @@ public class Vue {
 	private String listeComps[];
 	private static DefaultListModel<String> DLM2;
 	private ArrayList<String> listeComps2=null;
+	private static ArrayList<String> listeCompsL, listeCompsSelect=null;
 	/**
 	 * Launch the application.
 	 */
@@ -65,6 +68,7 @@ public class Vue {
 					window.frame.setVisible(true);
 					gestion.connexion();
 					chargerCompetences();
+					chargerEtudiants();
 					System.out.println("SYSO");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -97,10 +101,21 @@ public class Vue {
 		 * 
 		 ********************************************************************/
 		frame = new JFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 500, 574);
-		frame.addWindowListener(new MyWindowListener());
 		frame.getContentPane().setLayout(null);
-		frame.setLocationRelativeTo(null);	
+		frame.setLocationRelativeTo(null);
+		frame.addWindowListener(new WindowAdapter() {
+		      public void windowClosing(WindowEvent e) {
+		    	try {
+					gestion.arret();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        System.exit(0);
+		      }
+		    });
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 484, 516);
@@ -546,13 +561,13 @@ public class Vue {
 			}
 		});
 		
-		jLabelCompetences = new JLabel("Selectionner vos comp�tences:");
+		jLabelCompetences = new JLabel("Selectionnez vos comp�tences:");
 		jLabelCompetences.setBounds(20, 295, 250, 23);
 		jDialogInscription.getContentPane().add(jLabelCompetences);
 		
 		listeCompetences=new JList();
 		listeCompetences.setBounds(30, 320, 130, 170);
-		jDialogInscription.add(listeCompetences);
+		jDialogInscription.getContentPane().add(listeCompetences);
 		
 		
        
@@ -563,14 +578,19 @@ public class Vue {
 		
 		listeCompetencesSelectionnees=new JList();
 		listeCompetencesSelectionnees.setBounds(320, 320, 130, 170);
-		jDialogInscription.add(listeCompetencesSelectionnees);
+		jDialogInscription.getContentPane().add(listeCompetencesSelectionnees);
 		
 		btnAddComp = new JButton("Add >>");
 		btnAddComp.setBounds(188, 365, 110, 30);
 		jDialogInscription.getContentPane().add(btnAddComp);
 		btnAddComp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				AjouterCompetence((String) listeCompetences.getSelectedValue());
+				int i=0;
+				String j=null;
+				i=listeCompetences.getSelectedIndex();
+				j=listeCompsL.get(i);
+				listeCompsSelect.add(j);
+				chargerCompetencesSelectionnees();
 			}
 		});
 		
@@ -579,6 +599,11 @@ public class Vue {
 		jDialogInscription.getContentPane().add(btnDeleteComp);
 	}
 	
+	private void addWindowListener(WindowAdapter windowAdapter) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void setConnecte(boolean entree){
 		if (entree==true){
 			this.connecte=true;
@@ -589,34 +614,53 @@ public class Vue {
 	}
 	public static void chargerCompetences(){
 		listeCompetences.removeAll();
-		ArrayList<String> listeComps=null;	
+			
 		try{
-			listeComps= gestion.recupererCompetences();
+			listeCompsL= gestion.recupererCompetences();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			
 		}
 		DefaultListModel DLM = new DefaultListModel();
-        for (int i = 0; i < listeComps.size(); i++)
+        for (int i = 0; i < listeCompsL.size(); i++)
             {
-                 DLM.addElement(listeComps.get(i)); 
+                 DLM.addElement(listeCompsL.get(i)); 
             }
         listeCompetences.setModel(DLM);
 	}
 	
-	public static void AjouterCompetence(String competence){
+	public static void chargerCompetencesSelectionnees(){
+		listeCompetencesSelectionnees.removeAll();
 			
-//		try{
-//			listeComps= gestion.assignerCompetences();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 		
-        System.out.println("competences: "+competence);
-        DLM2.addElement(competence); 
+		DefaultListModel DLM2 = new DefaultListModel();
+        for (int i = 0; i < listeCompsSelect.size(); i++)
+            {
+                 DLM2.addElement(listeCompsSelect.get(i)); 
+            }
         listeCompetencesSelectionnees.setModel(DLM2);
 	}
 	
+	public static void chargerEtudiants() throws IOException{
+		ArrayList<Etudiant> listeEtu = null;
+		
+		String requete =gestion.recupEtudiants();
+		String tabRequete[]=requete.split("#");
+		Etudiant etudiant = null;
+		for (int i = 0; i < tabRequete.length; i++) {
+			System.out.println("requete="+requete);
+			
+			
+			if(i%2==0){
+				etudiant = new Etudiant(tabRequete[i],tabRequete[i+1],null,null,null);
+				modTable.addEtudiant(etudiant);
+			}
+			else{
+				;
+			}
+		
+		}
+	}
+
 }

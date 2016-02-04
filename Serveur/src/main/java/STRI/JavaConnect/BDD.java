@@ -46,7 +46,7 @@ public class BDD {
 	/** Inserer une competence
 	 * @param competence
 	 */
-	public static void insererCompetence(String competence){
+	public void insererCompetence(String competence){
 		String sql = "INSERT INTO Competences(description) values('" + competence + "');";
 		requeteInsertion(sql);
 	}

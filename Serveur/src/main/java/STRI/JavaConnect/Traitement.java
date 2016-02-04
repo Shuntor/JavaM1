@@ -106,6 +106,30 @@ public class Traitement extends Thread {
 			case "recherche":
 				 
 				break;
+			
+			case "recupEtudiant":
+				String chaine2;
+				ArrayList<Etudiant> listeEtu;
+				listeEtu=base.SelectionInfosUtiliateur();
+				for (int i = 0; i < listeEtu.size(); i++) {
+					etu=listeEtu.get(i);
+					if(i==0){
+						chaine=etu.getNom() + "#";
+						chaine=chaine+etu.getPrenom() + "#";
+					}
+					else{
+				
+						chaine=chaine+etu.getNom() + "#";
+						chaine=chaine+etu.getPrenom() + "#";
+					}
+				}
+				System.out.println("chaine="+chaine);
+				break;
+				
+			case "ajoutCompetence":
+				base.insererCompetence(tabRequete[1]); 
+				chaine="OK";
+				break;
 				
 			case "recupCompetence":
 				ArrayList<String> comp = new ArrayList<String>();
@@ -122,6 +146,7 @@ public class Traitement extends Thread {
 			case "arret":
 				fermeture=true;
 				chaine="OK";
+				break;
 			default:
 
 				
