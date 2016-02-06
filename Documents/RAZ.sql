@@ -7,9 +7,9 @@ create table Utilisateurs(
 	AnneDiplomation Varchar(4),
 	tel Varchar(15),
 	mdp varchar(50),
-	showTel boolean(50),
-	showAnneDiplomation boolean(50),
-	showCompetences boolean(50),
+	showTel Varchar(1),
+	showAnneDiplomation Varchar(1),
+	showCompetences Varchar(1),
 	constraint pk_utlisateur PRIMARY KEY(mail)
 	#constraint ck_athletes check (type in ('F','M','A')),
 );
