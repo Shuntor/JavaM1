@@ -105,18 +105,51 @@ public class GestionProtocoleClient {
 			
 		}
 		
-		public boolean envoiInfo(String nom, String prenom, String mail, String tel, String anneeDipl) throws IOException{
+		public String infoEtudiant (String email) throws IOException{
 			String requete, retour=null;
-			
-			requete=serialisation("inscription", nom, prenom, mail, tel, anneeDipl);
-			retour=envoiTrame(requete);
+			requete=serialisation("infoEtudiant",email);
+			retour = envoiTrame(requete);
 			System.out.println("retour = "+retour);
-			if (retour.startsWith("OK")){
-				return true;
+			return retour;
+					
+		}
+		
+		public String competencesUtilisateur (String email) throws IOException{
+			String requete, retour=null;
+			requete=serialisation("compsUtilisateur",email);
+			retour = envoiTrame(requete);
+			System.out.println("retour = "+retour);
+			return retour;
+					
+		}
+		
+		public void envoiInfo(String nom, String prenom, String mail, String tel, String anneeDipl, String mdp, ArrayList<String>listeComp, boolean showTel, boolean showAnneeDipl, boolean showCompetences) throws IOException{
+			String requete, retour, showAnneeDipl2, showTel2, showCompetences2=null;
+			if (showAnneeDipl==true){
+				showAnneeDipl2="1";
+			}else{
+				showAnneeDipl2="0";
 			}
-			else{
-				return false;
+			if (showTel==true){
+				showTel2="1";
+			}else{
+				showTel2="0";
 			}
+			if (showCompetences==true){
+				showCompetences2="1";
+			}else{
+				showCompetences2="0";
+			}
+			requete=serialisation("inscription", nom, prenom, mail, anneeDipl, tel, mdp, showTel2, showAnneeDipl2, showCompetences2);
+			retour=envoiTrame(requete);
+			
+			System.out.println("retour = "+retour);
+			requete="assignerCompetences#"+retour+"#";
+			for (int i = 0; i < listeComp.size(); i++) {
+				requete = requete+listeComp.get(i)+"#";
+			}
+			retour = envoiTrame(requete);
+			
 		}
 		
 		public ArrayList<String> recupererCompetences() throws IOException{
@@ -128,18 +161,27 @@ public class GestionProtocoleClient {
 			String listeRequete[] = retour.split("#");
 			liste = new ArrayList<String>(Arrays.asList(listeRequete));
 			return liste;
+		}
+		
+		public boolean envoiCompetences(ArrayList<String> competences) throws IOException{
+			String retour, requete = null;
+			requete="assignerCompetences#";
+			for (int i = 0; i < competences.size(); i++) {
+				if (i==0){
+					requete=competences.size()+"#";
+				}
+				requete = requete+competences.get(i);
+				requete= requete+"#";
+			}
+			retour = envoiTrame(requete);
 			
-				
-			
+			return true;
 		}
 		
 		public void creerCompetence(String c) throws IOException{
 			String retour, requete = null;
 			requete="ajoutCompetence#"+c;
 			retour = envoiTrame(requete);
-			
-				
-			
 		}
 		
 		public String recupEtudiants() throws IOException{
