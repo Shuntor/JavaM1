@@ -33,16 +33,18 @@ public class BDD {
 	/**
 	 * @param args
 	 */
-	/*public static void main(String[] args){
+	public static void main(String[] args){
 		Etudiant etu = null;
 		ArrayList<String> comp;
 //		etu = Connexion("vic@gmail.com","root");
 //		System.out.println(etu.getNom());
-		comp=SelectionCompetences();
-		for (int i = 0; i < comp.size(); i++) {
-			System.out.println(comp);
-		}
-	}*/
+//		comp=SelectionCompetences();
+//		for (int i = 0; i < comp.size(); i++) {
+//			System.out.println(comp);
+//		}
+		comp=SelectionCompetencesUtilisateur("vic@gmail.com");
+		System.out.println(comp);
+	}
 	
 
 	/** Inserer une competence
@@ -268,7 +270,24 @@ public class BDD {
 		}
 		return competences;
 	}
+
 	
+	
+	public static ArrayList<String> SelectionCompetencesUtilisateur( String mail ){
+		ResultSet result;
+		ArrayList<String> competences = new ArrayList<String>();
+		String sql = "SELECT description FROM Acquerir where mail= '"+mail+"';";
+		result=requeteSelection(sql);
+		try {
+			while (result.next()) {
+				competences.add(result.getString(1));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return competences;
+	}
 	/** Connexion
 	 * @param mail
 	 * @param mdp
