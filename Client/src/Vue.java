@@ -44,7 +44,7 @@ public class Vue {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JDialog jDialogInfoEtudiant, jDialogConnexion, jDialogModif, jDialogInscription;
-	private JButton btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
+	private JButton btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
 	private JTable table_1;
 	private JLabel jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
@@ -126,6 +126,26 @@ public class Vue {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		btnRafraichir = new JButton("Rafraichir");
+		btnRafraichir.setBounds(326, 12, 117, 23);
+		panel.add(btnRafraichir);
+		btnRafraichir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j=table_1.getRowCount();
+				try {
+					for (int i = 0; i < j; i++) {
+						System.out.println("nombre lignes:"+table_1.getRowCount());
+						modTable.supprEtudiant(j-1-i);
+					}
+					chargerEtudiants();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		
 		JLabel lblConnect = new JLabel("Connect!");
 		lblConnect.setFont(new Font("High Tower Text", Font.BOLD, 20));
 		lblConnect.setBounds(196, 11, 110, 20);
@@ -144,6 +164,8 @@ public class Vue {
 		textField.setBounds(50, 59, 86, 20);
 		panel.add(textField);
 		textField.setColumns(10);
+		
+		
 		
 		JLabel lblNewLabel = new JLabel("Pr\u00E9nom");
 		lblNewLabel.setBounds(169, 62, 46, 14);
@@ -681,25 +703,40 @@ public class Vue {
         
 		jLabelTelInfo = new JLabel("Tel.: " + etudiant.getTel());
 		jLabelTelInfo.setBounds(60, 80, 200, 23);
-		if(tabRequete[5].startsWith("1")){
+		if(connecte==true){
 			jDialogInfoEtudiant.getContentPane().add(jLabelTelInfo);
 		}
-		
+		else{
+			if(tabRequete[5].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(jLabelTelInfo);
+			}
+		}
 		jLabelAnneeInfo = new JLabel("Ann�e diplomation: " + etudiant.getAnneeDip());
 		jLabelAnneeInfo.setBounds(60, 115, 200, 23);
 		//jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
-		if(tabRequete[6].startsWith("1")){
+		if(connecte==true){
 			jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
+		}
+		else{
+			if(tabRequete[6].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
+			}
 		}
 		
 		JLabel jLabelcompetencesInfo =new JLabel("Compétences:");
 		jLabelcompetencesInfo.setBounds(200, 125, 200, 23);
-		if(tabRequete[7].startsWith("1")){
+		if(connecte==true){
 			jDialogInfoEtudiant.getContentPane().add(jLabelcompetencesInfo);
+		}
+		else{
+			if(tabRequete[7].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(jLabelcompetencesInfo);
+			}
 		}
 		
 		try {
 			comps = gestion.competencesUtilisateur(mail);
+			System.out.println("comps="+comps);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -711,16 +748,21 @@ public class Vue {
 		JList listeCompetencesInfo =new JList();
 		listeCompetencesInfo.setBounds(200, 150, 130, 170);
 		listeCompetencesInfo.removeAll();
-		DefaultListModel DLM = new DefaultListModel();
+		DefaultListModel DLM3 = new DefaultListModel();
         for (int j = 0; j < tabRequete2.length; j++) {
-        	 DLM.addElement(tabRequete2[i]); 
+        	 DLM3.addElement(tabRequete2[j]); 
 		}
                 
            
-        listeCompetencesInfo.setModel(DLM);
+        listeCompetencesInfo.setModel(DLM3);
 		
-		if(tabRequete[7].startsWith("1")){
+        if(connecte==true){
 			jDialogInfoEtudiant.getContentPane().add(listeCompetencesInfo);
+		}
+		else{
+			if(tabRequete[7].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(listeCompetencesInfo);
+			}
 		}
       
 	}
