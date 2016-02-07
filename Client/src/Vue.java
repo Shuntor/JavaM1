@@ -662,6 +662,9 @@ public class Vue {
 	
 	
 	
+	/**Affiche les informations de l'utilisateur choisi dans la JTable en fonction de si on est visiteur ou utilisateur
+	 * @param mail
+	 */
 	public void infoEtudiant(String mail){
 		String requete = null; 
 		String comps = null;
@@ -767,7 +770,10 @@ public class Vue {
       
 	}
 	
-
+	
+	/**Modifie le paramètre connecte pour savoir si l'utilisateur est connecté
+	 * @param entree
+	 */
 	public void setConnecte(boolean entree){
 		if (entree==true){
 			this.connecte=true;
@@ -776,6 +782,10 @@ public class Vue {
 			this.connecte=false;
 		}
 	}
+	
+	/**Recharge la JList des competences generales
+	 * 
+	 */
 	public static void chargerCompetences(){
 		listeCompetences.removeAll();
 			
@@ -794,6 +804,9 @@ public class Vue {
         listeCompetences.setModel(DLM);
 	}
 	
+	/**Recharge la JList des competences que l'utilisateur selectionne
+	 * 
+	 */
 	public static void chargerCompetencesSelectionnees(){
 		listeCompetencesSelectionnees.removeAll();
 			
@@ -808,6 +821,9 @@ public class Vue {
 	
 	
 	
+	/**récupère tous les étudiants pour les afficher
+	 * @throws IOException
+	 */
 	public static void chargerEtudiants() throws IOException{
 		
 		

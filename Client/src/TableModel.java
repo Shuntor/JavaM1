@@ -6,8 +6,9 @@ public class TableModel extends DefaultTableModel {
 	 
 		
 
-	    /**
-	 * 
+	/**
+	 * @author Iungmann Vaurigaud Hernandez
+	 *
 	 */
 	
 		private List<Etudiant> listeEtu = new ArrayList<>();

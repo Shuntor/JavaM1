@@ -7,6 +7,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
 public class GestionProtocoleClient {
 
 	
@@ -27,7 +31,7 @@ public class GestionProtocoleClient {
 		/****
 		 * serialisation
 		 * @param args
-		 * @return
+		 * @return chaine
 		 * Mise en forme des trames
 		 */
 		public String serialisation(String... args){
@@ -39,11 +43,21 @@ public class GestionProtocoleClient {
 			return chaine;
 		}
 		
+		/**deserialisation
+		 * @param requete
+		 * @return
+		 */
 		public String[] deserialisation(String requete){
 			String tabRequete[]=requete.split("#");
 			return tabRequete;
 		}
 		
+		
+		
+		/**Connexion socket
+		 * @throws UnknownHostException
+		 * @throws IOException
+		 */
 		public void connexion() throws UnknownHostException, IOException{
 			leSocket = new Socket("127.0.0.1", 50000); // @IP du serveur
 			
@@ -52,6 +66,11 @@ public class GestionProtocoleClient {
 			System.out.println("Connecté!");
 		}
 		
+		/**Envoi general des trames
+		 * @param requete
+		 * @return retour
+		 * @throws IOException
+		 */
 		private String envoiTrame(String requete) throws IOException{
 			System.out.println(requete);
 			fluxSortieSocket.println(requete);
@@ -62,6 +81,12 @@ public class GestionProtocoleClient {
 		
 		
 		
+		/**Connexion d'un client
+		 * @param mail
+		 * @param mDP
+		 * @return boolean
+		 * @throws IOException
+		 */
 		public boolean connexionClient(String mail, String mDP) throws IOException{
 			boolean ok=false;
 			String requete, retour=null;
@@ -80,6 +105,10 @@ public class GestionProtocoleClient {
 		
 		
 		
+		/**Deconnexion d'un client
+		 * @return boolean
+		 * @throws IOException
+		 */
 		public boolean deconnexionClient() throws IOException{
 			String requete, retour=null;
 			
@@ -95,16 +124,22 @@ public class GestionProtocoleClient {
 			
 		}
 		
+		/**Envoi la requete d'arret du client afin que le thread du serveur s'arrete ainsi que la connexion Socket
+		 * @throws IOException
+		 */
 		public void arret() throws IOException{
 			String requete, retour=null;
 			
 			requete=serialisation("arret","arret");
 			retour = envoiTrame(requete);
 			System.out.println("retour = "+retour);
-			
-			
 		}
 		
+		/** Envoi d'une trame pour demander les informations sur un client en fonction de son adresse Mail
+		 * @param email
+		 * @return retour
+		 * @throws IOException
+		 */
 		public String infoEtudiant (String email) throws IOException{
 			String requete, retour=null;
 			requete=serialisation("infoEtudiant",email);
@@ -114,6 +149,12 @@ public class GestionProtocoleClient {
 					
 		}
 		
+		
+		/**Recupere les competences d'un utilisateur en fonction de son adresse Mail
+		 * @param email
+		 * @return retour
+		 * @throws IOException
+		 */
 		public String competencesUtilisateur (String email) throws IOException{
 			String requete, retour=null;
 			requete=serialisation("compsUtilisateur",email);
@@ -123,6 +164,19 @@ public class GestionProtocoleClient {
 					
 		}
 		
+		/** envoi les infos sur l'étudiant pour inscription
+		 * @param nom
+		 * @param prenom
+		 * @param mail
+		 * @param tel
+		 * @param anneeDipl
+		 * @param mdp
+		 * @param listeComp
+		 * @param showTel
+		 * @param showAnneeDipl
+		 * @param showCompetences
+		 * @throws IOException
+		 */
 		public void envoiInfo(String nom, String prenom, String mail, String tel, String anneeDipl, String mdp, ArrayList<String>listeComp, boolean showTel, boolean showAnneeDipl, boolean showCompetences) throws IOException{
 			String requete, retour, showAnneeDipl2, showTel2, showCompetences2=null;
 			if (showAnneeDipl==true){
@@ -152,6 +206,11 @@ public class GestionProtocoleClient {
 			
 		}
 		
+		
+		/**Requete pour que le serveur envoi les competences generales
+		 * @return liste
+		 * @throws IOException
+		 */
 		public ArrayList<String> recupererCompetences() throws IOException{
 			ArrayList<String> liste = null ;
 			int x=0;
@@ -163,6 +222,11 @@ public class GestionProtocoleClient {
 			return liste;
 		}
 		
+		/**requete pour que le serveur assigne des competences à un utilisateur
+		 * @param competences
+		 * @return 
+		 * @throws IOException
+		 */
 		public boolean envoiCompetences(ArrayList<String> competences) throws IOException{
 			String retour, requete = null;
 			requete="assignerCompetences#";
@@ -178,12 +242,21 @@ public class GestionProtocoleClient {
 			return true;
 		}
 		
+		
+		/**Creer une nouvelle competence dans la base de donnees
+		 * @param c
+		 * @throws IOException
+		 */
 		public void creerCompetence(String c) throws IOException{
 			String retour, requete = null;
 			requete="ajoutCompetence#"+c;
 			retour = envoiTrame(requete);
 		}
 		
+		/**requete pour récupérer tous les etudiants inscrits
+		 * @return retour
+		 * @throws IOException
+		 */
 		public String recupEtudiants() throws IOException{
 			String retour, requete = null;
 			requete="recupEtudiant#etu";

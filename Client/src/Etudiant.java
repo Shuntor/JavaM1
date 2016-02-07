@@ -1,4 +1,9 @@
 
+/**
+ * @author Iungmann Vaurigaud Hernandez
+ *
+ */
+
 public class Etudiant {
 	
 	    private String nom;

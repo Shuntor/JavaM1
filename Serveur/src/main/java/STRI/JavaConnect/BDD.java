@@ -33,7 +33,7 @@ public class BDD {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args){
+/*	public static void main(String[] args){
 		Etudiant etu = null;
 		ArrayList<String> comp;
 //		etu = Connexion("vic@gmail.com","root");
@@ -44,7 +44,7 @@ public class BDD {
 //		}
 		comp=SelectionCompetencesUtilisateur("vic@gmail.com");
 		System.out.println(comp);
-	}
+	}*/
 	
 
 	/** Inserer une competence
@@ -55,15 +55,18 @@ public class BDD {
 		requeteInsertion(sql);
 	}
 
-	/** Inserer un utlisateur
+	
+	/**Inserer un utilisateur
 	 * @param nom
 	 * @param prenom
 	 * @param mail
-//	 * @param tabRequete
-	 * @param tabRequete2
+	 * @param tel
+	 * @param anneeDipl
 	 * @param mdp
+	 * @param showTel
+	 * @param showAnneeDipl
+	 * @param showComp
 	 */
-	
 	public void insererUtilisateur(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp ){
 //		String url = InformationsConnexion.urlBD();
 //        String utilisateur = InformationsConnexion.utilisateurBD();
@@ -97,6 +100,7 @@ public class BDD {
 	/** Lier une competence a un utilisateur (insertion dans Acquerir)
 	 * @param mail
 	 * @param comp
+	 * 
 	 */
 	public static void insererAcquerir(String mail, String comp ){
 		String url = "jdbc:mysql://localhost:3306/connect";
@@ -118,6 +122,11 @@ public class BDD {
 	}
 
 	
+	/**
+	 * @param mail
+	 * @return requete
+	 * @throws SQLException
+	 */
 	public String selectEtudiant(String mail) throws SQLException{
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
@@ -138,6 +147,11 @@ public class BDD {
 	}
 	
 	
+	/**
+	 * @param mail
+	 * @return requete
+	 * @throws SQLException
+	 */
 	public String selectDescriptionParMail(String mail) throws SQLException{
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
@@ -167,7 +181,9 @@ public class BDD {
 	
 	/** Requete generale d'insertion
 	 * @param requete
+	 * 
 	 */
+	
 	private static void requeteInsertion(String requete){
 		/* Connexion a la base de donnees */
 		String url = "jdbc:mysql://localhost:3306/connect";
@@ -273,6 +289,10 @@ public class BDD {
 
 	
 	
+	/**Selectionner les competences acquéries par un utilisateur selon son adresse Mail
+	 * @param mail
+	 * @return
+	 */
 	public static ArrayList<String> SelectionCompetencesUtilisateur( String mail ){
 		ResultSet result;
 		ArrayList<String> competences = new ArrayList<String>();
@@ -291,7 +311,7 @@ public class BDD {
 	/** Connexion
 	 * @param mail
 	 * @param mdp
-	 * @return
+	 * @return etu
 	 */
 	public static Etudiant Connexion(String mail, String mdp ){
 		ResultSet result;
@@ -309,6 +329,7 @@ public class BDD {
 		}
 		return etu;
 	}
+	
 	/**Requête générale de selection
 	 * @param requete
 	 * @return

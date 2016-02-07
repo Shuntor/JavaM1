@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Traitement extends Thread {
 
-	private boolean fermeture;
+	private boolean fermeture=false;
 	private Socket connexionCourante;
 	private InputStream entreeSocket;
 	private OutputStream sortieSocket;
@@ -36,15 +36,16 @@ public class Traitement extends Thread {
 			OutputStream sortieSocket) {
 
 //		this.gestion = gestion;
-		this.chaine = null;
+		
 		this.connexionCourante = connexionCourante;
 		this.entreeSocket = entreeSocket;
 		this.sortieSocket = sortieSocket;
-		this.fermeture = false;
+		
 		
 		
 	}
 
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Thread#run()
 	 */
