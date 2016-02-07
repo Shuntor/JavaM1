@@ -50,7 +50,7 @@ public class BDD {
 	/** Inserer une competence
 	 * @param competence
 	 */
-	public void insererCompetence(String competence){
+	public synchronized void insererCompetence(String competence){
 		String sql = "INSERT INTO Competences(description) values('" + competence + "');";
 		requeteInsertion(sql);
 	}
@@ -67,7 +67,7 @@ public class BDD {
 	 * @param showAnneeDipl
 	 * @param showComp
 	 */
-	public void insererUtilisateur(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp ){
+	public synchronized void insererUtilisateur(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp ){
 //		String url = InformationsConnexion.urlBD();
 //        String utilisateur = InformationsConnexion.utilisateurBD();
 //        String motDePasse = InformationsConnexion.mdpBD();
@@ -102,7 +102,7 @@ public class BDD {
 	 * @param comp
 	 * 
 	 */
-	public static void insererAcquerir(String mail, String comp ){
+	public synchronized static void insererAcquerir(String mail, String comp ){
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
 		String passwd = "root";
@@ -127,7 +127,7 @@ public class BDD {
 	 * @return requete
 	 * @throws SQLException
 	 */
-	public String selectEtudiant(String mail) throws SQLException{
+	public synchronized String selectEtudiant(String mail) throws SQLException{
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
 		String passwd = "root";
@@ -152,7 +152,7 @@ public class BDD {
 	 * @return requete
 	 * @throws SQLException
 	 */
-	public String selectDescriptionParMail(String mail) throws SQLException{
+	public synchronized String selectDescriptionParMail(String mail) throws SQLException{
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
 		String passwd = "root";
@@ -184,7 +184,7 @@ public class BDD {
 	 * 
 	 */
 	
-	private static void requeteInsertion(String requete){
+	private synchronized static void requeteInsertion(String requete){
 		/* Connexion a la base de donnees */
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
@@ -223,7 +223,7 @@ public class BDD {
 	/** Selection des utilisateurs (Nom, prenom, adresse, mail et annee de diplomation)
 	 * @return
 	 */
-	public static ArrayList<Etudiant> SelectionInfosUtiliateur( ){
+	public synchronized static ArrayList<Etudiant> SelectionInfosUtiliateur( ){
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		Etudiant etu ;
 		ResultSet result;
@@ -251,7 +251,7 @@ public class BDD {
 	 * @param nom
 	 * @return
 	 */
-	public static Etudiant RechercheEtudiant(String nom ){
+	public synchronized static Etudiant RechercheEtudiant(String nom ){
 		ResultSet result;
 		Etudiant etu = null;
 		
@@ -271,7 +271,7 @@ public class BDD {
 	/** Selection de toutes les compétences
 	 * @return
 	 */
-	public static ArrayList<String> SelectionCompetences( ){
+	public synchronized static ArrayList<String> SelectionCompetences( ){
 		ResultSet result;
 		ArrayList<String> competences = new ArrayList<String>();
 		String sql = "SELECT * FROM Competences;";
@@ -293,7 +293,7 @@ public class BDD {
 	 * @param mail
 	 * @return
 	 */
-	public static ArrayList<String> SelectionCompetencesUtilisateur( String mail ){
+	public synchronized static ArrayList<String> SelectionCompetencesUtilisateur( String mail ){
 		ResultSet result;
 		ArrayList<String> competences = new ArrayList<String>();
 		String sql = "SELECT description FROM Acquerir where mail= '"+mail+"';";
@@ -313,7 +313,7 @@ public class BDD {
 	 * @param mdp
 	 * @return etu
 	 */
-	public static Etudiant Connexion(String mail, String mdp ){
+	public synchronized static Etudiant Connexion(String mail, String mdp ){
 		ResultSet result;
 		Etudiant etu = null;
 		
@@ -334,7 +334,7 @@ public class BDD {
 	 * @param requete
 	 * @return
 	 */
-	private static ResultSet requeteSelection(String requete){
+	private synchronized static ResultSet requeteSelection(String requete){
 		/* Connexion a la base de donnees */
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
@@ -368,7 +368,7 @@ public class BDD {
 		return res;
 	}
 	
-	public static String ConnexionClient(String mail, String mdp ){
+	public synchronized static String ConnexionClient(String mail, String mdp ){
 		ResultSet result;
 		Etudiant etu = null;
 		

@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * @author Iungmann Vaurigaud Hernandez
@@ -49,6 +51,7 @@ public class Vue {
 	private JTable table_1;
 	private JLabel jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
 	private boolean connecte=false;
+	private boolean verifMail, verifTel, verifAnnee=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JOptionPane jOption;
 	static JList listeCompetences, listeCompetencesSelectionnees;
@@ -58,6 +61,7 @@ public class Vue {
 	private static ArrayList<String> listeCompsL=null;
 	private static ArrayList<String> listeCompsSelect=new ArrayList<String>();
 	static ArrayList<Etudiant> listeEtu;
+	VerifSaisie controle=new VerifSaisie();
 	
 	/**
 	 * Launch the application.
@@ -484,7 +488,7 @@ public class Vue {
 		jDialogInscription.setLocationRelativeTo(null);
 		jDialogInscription.setModal(true);
 		jDialogInscription.getContentPane().setLayout(null);
-		jDialogInscription.setTitle("Modifier ses informations");
+		jDialogInscription.setTitle("S'inscrire");
         	
 		jLabelNomInscription = new JLabel("Nom:");
 		jLabelNomInscription.setBounds(60, 10, 117, 23);
@@ -557,7 +561,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_MDPConfInscription);
 		textField_MDPConfInscription.setColumns(10);
 		
-		btnNewComp=new JButton("Cr�er une comp�tence");
+		btnNewComp=new JButton("Creer une competence");
 		btnNewComp.setBounds(275, 230, 200, 20);
 		jDialogInscription.getContentPane().add(btnNewComp);
 		btnNewComp.addActionListener(new ActionListener() {
@@ -647,14 +651,38 @@ public class Vue {
 		
 		btnInscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				try {
-					gestion.envoiInfo(textField_NomInscription.getText(), textField_prenomInscription.getText(), textField_MailInscription.getText(), textField_TelInscription.getText(), textField_anneeInscription.getText(), textField_MDPInscription.getText(), listeCompsSelect, jRadioShowTelInscription.isSelected(), jRadioShowAnneeDipInscription.isSelected(), jRadioShowCompetencesInscription.isSelected());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(controle.verifMail(textField_MailInscription.getText())){
+					if(controle.verifTel(textField_TelInscription.getText())){
+						if(controle.verifAnnee(textField_anneeInscription.getText())){
+							if(controle.verifConfMDP(textField_MDPInscription.getText(), textField_MDPConfInscription.getText())){		
+								if((textField_NomInscription.getText().length()!=0) && (textField_prenomInscription.getText().length()!=0) && (textField_MailInscription.getText().length()!=0) && (textField_TelInscription.getText().length()!=0) && (textField_anneeInscription.getText().length()!=0)){	
+									try {
+											gestion.envoiInfo(textField_NomInscription.getText(), textField_prenomInscription.getText(), textField_MailInscription.getText(), textField_TelInscription.getText(), textField_anneeInscription.getText(), textField_MDPInscription.getText(), listeCompsSelect, jRadioShowTelInscription.isSelected(), jRadioShowAnneeDipInscription.isSelected(), jRadioShowCompetencesInscription.isSelected());
+										} catch (IOException e) {
+												// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										jDialogInscription.dispose();
+								}
+								else{
+									jOption.showMessageDialog(null, "ERREUR: Tous les champs doivent etre saisis...  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+								}
+							}
+							else{
+								jOption.showMessageDialog(null, "ERREUR: Les mots de passe sont differents... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+						else{
+							jOption.showMessageDialog(null, "ERREUR: Annee diplomation incoherente... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					else{
+						jOption.showMessageDialog(null, "ERREUR: Numero de telephone incoherent... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+					}
 				}
-				jDialogInscription.dispose();
+				else{
+					jOption.showMessageDialog(null, "ERREUR: Adresse mail incoherente... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -839,9 +867,6 @@ public class Vue {
 				modTable.addEtudiant(etudiant);
 				//listeEtu.add(etudiant);
 			}
-			
-			
-		
 		}
 	}
 }
