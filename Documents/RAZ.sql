@@ -28,31 +28,9 @@ create table Acquerir(
 );
 
 
-INSERT INTO Utilisateurs values
-	('Vaurigaud', 'Jordan', 'jojo@gmail.com', "2016", "0689784556", "root"	),
-	('Hernandez', 'Quentin', 'kent@yahoo.fr', "2018", "0689784556", "root"	),
-	('Iungmann', 'Victor', 'vic@gmail.com', "2017", "0689784556", "root"	);
 
 
 
 
-INSERT INTO Competences(description) values
-	('Informatique'),
-	('Repassage'),
-	('BDD'),
-	('Maths'),
-	('Physique'),
-	('Chimie'),
-	('Gestion');
-
-INSERT INTO Acquerir values
-	('kent@yahoo.fr','Repassage'),
-	('jojo@gmail.com','Maths'),
-	('jojo@gmail.com','Chimie'),
-	('jojo@gmail.com','Physique'),
-	('jojo@gmail.com','Gestion'),
-	('vic@gmail.com','BDD'),
-	('vic@gmail.com','Maths'),
-	('vic@gmail.com','Informatique');
 
 
