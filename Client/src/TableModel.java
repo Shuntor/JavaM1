@@ -6,8 +6,9 @@ public class TableModel extends DefaultTableModel {
 	 
 		
 
-	    /**
-	 * 
+	/**
+	 * @author Iungmann Vaurigaud Hernandez
+	 *
 	 */
 	
 		private List<Etudiant> listeEtu = new ArrayList<>();
@@ -18,7 +19,7 @@ public class TableModel extends DefaultTableModel {
 
 	    @Override
 	    public int getColumnCount() {
-	        return 2;
+	        return 3;
 
 	    }
 
@@ -34,6 +35,9 @@ public class TableModel extends DefaultTableModel {
 	        if (a == 1) {
 	            return "Prenom";
 	        }
+	        if (a == 2){
+	        	return "Adresse e-mail";
+	        }
 	        else
 	        
 	        return null;
@@ -43,7 +47,7 @@ public class TableModel extends DefaultTableModel {
 	    @Override
 	    public int getRowCount() {
 	        if (listeEtu == null) {
-	            return 2;
+	            return 3;
 	        }
 	        return listeEtu.size();
 	    }
@@ -55,6 +59,8 @@ public class TableModel extends DefaultTableModel {
 	                return listeEtu.get(row).getNom();
 	            case 1:
 	                return listeEtu.get(row).getPrenom();
+	            case 2:
+	            	return listeEtu.get(row).getMail();
 	            }
 	                
 	           /* return lcl.get(row).getAdresse();

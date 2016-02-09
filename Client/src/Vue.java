@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * @author Iungmann Vaurigaud Hernandez
@@ -42,19 +45,24 @@ public class Vue {
 	private JTextField jTextField_NewCompetence, textField_1, textField_MailConnexion, textField_MDPConnexion, textField_MailModif, textField_NomModif, textField_prenomModif, textField_TelModif, textField_anneeModif, textField_MailInscription, textField_NomInscription, textField_prenomInscription, textField_TelInscription, textField_anneeInscription, textField_MDPInscription, textField_MDPConfInscription;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JDialog jDialogConnexion, jDialogModif, jDialogInscription;
-	private JButton btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
+	private JDialog jDialogInfoEtudiant, jDialogConnexion, jDialogModif, jDialogInscription;
+	private JButton btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
 	private JTable table_1;
-	private JLabel jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
+	private JLabel jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
 	private boolean connecte=false;
+	private boolean verifMail, verifTel, verifAnnee=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JOptionPane jOption;
 	static JList listeCompetences, listeCompetencesSelectionnees;
 	private String listeComps[];
 	private static DefaultListModel<String> DLM2;
 	private ArrayList<String> listeComps2=null;
-	private static ArrayList<String> listeCompsL, listeCompsSelect=null;
+	private static ArrayList<String> listeCompsL=null;
+	private static ArrayList<String> listeCompsSelect=new ArrayList<String>();
+	static ArrayList<Etudiant> listeEtu;
+	VerifSaisie controle=new VerifSaisie();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -122,6 +130,26 @@ public class Vue {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		btnRafraichir = new JButton("Rafraichir");
+		btnRafraichir.setBounds(326, 12, 117, 23);
+		panel.add(btnRafraichir);
+		btnRafraichir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int j=table_1.getRowCount();
+				try {
+					for (int i = 0; i < j; i++) {
+						System.out.println("nombre lignes:"+table_1.getRowCount());
+						modTable.supprEtudiant(j-1-i);
+					}
+					chargerEtudiants();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		
 		JLabel lblConnect = new JLabel("Connect!");
 		lblConnect.setFont(new Font("High Tower Text", Font.BOLD, 20));
 		lblConnect.setBounds(196, 11, 110, 20);
@@ -140,6 +168,8 @@ public class Vue {
 		textField.setBounds(50, 59, 86, 20);
 		panel.add(textField);
 		textField.setColumns(10);
+		
+		
 		
 		JLabel lblNewLabel = new JLabel("Pr\u00E9nom");
 		lblNewLabel.setBounds(169, 62, 46, 14);
@@ -188,6 +218,20 @@ public class Vue {
 		table_1 = new JTable();
 		table_1.setModel(modTable);
 		scrollPane.setViewportView(table_1);
+		
+		table_1.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		    	String adresseMail;
+		        int row = table_1.rowAtPoint(evt.getPoint());
+		        //int col = table_1.columnAtPoint(evt.getPoint());
+		        adresseMail=(String) table_1.getValueAt(row, 2);
+		        infoEtudiant(adresseMail);
+		        jDialogInfoEtudiant.setVisible(true);
+		        
+		        
+		    }
+		});
 		
 		JButton btnNewButton = new JButton("Rechercher!");
 		btnNewButton.setBounds(169, 112, 117, 23);
@@ -280,8 +324,6 @@ public class Vue {
         jDialogConnexion.setModal(true);
         jDialogConnexion.getContentPane().setLayout(null);
         jDialogConnexion.setTitle("Connexion");
-        
-      //Option Panes:
         
         
         jLabelEmailConnexion = new JLabel("Adrese E-mail:");
@@ -399,7 +441,7 @@ public class Vue {
 		jDialogModif.getContentPane().add(textField_MailModif);
 		textField_MailModif.setColumns(10);
 		
-		jLabelTelModif = new JLabel("T�l.:");
+		jLabelTelModif = new JLabel("Tel.:");
 		jLabelTelModif.setBounds(350, 80, 117, 23);
 		jDialogModif.getContentPane().add(jLabelTelModif);
         
@@ -446,7 +488,7 @@ public class Vue {
 		jDialogInscription.setLocationRelativeTo(null);
 		jDialogInscription.setModal(true);
 		jDialogInscription.getContentPane().setLayout(null);
-		jDialogInscription.setTitle("Modifier ses informations");
+		jDialogInscription.setTitle("S'inscrire");
         	
 		jLabelNomInscription = new JLabel("Nom:");
 		jLabelNomInscription.setBounds(60, 10, 117, 23);
@@ -457,7 +499,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_NomInscription);
 		textField_NomInscription.setColumns(10);
 		
-		jLabelPrenomInscription = new JLabel("Pr�nom:");
+		jLabelPrenomInscription = new JLabel("Prenom:");
 		jLabelPrenomInscription.setBounds(200, 10, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelPrenomInscription);
         
@@ -475,7 +517,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_MailInscription);
 		textField_MailInscription.setColumns(10);
 		
-		jLabelTelInscription = new JLabel("T�l.:");
+		jLabelTelInscription = new JLabel("Tel.:");
 		jLabelTelInscription.setBounds(350, 10, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelTelInscription);
         
@@ -484,7 +526,11 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_TelInscription);
 		textField_TelInscription.setColumns(10);
 		
-		jLabelAnneeInscription = new JLabel("Ann�e diplomation:");
+		JRadioButton jRadioShowTelInscription = new JRadioButton("Vue Visiteurs");
+		jRadioShowTelInscription.setBounds(350,55,130,23);
+		jDialogInscription.getContentPane().add(jRadioShowTelInscription);
+		
+		jLabelAnneeInscription = new JLabel("Annee diplomation:");
 		jLabelAnneeInscription.setBounds(60, 147, 117, 23);
 		jDialogInscription.getContentPane().add(jLabelAnneeInscription);
         
@@ -492,6 +538,10 @@ public class Vue {
 		textField_anneeInscription.setBounds(60, 175, 86, 20);
 		jDialogInscription.getContentPane().add(textField_anneeInscription);
 		textField_anneeInscription.setColumns(10);
+		
+		JRadioButton jRadioShowAnneeDipInscription  = new JRadioButton("Vue Visiteurs");
+		jRadioShowAnneeDipInscription.setBounds(60,197,130,23);
+		jDialogInscription.getContentPane().add(jRadioShowAnneeDipInscription);
 		
 		jLabelMDPInscription = new JLabel("Mot de Passe:");
 		jLabelMDPInscription.setBounds(350, 80, 117, 23);
@@ -511,7 +561,7 @@ public class Vue {
 		jDialogInscription.getContentPane().add(textField_MDPConfInscription);
 		textField_MDPConfInscription.setColumns(10);
 		
-		btnNewComp=new JButton("Cr�er une comp�tence");
+		btnNewComp=new JButton("Creer une competence");
 		btnNewComp.setBounds(275, 230, 200, 20);
 		jDialogInscription.getContentPane().add(btnNewComp);
 		btnNewComp.addActionListener(new ActionListener() {
@@ -542,18 +592,7 @@ public class Vue {
         btnInscription.setBounds(270, 510, 200, 23);
 		jDialogInscription.getContentPane().add(btnInscription);
 		
-		btnInscription.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				boolean retour=false;
-				try {
-					retour=gestion.envoiInfo(textField_NomInscription.getText(), textField_prenomInscription.getText(), textField_MailInscription.getText(), textField_TelInscription.getText(), textField_anneeInscription.getText());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				jDialogInscription.dispose();
-			}
-		});
+		
         
 		btnAnnulerInscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -561,7 +600,7 @@ public class Vue {
 			}
 		});
 		
-		jLabelCompetences = new JLabel("Selectionnez vos comp�tences:");
+		jLabelCompetences = new JLabel("Selectionnez vos competences:");
 		jLabelCompetences.setBounds(20, 295, 250, 23);
 		jDialogInscription.getContentPane().add(jLabelCompetences);
 		
@@ -572,7 +611,7 @@ public class Vue {
 		
        
 		
-		jLabelCompetences = new JLabel("Comp�tences s�lectionn�es:");
+		jLabelCompetences = new JLabel("Competences selectionnees:");
 		jLabelCompetences.setBounds(300, 295, 250, 23);
 		jDialogInscription.getContentPane().add(jLabelCompetences);
 		
@@ -585,11 +624,10 @@ public class Vue {
 		jDialogInscription.getContentPane().add(btnAddComp);
 		btnAddComp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int i=0;
-				String j=null;
-				i=listeCompetences.getSelectedIndex();
-				j=listeCompsL.get(i);
-				listeCompsSelect.add(j);
+				String com;
+				com=(String) listeCompetences.getSelectedValue();
+				System.out.println("j= "+com+"/");
+				listeCompsSelect.add(com);
 				chargerCompetencesSelectionnees();
 			}
 		});
@@ -597,13 +635,173 @@ public class Vue {
 		btnDeleteComp = new JButton("<< Delete");
 		btnDeleteComp.setBounds(188, 400, 110, 30);
 		jDialogInscription.getContentPane().add(btnDeleteComp);
-	}
-	
-	private void addWindowListener(WindowAdapter windowAdapter) {
-		// TODO Auto-generated method stub
+		btnDeleteComp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String com;
+				com=(String) listeCompetencesSelectionnees.getSelectedValue();
+				System.out.println("j= "+com+"/");				
+				listeCompsSelect.remove(com);
+				chargerCompetencesSelectionnees();
+			}
+		});
+		
+		JRadioButton jRadioShowCompetencesInscription = new JRadioButton("Vue Visiteurs");
+		jRadioShowCompetencesInscription.setBounds(180,435,130,23);
+		jDialogInscription.getContentPane().add(jRadioShowCompetencesInscription);
+		
+		btnInscription.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(controle.verifMail(textField_MailInscription.getText())){
+					if(controle.verifTel(textField_TelInscription.getText())){
+						if(controle.verifAnnee(textField_anneeInscription.getText())){
+							if(controle.verifConfMDP(textField_MDPInscription.getText(), textField_MDPConfInscription.getText())){		
+								if((textField_NomInscription.getText().length()!=0) && (textField_prenomInscription.getText().length()!=0) && (textField_MailInscription.getText().length()!=0) && (textField_TelInscription.getText().length()!=0) && (textField_anneeInscription.getText().length()!=0)){	
+									try {
+											gestion.envoiInfo(textField_NomInscription.getText(), textField_prenomInscription.getText(), textField_MailInscription.getText(), textField_TelInscription.getText(), textField_anneeInscription.getText(), textField_MDPInscription.getText(), listeCompsSelect, jRadioShowTelInscription.isSelected(), jRadioShowAnneeDipInscription.isSelected(), jRadioShowCompetencesInscription.isSelected());
+										} catch (IOException e) {
+												// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										jDialogInscription.dispose();
+								}
+								else{
+									jOption.showMessageDialog(null, "ERREUR: Tous les champs doivent etre saisis...  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+								}
+							}
+							else{
+								jOption.showMessageDialog(null, "ERREUR: Les mots de passe sont differents... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+						else{
+							jOption.showMessageDialog(null, "ERREUR: Annee diplomation incoherente... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					else{
+						jOption.showMessageDialog(null, "ERREUR: Numero de telephone incoherent... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else{
+					jOption.showMessageDialog(null, "ERREUR: Adresse mail incoherente... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		
 	}
-
+	
+	
+	
+	/**Affiche les informations de l'utilisateur choisi dans la JTable en fonction de si on est visiteur ou utilisateur
+	 * @param mail
+	 */
+	public void infoEtudiant(String mail){
+		String requete = null; 
+		String comps = null;
+		int i =0;
+		try {
+			requete = gestion.infoEtudiant(mail);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String tabRequete[]=requete.split("#");
+		Etudiant etudiant = null;
+		System.out.println("requete="+requete);
+		etudiant = new Etudiant(tabRequete[i],tabRequete[i+1],tabRequete[i+2],tabRequete[i+3],tabRequete[i+4]);	
+		
+		
+		jDialogInfoEtudiant = new JDialog();
+		jDialogInfoEtudiant.setMinimumSize(new java.awt.Dimension(500, 400));
+		jDialogInfoEtudiant.setLocationRelativeTo(null);
+		jDialogInfoEtudiant.setModal(true);
+		jDialogInfoEtudiant.getContentPane().setLayout(null);
+		jDialogInfoEtudiant.setTitle("Information sur " + etudiant.getNom());
+		
+		jLabelNomInfo = new JLabel("Nom: " + etudiant.getNom());
+		jLabelNomInfo.setBounds(60, 10, 200, 23);
+		jDialogInfoEtudiant.getContentPane().add(jLabelNomInfo);
+        
+		jLabelPrenomInfo = new JLabel("Prenom: " + etudiant.getPrenom());
+		jLabelPrenomInfo.setBounds(350, 10, 200, 23);
+		jDialogInfoEtudiant.getContentPane().add(jLabelPrenomInfo);
+        
+		jLabelEmailInfo = new JLabel("Adrese E-mail: " + etudiant.getMail());
+		jLabelEmailInfo.setBounds(60, 45, 200, 23);
+        jDialogInfoEtudiant.getContentPane().add(jLabelEmailInfo);
+		
+        System.out.println("tabRquete[5]="+tabRequete[5]);
+        System.out.println("tabRquete[6]="+tabRequete[6]);
+        System.out.println("tabRquete[7]="+tabRequete[7]);
+        
+		jLabelTelInfo = new JLabel("Tel.: " + etudiant.getTel());
+		jLabelTelInfo.setBounds(60, 80, 200, 23);
+		if(connecte==true){
+			jDialogInfoEtudiant.getContentPane().add(jLabelTelInfo);
+		}
+		else{
+			if(tabRequete[5].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(jLabelTelInfo);
+			}
+		}
+		jLabelAnneeInfo = new JLabel("Ann�e diplomation: " + etudiant.getAnneeDip());
+		jLabelAnneeInfo.setBounds(60, 115, 200, 23);
+		//jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
+		if(connecte==true){
+			jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
+		}
+		else{
+			if(tabRequete[6].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
+			}
+		}
+		
+		JLabel jLabelcompetencesInfo =new JLabel("Compétences:");
+		jLabelcompetencesInfo.setBounds(200, 125, 200, 23);
+		if(connecte==true){
+			jDialogInfoEtudiant.getContentPane().add(jLabelcompetencesInfo);
+		}
+		else{
+			if(tabRequete[7].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(jLabelcompetencesInfo);
+			}
+		}
+		
+		try {
+			comps = gestion.competencesUtilisateur(mail);
+			System.out.println("comps="+comps);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String tabRequete2[]=comps.split("#");
+		
+		
+		
+		JList listeCompetencesInfo =new JList();
+		listeCompetencesInfo.setBounds(200, 150, 130, 170);
+		listeCompetencesInfo.removeAll();
+		DefaultListModel DLM3 = new DefaultListModel();
+        for (int j = 0; j < tabRequete2.length; j++) {
+        	 DLM3.addElement(tabRequete2[j]); 
+		}
+                
+           
+        listeCompetencesInfo.setModel(DLM3);
+		
+        if(connecte==true){
+			jDialogInfoEtudiant.getContentPane().add(listeCompetencesInfo);
+		}
+		else{
+			if(tabRequete[7].startsWith("1")){
+				jDialogInfoEtudiant.getContentPane().add(listeCompetencesInfo);
+			}
+		}
+      
+	}
+	
+	
+	/**Modifie le paramètre connecte pour savoir si l'utilisateur est connecté
+	 * @param entree
+	 */
 	public void setConnecte(boolean entree){
 		if (entree==true){
 			this.connecte=true;
@@ -612,6 +810,10 @@ public class Vue {
 			this.connecte=false;
 		}
 	}
+	
+	/**Recharge la JList des competences generales
+	 * 
+	 */
 	public static void chargerCompetences(){
 		listeCompetences.removeAll();
 			
@@ -630,6 +832,9 @@ public class Vue {
         listeCompetences.setModel(DLM);
 	}
 	
+	/**Recharge la JList des competences que l'utilisateur selectionne
+	 * 
+	 */
 	public static void chargerCompetencesSelectionnees(){
 		listeCompetencesSelectionnees.removeAll();
 			
@@ -642,8 +847,13 @@ public class Vue {
         listeCompetencesSelectionnees.setModel(DLM2);
 	}
 	
+	
+	
+	/**récupère tous les étudiants pour les afficher
+	 * @throws IOException
+	 */
 	public static void chargerEtudiants() throws IOException{
-		ArrayList<Etudiant> listeEtu = null;
+		
 		
 		String requete =gestion.recupEtudiants();
 		String tabRequete[]=requete.split("#");
@@ -652,15 +862,11 @@ public class Vue {
 			System.out.println("requete="+requete);
 			
 			
-			if(i%2==0){
-				etudiant = new Etudiant(tabRequete[i],tabRequete[i+1],null,null,null);
+			if(i%5==0){
+				etudiant = new Etudiant(tabRequete[i],tabRequete[i+1],tabRequete[i+2],tabRequete[i+3],tabRequete[i+4]);
 				modTable.addEtudiant(etudiant);
+				//listeEtu.add(etudiant);
 			}
-			else{
-				;
-			}
-		
 		}
 	}
-
 }

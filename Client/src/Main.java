@@ -7,7 +7,7 @@ import javax.swing.JFrame;
  */
 
 /**
- * @author quent
+ * @author Iungmann Vaurigaud Hernandez
  *
  */
 public class Main {
