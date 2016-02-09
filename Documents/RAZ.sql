@@ -29,9 +29,9 @@ create table Acquerir(
 
 
 INSERT INTO Utilisateurs values
-	('Vaurigaud', 'Jordan', 'jojo@gmail.com', "2016", "0689784556", "root"	),
-	('Hernandez', 'Quentin', 'kent@yahoo.fr', "2018", "0689784556", "root"	),
-	('Iungmann', 'Victor', 'vic@gmail.com', "2017", "0689784556", "root"	);
+	('Vaurigaud', 'Jordan', 'jojo@gmail.com', "2016", "0689784556", "root","1","1","1"	),
+	('Hernandez', 'Quentin', 'kent@yahoo.fr', "2018", "0689784556", "root","1","1","1"	),
+	('Iungmann', 'Victor', 'vic@gmail.com', "2017", "0689784556", "root","1","1","1"	);
 
 
 
