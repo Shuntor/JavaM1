@@ -50,7 +50,7 @@ public class BDD {
 	/** Inserer une competence
 	 * @param competence
 	 */
-	public synchronized void insererCompetence(String competence){
+	public synchronized static void insererCompetence(String competence){
 		String sql = "INSERT INTO Competences(description) values('" + competence + "');";
 		requeteInsertion(sql);
 	}
@@ -67,7 +67,7 @@ public class BDD {
 	 * @param showAnneeDipl
 	 * @param showComp
 	 */
-	public synchronized void insererUtilisateur(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp ){
+	public synchronized static void insererUtilisateur(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp ){
 //		String url = InformationsConnexion.urlBD();
 //        String utilisateur = InformationsConnexion.utilisateurBD();
 //        String motDePasse = InformationsConnexion.mdpBD();
@@ -108,19 +108,49 @@ public class BDD {
 		String passwd = "root";
         
         try (java.sql.Connection connexion = DriverManager.getConnection(url, login, passwd)){
+            
+            java.sql.Statement insertAcquerir = connexion.createStatement();
+            int statut = insertAcquerir.executeUpdate("INSERT INTO acquerir (mail,description) VALUES ('"+mail+"', '"+comp+"');" );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
+
+	public synchronized static void supprimerAcquerir(String mail ){
+		String url = "jdbc:mysql://localhost:3306/connect";
+		String login = "root";
+		String passwd = "root";
+        
+        try (java.sql.Connection connexion = DriverManager.getConnection(url, login, passwd)){
             //INSERER UN lOCAL
             java.sql.Statement insertAcquerir = connexion.createStatement();
 
             //String requeteInsertLocal=("\"INSERT INTO Locaux (idL, nom, adresse) VALUES (1, '".concat(nom).concat("', '").concat(adresse).concat("');\"") );
-            int statut = insertAcquerir.executeUpdate("INSERT INTO acquerir (mail,description) VALUES ('"+mail+"', '"+comp+"');" );
+            int statut = insertAcquerir.executeUpdate("DELETE FROM acquerir WHERE mail='"+mail+"';" );
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//		String sql = "INSERT INTO Acquerir values('" + mail + "','" + comp + "');";
-//		requeteInsertion(sql);
-	}
 
+	}
+	
+	public synchronized static void supprimerUtilisateur(String mail ){
+		String url = "jdbc:mysql://localhost:3306/connect";
+		String login = "root";
+		String passwd = "root";
+        
+        try (java.sql.Connection connexion = DriverManager.getConnection(url, login, passwd)){
+            //INSERER UN lOCAL
+            java.sql.Statement insertAcquerir = connexion.createStatement();
+
+            //String requeteInsertLocal=("\"INSERT INTO Locaux (idL, nom, adresse) VALUES (1, '".concat(nom).concat("', '").concat(adresse).concat("');\"") );
+            int statut = insertAcquerir.executeUpdate("DELETE FROM Utilisateurs WHERE mail='"+mail+"';" );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+	}
 	
 	/**
 	 * @param mail
@@ -215,10 +245,7 @@ public class BDD {
 			}
 		}
 	}
-//	public static void requeteInsertion(String requete, String requete2){
-//		this(requete);
-//		this(requete2);
-//	}
+
 	
 	/** Selection des utilisateurs (Nom, prenom, adresse, mail et annee de diplomation)
 	 * @return
@@ -391,5 +418,13 @@ public class BDD {
 		}
 	}
 	
+	public static void modifier(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp){
+		String comp;
+		supprimerAcquerir(mail);
+		supprimerUtilisateur(mail);
+		insererUtilisateur(nom,prenom,mail,tel, anneeDipl, mdp, showTel, showAnneeDipl, showComp );
+		
+		
+	}
 	
 }

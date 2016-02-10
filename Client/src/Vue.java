@@ -42,26 +42,27 @@ public class Vue {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField txtPrnom;
-	private JTextField jTextField_NewCompetence, textField_1, textField_MailConnexion, textField_MDPConnexion, textField_MailModif, textField_NomModif, textField_prenomModif, textField_TelModif, textField_anneeModif, textField_MailInscription, textField_NomInscription, textField_prenomInscription, textField_TelInscription, textField_anneeInscription, textField_MDPInscription, textField_MDPConfInscription;
+	private JTextField jTextField_NewCompetenceModif, jTextField_NewCompetence, textField_1, textField_MailConnexion, textField_MDPConnexion, textField_MailModif, textField_NomModif, textField_prenomModif, textField_TelModif, textField_anneeModif, textField_MailInscription, textField_NomInscription, textField_prenomInscription, textField_TelInscription, textField_anneeInscription, textField_MDPInscription, textField_MDPConfInscription;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JDialog jDialogInfoEtudiant, jDialogConnexion, jDialogModif, jDialogInscription;
-	private JButton btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
+	private JButton btnDeleteCompModif, btnAddCompModif, btnNewCompModif, btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
 	private JTable table_1;
-	private JLabel jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
+	private JLabel jLabelCompetencesSelectModif, jLabelCompetencesModif, jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
 	private boolean connecte=false;
 	private boolean verifMail, verifTel, verifAnnee=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JOptionPane jOption;
-	static JList listeCompetences, listeCompetencesSelectionnees;
-	private String listeComps[];
+	static JList listeCompetencesModif, listeCompetencesSelectionneesModif, listeCompetences, listeCompetencesSelectionnees;
+	private String mailCo, listeComps[];
 	private static DefaultListModel<String> DLM2;
 	private ArrayList<String> listeComps2=null;
 	private static ArrayList<String> listeCompsL=null;
-	private static ArrayList<String> listeCompsSelect=new ArrayList<String>();
+	private static ArrayList<String> listeCompsSelectModif, listeCompsSelect=new ArrayList<String>();
 	static ArrayList<Etudiant> listeEtu;
 	VerifSaisie controle=new VerifSaisie();
+	private ArrayList<String> jListeCompSelectModif;
 	
 	/**
 	 * Launch the application.
@@ -105,7 +106,7 @@ public class Vue {
 		
 		/********************************************************************
 		 * 
-		 * Fen�tre Principale.
+		 * Fenetre Principale.
 		 * 
 		 ********************************************************************/
 		frame = new JFrame();
@@ -159,61 +160,73 @@ public class Vue {
 		lblRecherche.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblRecherche.setBounds(10, 31, 86, 20);
 		panel.add(lblRecherche);
+		lblRecherche.setEnabled(false);
+
 		
 		JLabel lblNom = new JLabel("Nom:");
 		lblNom.setBounds(10, 62, 46, 14);
 		panel.add(lblNom);
+		lblNom.setEnabled(false);
 		
 		textField = new JTextField();
 		textField.setBounds(50, 59, 86, 20);
 		panel.add(textField);
 		textField.setColumns(10);
+		textField.setEnabled(false);
 		
 		
-		
-		JLabel lblNewLabel = new JLabel("Pr\u00E9nom");
+		JLabel lblNewLabel = new JLabel("Prenom");
 		lblNewLabel.setBounds(169, 62, 46, 14);
 		panel.add(lblNewLabel);
+		lblNewLabel.setEnabled(false);
 		
 		txtPrnom = new JTextField();
 		txtPrnom.setBounds(227, 59, 86, 20);
 		panel.add(txtPrnom);
 		txtPrnom.setColumns(10);
+		txtPrnom.setEnabled(false);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(354, 62, 46, 14);
 		panel.add(lblEmail);
+		lblEmail.setEnabled(false);
 		
 		textField_1 = new JTextField();
 		textField_1.setBounds(388, 59, 86, 20);
 		panel.add(textField_1);
 		textField_1.setColumns(10);
+		textField_1.setEnabled(false);
 		
 
-		JLabel lblTl = new JLabel("T\u00E9l.:");
+		JLabel lblTl = new JLabel("Tel.:");
 		lblTl.setBounds(10, 87, 46, 14);
 		panel.add(lblTl);
+		lblTl.setEnabled(false);
 
 		
 		textField_2 = new JTextField();
 		textField_2.setBounds(50, 84, 86, 20);
 		panel.add(textField_2);
 		textField_2.setColumns(10);
+		textField_2.setEnabled(false);
 		
 
-		JLabel lblAnneDeDiplomation = new JLabel("Ann\u00E9e de diplomation:");
+		JLabel lblAnneDeDiplomation = new JLabel("Annee de diplomation:");
 		lblAnneDeDiplomation.setBounds(169, 87, 117, 14);
 		panel.add(lblAnneDeDiplomation);
+		lblAnneDeDiplomation.setEnabled(false);
 
 		
 		textField_3 = new JTextField();
 		textField_3.setBounds(294, 84, 106, 20);
 		panel.add(textField_3);
 		textField_3.setColumns(10);
+		textField_3.setEnabled(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 146, 464, 359);
 		panel.add(scrollPane);
+		
 		
 		table_1 = new JTable();
 		table_1.setModel(modTable);
@@ -236,6 +249,7 @@ public class Vue {
 		JButton btnNewButton = new JButton("Rechercher!");
 		btnNewButton.setBounds(169, 112, 117, 23);
 		panel.add(btnNewButton);
+		btnNewButton.setEnabled(false);
 		
 		/********************************************************************
 		 * 
@@ -266,7 +280,20 @@ public class Vue {
 		});
 		mnConnexion.add(mntmSeConnecter);
 		
-		JMenuItem mntmSeDconnecter = new JMenuItem("Se D\u00E9connecter");
+		JMenu mnGestionDuCompte = new JMenu("Gestion du compte");
+		menuBar.add(mnGestionDuCompte);
+		
+		
+		JMenuItem mntmModifierMesInformations = new JMenuItem("Modifier mes informations");
+		mnGestionDuCompte.add(mntmModifierMesInformations);
+		mntmModifierMesInformations.setEnabled(false);
+		
+		JMenuItem mntmSupprimerCompte = new JMenuItem("Supprimer mon compte");
+		mnGestionDuCompte.add(mntmSupprimerCompte);
+		mntmSupprimerCompte.setEnabled(false);
+		//mntmSupprimerCompte.setEnabled(false);
+		
+		JMenuItem mntmSeDconnecter = new JMenuItem("Se Deconnecter");
 		mntmSeDconnecter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean confirm=false;
@@ -282,6 +309,7 @@ public class Vue {
 						mntmSeDconnecter.setEnabled(false);
 						mntmSeConnecter.setEnabled(true);
 						mntmSinscrire.setEnabled(true);
+						mntmSupprimerCompte.setEnabled(false);
 					}
 					
 				} 
@@ -291,6 +319,7 @@ public class Vue {
 						mntmSeDconnecter.setEnabled(true);
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
+						mntmSupprimerCompte.setEnabled(true);
 					}
 				}
 			}
@@ -302,16 +331,21 @@ public class Vue {
 		
 		
 		
-		JMenu mnGestionDuCompte = new JMenu("Gestion du compte");
-		menuBar.add(mnGestionDuCompte);
-		
-		JMenuItem mntmModifierMesInformations = new JMenuItem("Modifier mes informations");
-		mntmModifierMesInformations.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jDialogModif.setVisible(true);
+		mntmSupprimerCompte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					gestion.supprimerCompte(mailCo);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				connecte=false;
+				mntmSeDconnecter.setEnabled(false);
+				mntmSeConnecter.setEnabled(true);
+				mntmSinscrire.setEnabled(true);
+				mntmSupprimerCompte.setEnabled(false);
 			}
 		});
-		mnGestionDuCompte.add(mntmModifierMesInformations);
 		
 		
 		/********************************************************************
@@ -368,12 +402,13 @@ public class Vue {
 				}
 				if (confirm==true){
 					connecte=true;
-					jOption.showMessageDialog(null, "INFO: Vous �tes bien connect�", "Information", JOptionPane.INFORMATION_MESSAGE);
+					mailCo=eMail;
+					jOption.showMessageDialog(null, "INFO: Vous etes bien connecte", "Information", JOptionPane.INFORMATION_MESSAGE);
 					if(connecte==true){
 						mntmSeDconnecter.setEnabled(true);
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
-						
+						mntmSupprimerCompte.setEnabled(true);
 					}
 					
 				}
@@ -384,6 +419,7 @@ public class Vue {
 						mntmSeDconnecter.setEnabled(false);
 						mntmSeConnecter.setEnabled(true);
 						mntmSinscrire.setEnabled(true);
+						mntmSupprimerCompte.setEnabled(false);
 					}
 				}
 					
@@ -402,82 +438,246 @@ public class Vue {
 		
 
 
-		/********************************************************************
-		 * PopUp de gestion infos
-		 * 
-		 ********************************************************************/
-		jDialogModif = new JDialog();
-		jDialogModif.setMinimumSize(new java.awt.Dimension(500, 400));
-		jDialogModif.setLocationRelativeTo(null);
-		jDialogModif.setModal(true);
-		jDialogModif.getContentPane().setLayout(null);
-		jDialogModif.setTitle("Modifier ses informations");
-        		
-		jLabelNomModif = new JLabel("Nom:");
-		jLabelNomModif.setBounds(60, 10, 117, 23);
-		jDialogModif.getContentPane().add(jLabelNomModif);
-        
-		textField_NomModif = new JTextField();
-		textField_NomModif.setBounds(60, 43, 86, 20);
-		jDialogModif.getContentPane().add(textField_NomModif);
-		textField_NomModif.setColumns(10);
-
+//		/********************************************************************
+//		 * PopUp de gestion infos
+//		 * 
+//		 ********************************************************************/
+//		jDialogModif = new JDialog();
+//		jDialogModif.setMinimumSize(new java.awt.Dimension(500, 600));
+//		jDialogModif.setLocationRelativeTo(null);
+//		jDialogModif.setModal(true);
+//		jDialogModif.getContentPane().setLayout(null);
+//		jDialogModif.setTitle("Modifier ses informations");
+//        		
+//		jLabelNomModif = new JLabel("Nom:");
+//		jLabelNomModif.setBounds(60, 10, 117, 23);
+//		jDialogModif.getContentPane().add(jLabelNomModif);
+//        
+//		textField_NomModif = new JTextField();
+//		textField_NomModif.setBounds(60, 35, 86, 20);
+//		jDialogModif.getContentPane().add(textField_NomModif);
+//		textField_NomModif.setColumns(10);
+//
+//		
+//		jLabelPrenomModif = new JLabel("Prenom:");
+//		jLabelPrenomModif.setBounds(200, 10, 117, 23);
+//		jDialogModif.getContentPane().add(jLabelPrenomModif);
+//        
+//		textField_prenomModif = new JTextField();
+//		textField_prenomModif.setBounds(200, 35, 86, 20);
+//		jDialogModif.getContentPane().add(textField_prenomModif);
+//		textField_prenomModif.setColumns(10);
+//
+//        jLabelEmailModif = new JLabel("Adrese E-mail:");
+//        jLabelEmailModif.setBounds(60, 80, 117, 23);
+//		jDialogModif.getContentPane().add(jLabelEmailModif);
+//		
+//		textField_MailModif = new JTextField();
+//		textField_MailModif.setBounds(60, 105, 86, 20);
+//		jDialogModif.getContentPane().add(textField_MailModif);
+//		textField_MailModif.setColumns(10);
+//		
+//		jLabelTelModif = new JLabel("Tel.:");
+//		jLabelTelModif.setBounds(350, 10, 117, 23);
+//		jDialogModif.getContentPane().add(jLabelTelModif);
+//        
+//		textField_TelModif = new JTextField();
+//		textField_TelModif.setBounds(350, 35, 86, 20);
+//		jDialogModif.getContentPane().add(textField_TelModif);
+//		textField_TelModif.setColumns(10);
+//		
+//		jLabelAnneeModif = new JLabel("Annee:");
+//		jLabelAnneeModif.setBounds(60, 147, 117, 23);
+//		jDialogModif.getContentPane().add(jLabelAnneeModif);
+//        
+//		textField_anneeModif = new JTextField();
+//		textField_anneeModif.setBounds(60, 175, 86, 20);
+//		jDialogModif.getContentPane().add(textField_anneeModif);
+//		textField_anneeModif.setColumns(10);
+//		
+//		btnAnnulerModifier = new JButton("Annuler");
+//		btnAnnulerModifier.setBounds(20, 510, 200, 23);
+//		jDialogModif.getContentPane().add(btnAnnulerModifier);
+//        
+//        btnModifier = new JButton("Envoyer les modifications");
+//		btnModifier.setBounds(270, 510, 200, 23);
+//		jDialogModif.getContentPane().add(btnModifier);
+//		
+//		btnNewCompModif=new JButton("Creer une competence");
+//		btnNewCompModif.setBounds(275, 230, 200, 20);
+//		jDialogModif.getContentPane().add(btnNewCompModif);
+//		btnNewCompModif.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				
+//				try {
+//					gestion.creerCompetence(jTextField_NewCompetenceModif.getText());
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				chargerCompetences();
+//				
+//				;
+//			}
+//		});
+//		
+//		jTextField_NewCompetenceModif = new JTextField();
+//		jTextField_NewCompetenceModif.setBounds(20, 230, 250, 20);
+//		jDialogModif.getContentPane().add(jTextField_NewCompetenceModif);
+//		jTextField_NewCompetenceModif.setColumns(10);
+//		
+//		jLabelCompetencesModif = new JLabel("Selectionnez vos competences:");
+//		jLabelCompetencesModif.setBounds(20, 295, 250, 23);
+//		jDialogModif.getContentPane().add(jLabelCompetencesModif);
+//		
+//		listeCompetencesModif=new JList();
+//		listeCompetencesModif.setBounds(30, 320, 130, 170);
+//		jDialogModif.getContentPane().add(listeCompetencesModif);
+//		
+//		jLabelCompetencesSelectModif = new JLabel("Competences selectionnees:");
+//		jLabelCompetencesSelectModif.setBounds(300, 295, 250, 23);
+//		jDialogModif.getContentPane().add(jLabelCompetencesSelectModif);
+//		
+//		listeCompetencesSelectionneesModif=new JList();
+//		listeCompetencesSelectionneesModif.setBounds(320, 320, 130, 170);
+//		jDialogModif.getContentPane().add(listeCompetencesSelectionneesModif);
+//		
+//		btnAddCompModif = new JButton("Add >>");
+//		btnAddCompModif.setBounds(188, 365, 110, 30);
+//		jDialogModif.getContentPane().add(btnAddCompModif);
+//		btnAddCompModif.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				String com;
+//				com=(String) listeCompetencesModif.getSelectedValue();
+//				System.out.println("j= "+com+"/");
+//				listeComps2.add(com);
+//				chargerCompetencesSelectionnees2();
+//				
+//			}
+//		});
+//		
+//		btnDeleteCompModif = new JButton("<< Delete");
+//		btnDeleteCompModif.setBounds(188, 400, 110, 30);
+//		jDialogModif.getContentPane().add(btnDeleteCompModif);
+//		btnDeleteCompModif.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				String com;
+//				com=(String) listeCompetencesSelectionneesModif.getSelectedValue();
+//				System.out.println("j= "+com+"/");				
+//				listeComps2.remove(com);
+//				chargerCompetences2();
+//				
+//			}
+//		});
+//		
+//		btnModifier.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				jDialogModif.dispose();
+//			}
+//		});
+//        
+//		btnAnnulerModifier.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				jDialogModif.dispose();
+//			}
+//		});
+//		
+//		JRadioButton jRadioShowTelModif = new JRadioButton("Vue Visiteurs");
+//		jRadioShowTelModif.setBounds(350,55,130,23);
+//		jDialogModif.getContentPane().add(jRadioShowTelModif);
+//		
+//		JRadioButton jRadioShowAnneeDipModif  = new JRadioButton("Vue Visiteurs");
+//		jRadioShowAnneeDipModif.setBounds(60,197,130,23);
+//		jDialogModif.getContentPane().add(jRadioShowAnneeDipModif);
+//		
+//		JRadioButton jRadioShowCompetencesModif = new JRadioButton("Vue Visiteurs");
+//		jRadioShowCompetencesModif.setBounds(180,435,130,23);
+//		jDialogModif.getContentPane().add(jRadioShowCompetencesModif);
+//		
+//		btnModifier.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				if(controle.verifMail(textField_MailModif.getText())){
+//					if(controle.verifTel(textField_TelModif.getText())){
+//						if(controle.verifAnnee(textField_anneeModif.getText())){	
+//								if((textField_NomModif.getText().length()!=0) && (textField_prenomModif.getText().length()!=0) && (textField_MailModif.getText().length()!=0) && (textField_TelModif.getText().length()!=0) && (textField_anneeModif.getText().length()!=0)){	
+//									try {
+//										gestion.modif(textField_NomModif.getText(), textField_prenomModif.getText(), textField_MailModif.getText(), textField_TelModif.getText(), textField_anneeModif.getText(), listeCompsSelectModif, jRadioShowTelModif.isSelected(), jRadioShowAnneeDipModif.isSelected(), jRadioShowCompetencesModif.isSelected());
+//									} catch (IOException e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
+//									jDialogModif.dispose();
+//								}
+//								else{
+//									jOption.showMessageDialog(null, "ERREUR: Tous les champs doivent etre saisis...  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+//								}							
+//						}
+//						else{
+//							jOption.showMessageDialog(null, "ERREUR: Annee diplomation incoherente... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+//						}
+//					}
+//					else{
+//						jOption.showMessageDialog(null, "ERREUR: Numero de telephone incoherent... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+//					}
+//				}
+//				else{
+//					jOption.showMessageDialog(null, "ERREUR: Adresse mail incoherente... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+//				}
+//			}
+//		});
+//		
+//		mntmModifierMesInformations.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				int i=0;
+//				String trame = null, trameC = null;
+//				chargerCompetences2();
+//				try {
+//					trame=gestion.infoEtudiant(mailCo);
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				String tabTrame[]= trame.split("#");
+//				Etudiant etudiant = null;
+//				System.out.println("trame="+trame);
+//				etudiant = new Etudiant(tabTrame[i],tabTrame[i+1],tabTrame[i+2],tabTrame[i+3],tabTrame[i+4]);	
+//				textField_NomModif.setText(etudiant.getNom());
+//				textField_prenomModif.setText(etudiant.getPrenom());
+//				textField_MailModif.setText(etudiant.getMail());
+//				textField_TelModif.setText(etudiant.getTel());
+//				textField_anneeModif.setText(etudiant.getAnneeDip());
+//				try {
+//					trameC=gestion.competencesUtilisateur(mailCo);
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				String tabRequete2[]=trameC.split("#");
+//				listeCompetencesSelectionnees.removeAll();
+//				DefaultListModel DLM3 = new DefaultListModel();
+//		        for (int j = 0; j < tabRequete2.length; j++) {
+//		        	 DLM3.addElement(tabRequete2[j]); 
+//		        	 jListeCompSelectModif.add(tabRequete2[j]);
+//				}  
+//		        listeCompetencesSelectionneesModif.setModel(DLM3);
+//		        
+//		        if (tabTrame[5].startsWith("1")){
+//		        	jRadioShowTelModif.setSelected(true);
+//		        }
+//		        if (tabTrame[6].startsWith("1")){
+//		        	jRadioShowAnneeDipModif.setSelected(true);
+//		        }
+//		        if (tabTrame[7].startsWith("1")){
+//		        	jRadioShowCompetencesModif.setSelected(true);
+//		        }
+//		        
+//				jDialogModif.setVisible(true);
+//			}
+//			
+//			
+//			
+//		});
 		
-		jLabelPrenomModif = new JLabel("Pr�nom:");
-		jLabelPrenomModif.setBounds(350, 10, 117, 23);
-		jDialogModif.getContentPane().add(jLabelPrenomModif);
-        
-		textField_prenomModif = new JTextField();
-		textField_prenomModif.setBounds(350, 43, 86, 20);
-		jDialogModif.getContentPane().add(textField_prenomModif);
-		textField_prenomModif.setColumns(10);
-
-        jLabelEmailModif = new JLabel("Adrese E-mail:");
-        jLabelEmailModif.setBounds(60, 80, 117, 23);
-		jDialogModif.getContentPane().add(jLabelEmailModif);
-		
-		textField_MailModif = new JTextField();
-		textField_MailModif.setBounds(60, 113, 86, 20);
-		jDialogModif.getContentPane().add(textField_MailModif);
-		textField_MailModif.setColumns(10);
-		
-		jLabelTelModif = new JLabel("Tel.:");
-		jLabelTelModif.setBounds(350, 80, 117, 23);
-		jDialogModif.getContentPane().add(jLabelTelModif);
-        
-		textField_TelModif = new JTextField();
-		textField_TelModif.setBounds(350, 117, 86, 20);
-		jDialogModif.getContentPane().add(textField_TelModif);
-		textField_TelModif.setColumns(10);
-		
-		jLabelAnneeModif = new JLabel("Ann�e:");
-		jLabelAnneeModif.setBounds(200, 150, 117, 23);
-		jDialogModif.getContentPane().add(jLabelAnneeModif);
-        
-		textField_anneeModif = new JTextField();
-		textField_anneeModif.setBounds(200, 183, 86, 20);
-		jDialogModif.getContentPane().add(textField_anneeModif);
-		textField_anneeModif.setColumns(10);
-		
-		btnAnnulerModifier = new JButton("Annuler");
-		btnAnnulerModifier.setBounds(20, 300, 200, 23);
-		jDialogModif.getContentPane().add(btnAnnulerModifier);
-        
-        btnModifier = new JButton("Envoyer les modifications");
-		btnModifier.setBounds(270, 300, 200, 23);
-		jDialogModif.getContentPane().add(btnModifier);
-		
-		btnModifier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				jDialogModif.dispose();
-			}
-		});
-        
-		btnAnnulerModifier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				jDialogModif.dispose();
-			}
-		});
 		
 		/********************************************************************
 		 * PopUp de inscription
@@ -869,4 +1069,37 @@ public class Vue {
 			}
 		}
 	}
+	
+//	public static void chargerCompetences2(){
+//		listeCompetencesModif.removeAll();
+//			
+//		try{
+//			ArrayList<String> listeCompsModif= gestion.recupererCompetences();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//			
+//		}
+//		DefaultListModel DLM = new DefaultListModel();
+//        for (int i = 0; i < listeCompsL.size(); i++)
+//            {
+//                 DLM.addElement(listeCompsL.get(i)); 
+//            }
+//        listeCompetencesModif.setModel(DLM);
+//	}
+//	
+//	public static void chargerCompetencesSelectionnees2(){
+//		listeCompetencesSelectionneesModif.removeAll();
+//			
+//		
+//		DefaultListModel DLM2 = new DefaultListModel();
+//        for (int i = 0; i < listeCompsSelectModif.size(); i++)
+//            {
+//                 DLM2.addElement(listeCompsSelectModif.get(i)); 
+//            }
+//        listeCompetencesSelectionneesModif.setModel(DLM2);
+//	}
+	
+	
+	
 }

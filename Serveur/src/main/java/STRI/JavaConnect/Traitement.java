@@ -97,18 +97,16 @@ public class Traitement extends Thread {
 				
 				connecte=true;
 				break;
-			case "consulter":
-				if (connecte==true){
-
-					chaine ="connecte";
-				}
-				else {
-					chaine="non connecte";
-
-				}
+			
+			case "supprimer":
+				base.supprimerAcquerir(tabRequete[1]);
+				base.supprimerUtilisateur(tabRequete[1]);
+				chaine="ok";
 				break;
+			
+			
 			case "modifier":
-				 
+				base.modifier(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], tabRequete[5], tabRequete[6], tabRequete[7], tabRequete[8], tabRequete[9]);
 				break;
 			
 			case "compsUtilisateur":
