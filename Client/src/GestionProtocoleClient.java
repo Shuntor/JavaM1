@@ -265,8 +265,45 @@ public class GestionProtocoleClient {
 			
 		}
 		
+//		public void modif(String nom, String prenom, String mail, String tel, String anneeDipl, ArrayList<String>listeComp, boolean showTel, boolean showAnneeDipl, boolean showCompetences) throws IOException{
+//			String requete, retour, showAnneeDipl2, showTel2, showCompetences2=null;
+//			if (showAnneeDipl==true){
+//				showAnneeDipl2="1";
+//			}else{
+//				showAnneeDipl2="0";
+//			}
+//			if (showTel==true){
+//				showTel2="1";
+//			}else{
+//				showTel2="0";
+//			}
+//			if (showCompetences==true){
+//				showCompetences2="1";
+//			}else{
+//				showCompetences2="0";
+//			}
+//			requete=serialisation("modifier", nom, prenom, mail, anneeDipl, tel, showTel2, showAnneeDipl2, showCompetences2);
+//			retour=envoiTrame(requete);
+//			
+//			System.out.println("retour = "+retour);
+//			requete="assignerCompetences#"+retour+"#";
+//			for (int i = 0; i < listeComp.size(); i++) {
+//				requete = requete+listeComp.get(i)+"#";
+//			}
+//			retour = envoiTrame(requete);
+//			
+//		}
 		
-		
+		/**Supprime le compte d'un utilisateur
+		 * @param mail
+		 * @throws IOException
+		 */
+		public void supprimerCompte(String mail) throws IOException{
+			String retour, requete = null;
+			requete="supprimer#"+mail;
+			retour=envoiTrame(requete);
+			
+		}
 		
 	
 	}
