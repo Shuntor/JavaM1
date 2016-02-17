@@ -27,6 +27,15 @@ create table Acquerir(
 	constraint fk_acquerir_competences foreign key(description) references Competences(description)
 );
 
+create table Messages(
+	dest varchar(80),
+	source varchar(80),
+	Message varchar (150),
+	constraint pk_messages PRIMARY KEY(dest, source, Message),
+	constraint fk_messages_utlisateur foreign key(dest) references Utilisateurs(mail),
+	constraint fk_messages_utlisateur2 foreign key(source) references Utilisateurs(mail)
+);
+
 
 INSERT INTO Utilisateurs values
 	('Vaurigaud', 'Jordan', 'jojo@gmail.com', "2016", "0689784556", "root","1","1","1"	),
