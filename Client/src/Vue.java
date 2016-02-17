@@ -409,6 +409,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
+						gestion.envoiCoordonnées();
 					}
 					
 				}
