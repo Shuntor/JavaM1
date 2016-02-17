@@ -305,6 +305,10 @@ public class GestionProtocoleClient {
 			
 		}
 		
+		public void envoiCoordonnees(){
+			
+		}
+		
 	
 	}
 	
