@@ -231,7 +231,7 @@ public class BDD {
 	public synchronized static ArrayList<String> SelectionMessages(String mail){
 		ResultSet result;
 		ArrayList<String> messages = new ArrayList<String>();
-		String sql = "SELECT * FROM Messages WHERE dest='"+mail+"';";
+		String sql = "SELECT source, message FROM Messages WHERE dest='"+mail+"';";
 		result=requeteSelection(sql);
 		try {
 			while (result.next()) {
