@@ -12,6 +12,10 @@ import com.mysql.jdbc.Statement;
  * @author Iungmann Vaurigaud Hernandez
  *
  */
+/**
+ * @author quent
+ *
+ */
 public class BDD {
 	
 //    private List<String> messages = new ArrayList<String>();
@@ -84,12 +88,7 @@ public class BDD {
             
             
             //String requeteInsertLocal=("\"INSERT INTO Locaux (idL, nom, adresse) VALUES (1, '".concat(nom).concat("', '").concat(adresse).concat("');\"") );
-            int statut = insertUtilisateur.executeUpdate("INSERT INTO utilisateurs (nom, prenom, mail, AnneDiplomation, tel, mdp, showTel, showAnneDiplomation, showCompetences) VALUES ('"+nom+"', '"+prenom+"', '"+mail+"', '"+tel+"', '"+anneeDipl+"', '"+mdp+"', '"+showTel+"', '"+showAnneeDipl+"', '"+showComp+"');" );
-            
-            
-            
-            
-            
+            int statut = insertUtilisateur.executeUpdate("INSERT INTO utilisateurs (nom, prenom, mail, AnneDiplomation, tel, mdp, showTel, showAnneDiplomation, showCompetences) VALUES ('"+nom+"', '"+prenom+"', '"+mail+"', '"+tel+"', '"+anneeDipl+"', '"+mdp+"', '"+showTel+"', '"+showAnneeDipl+"', '"+showComp+"');" );        
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,6 +115,10 @@ public class BDD {
         }
 	}
 
+	
+	/**Supprimer les compétences acquises par un utilisateur.
+	 * @param mail
+	 */
 	public synchronized static void supprimerAcquerir(String mail ){
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
@@ -134,6 +137,11 @@ public class BDD {
 
 	}
 	
+	
+	
+	/**Supprime un utilisateur de la table Utlisateurs
+	 * @param mail
+	 */
 	public synchronized static void supprimerUtilisateur(String mail ){
 		String url = "jdbc:mysql://localhost:3306/connect";
 		String login = "root";
@@ -395,6 +403,11 @@ public class BDD {
 		return res;
 	}
 	
+	/**Connexion d'un etudiant
+	 * @param mail
+	 * @param mdp
+	 * @return
+	 */
 	public synchronized static String ConnexionClient(String mail, String mdp ){
 		ResultSet result;
 		Etudiant etu = null;
