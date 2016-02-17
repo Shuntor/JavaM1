@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -305,7 +306,14 @@ public class GestionProtocoleClient {
 			
 		}
 		
-		public void envoiCoordonnees(){
+		public void envoiCoordonnees() throws IOException{
+			String retour, requete = null;
+			InetAddress adresseIp=leSocket.getLocalAddress();
+			int numPort=leSocket.getLocalPort();
+			requete= serialisation("coordonnees", adresseIp.toString(), String.valueOf(numPort));
+			
+			retour=envoiTrame(requete);
+			
 			
 		}
 		
