@@ -409,12 +409,12 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
-						try {
-							gestion.envoiCoordonnees();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//						try {
+//							gestion.envoiCoordonnees();
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 					}
 					
 				}
@@ -918,7 +918,7 @@ public class Vue {
 		jDialogInfoEtudiant = new JDialog();
 		jDialogInfoEtudiant.setMinimumSize(new java.awt.Dimension(500, 400));
 		jDialogInfoEtudiant.setLocationRelativeTo(null);
-		jDialogInfoEtudiant.setModal(true);
+		jDialogInfoEtudiant.setModal(false);
 		jDialogInfoEtudiant.getContentPane().setLayout(null);
 		jDialogInfoEtudiant.setTitle("Information sur " + etudiant.getNom());
 		
@@ -929,6 +929,17 @@ public class Vue {
 		jLabelPrenomInfo = new JLabel("Prenom: " + etudiant.getPrenom());
 		jLabelPrenomInfo.setBounds(350, 10, 200, 23);
 		jDialogInfoEtudiant.getContentPane().add(jLabelPrenomInfo);
+		
+		JButton btnChat = new JButton("Chatter!");
+		btnChat.setBounds(350, 45, 110, 30);
+		jDialogInfoEtudiant.getContentPane().add(btnChat);
+		btnChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VueTchat chatWindow =new VueTchat();
+				chatWindow.start();
+				
+			}
+		});
         
 		jLabelEmailInfo = new JLabel("Adrese E-mail: " + etudiant.getMail());
 		jLabelEmailInfo.setBounds(60, 45, 200, 23);
@@ -1003,6 +1014,7 @@ public class Vue {
 		}
       
 	}
+	
 	
 	
 	/**Modifie le paramètre connecte pour savoir si l'utilisateur est connecté
