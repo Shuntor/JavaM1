@@ -373,12 +373,39 @@ public class BDD {
 	}
 	
 	public static void modifier(String nom, String prenom, String mail,String tel, String anneeDipl, String mdp, String showTel, String showAnneeDipl, String showComp){
-		String comp;
+		//String comp;
 		supprimerAcquerir(mail);
 		supprimerUtilisateur(mail);
 		insererUtilisateur(nom,prenom,mail,tel, anneeDipl, mdp, showTel, showAnneeDipl, showComp );
 		
 		
+	}
+	
+	public synchronized static void ajouterMessage(String message, String destinataire, String source){
+		String sql ="INSERT INTO Messages values('"+destinataire+"','"+source+"','"+message+"');";
+		requeteInsertion(sql);
+	}
+	public synchronized static void SupprimerMessage(String message, String destinataire, String source){
+		String sql ="DELETE FROM Messages where dest='"+destinataire+"' AND source='"+source+"' AND Message='"+message+"';";
+		requeteInsertion(sql);
+	}
+	public synchronized static ArrayList<String> recupererMessages(String dest){
+		ResultSet result;
+		ArrayList<String> messages = new ArrayList<String>();
+		
+		String sql = "Select source, message FROM Messages WHERE dest='"+dest+"';";
+		result=requeteSelection(sql);
+		try {
+			while (result.next()) {
+				messages.add(result.getString(1));
+				messages.add(result.getString(2));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return messages;
 	}
 	
 }
