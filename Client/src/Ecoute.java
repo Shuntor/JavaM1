@@ -35,16 +35,10 @@ public class Ecoute extends Thread {
                                                // TODO Auto-generated catch block
                                                e.printStackTrace();
                                    }
-                                   System.out.println("Message: "+data.getData());
-                                   System.out.println("adresse:"+data.getAddress());
+                                   ;
                                   
-                                   try {
-                                               socket.send(data);
-                                   } catch (IOException e) {
-                                               // TODO Auto-generated catch block
-                                               e.printStackTrace();
-                                   }
-                                  
+                                   
+                                   
                                   
                                   
                                   

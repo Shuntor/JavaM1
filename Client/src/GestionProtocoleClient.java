@@ -358,7 +358,13 @@ public class GestionProtocoleClient {
 			
 		}
 	
-		
+		public String recupCo() throws IOException{
+			String retour, requete = null;
+			requete="refreshCo";
+			retour=envoiTrame(requete);
+			return retour;
+			
+		}
 	}
 	
 	
