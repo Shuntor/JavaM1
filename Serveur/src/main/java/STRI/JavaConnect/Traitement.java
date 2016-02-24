@@ -103,7 +103,12 @@ public class Traitement extends Thread {
 				}
 				connecte=true;
 				break;
-			
+			case "messages": //Recupere tous les messages et les envoie au client avec le format : Source1#Message1#Source2#Message2#...etc
+				ArrayList<String> messages = new ArrayList<String>();
+				messages=BDD.recupererMessages(tabRequete[1]);
+				chaine=gestionProtocoleServeur.serialisation(messages);
+				break;
+				
 			case "supprimer":
 				base.supprimerAcquerir(tabRequete[1]);
 				base.supprimerUtilisateur(tabRequete[1]);
