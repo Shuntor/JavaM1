@@ -63,6 +63,8 @@ public class Vue {
 	static ArrayList<Etudiant> listeEtu;
 	VerifSaisie controle=new VerifSaisie();
 	private ArrayList<String> jListeCompSelectModif;
+	GestionProtocoleChat gestionChat = new GestionProtocoleChat();
+	
 	
 	/**
 	 * Launch the application.
@@ -78,6 +80,8 @@ public class Vue {
 					gestion.connexion();
 					chargerCompetences();
 					chargerEtudiants();
+					VueTchat chatWindow =new VueTchat();
+					chatWindow.start();
 					System.out.println("SYSO");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -409,12 +413,12 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
-//						try {
-//							gestion.envoiCoordonnees();
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
+						try {
+							gestion.runService();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 					
 				}
@@ -959,7 +963,7 @@ public class Vue {
 				jDialogInfoEtudiant.getContentPane().add(jLabelTelInfo);
 			}
 		}
-		jLabelAnneeInfo = new JLabel("Ann�e diplomation: " + etudiant.getAnneeDip());
+		jLabelAnneeInfo = new JLabel("Annee diplomation: " + etudiant.getAnneeDip());
 		jLabelAnneeInfo.setBounds(60, 115, 200, 23);
 		//jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
 		if(connecte==true){

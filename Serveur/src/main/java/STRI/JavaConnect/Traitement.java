@@ -190,10 +190,13 @@ public class Traitement extends Thread {
 				fermeture=true;
 				chaine="OK";
 				break;
-//			case "coordonnees":
-//				String tabCoordonnees[] = requete.split("#/");
-//				ht.put(mailCo, tabCoordonnees[1]);
-//				break;
+			case "coordonnees":
+				String tabCoordonnees[] = requete.split("#");
+				System.out.println("tabCoordonnees="+tabCoordonnees[1]+ "/////"+tabCoordonnees[0]);
+				ht.put(mailCo, tabCoordonnees[1]);
+				System.out.println("tab pour "+mailCo+":"+ht.get(mailCo));
+				chaine="OK";
+				break;
 			default:
 
 				

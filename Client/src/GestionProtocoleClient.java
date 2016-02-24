@@ -1,8 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -24,10 +27,18 @@ public class GestionProtocoleClient {
 //			
 //			V.maMethode(part1, sommeIni);
 //		}
-		
+	
+	//Normal:
 	Socket leSocket;
 	PrintStream fluxSortieSocket;
 	BufferedReader fluxEntreeSocket;
+	
+	
+	//Chat:
+	static ServerSocket leServeur=null;
+	static Socket connexionCourante;
+	static InputStream entreeSocket;
+	static OutputStream sortieSocket;
 		
 		/****
 		 * serialisation
@@ -73,7 +84,7 @@ public class GestionProtocoleClient {
 		 * @throws IOException
 		 */
 		private String envoiTrame(String requete) throws IOException{
-			System.out.println(requete);
+			System.out.println("requete="+requete);
 			fluxSortieSocket.println(requete);
 			
 			String retour = fluxEntreeSocket.readLine();
@@ -306,18 +317,32 @@ public class GestionProtocoleClient {
 			
 		}
 		
-		public void envoiCoordonnees() throws IOException{
-			String retour, requete = null;
-			InetAddress adresseIp=leSocket.getLocalAddress();
-			int numPort=leSocket.getLocalPort();
-			requete= serialisation("coordonnees", adresseIp.toString(), String.valueOf(numPort));
-			
+		/**Envoi les coordonnées 
+		 * @param adresseIp
+		 * @param numPort
+		 * @throws IOException
+		 */
+		public void envoiCoordonnees(InetAddress adresseIp, int numPort) throws IOException{
+			String retour = null;
+			String requete="coordonnees#127.0.0.1";
 			retour=envoiTrame(requete);
 			
 			
 		}
 		
+		public void runService() throws IOException{
+			
+			String retour, requete = null;
+			leServeur = new ServerSocket();
+			requete="coordonnees#"+ leServeur.getLocalSocketAddress();
+			retour=envoiTrame(requete);
+			if (retour.startsWith("OK")){
+				Ecoute ecoute=new Ecoute(connexionCourante, entreeSocket, sortieSocket);
+				ecoute.start();
+			}
+		}
 	
+		
 	}
 	
 	

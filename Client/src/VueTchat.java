@@ -14,11 +14,12 @@ import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.JComboBox;
 
 public class VueTchat extends Thread {
 
 	private JDialog jDialogChat;
-
+	GestionProtocoleClient gestion = new GestionProtocoleClient();
 	/**
 	 * Launch the application.
 	 * @wbp.parser.entryPoint
@@ -49,9 +50,14 @@ public class VueTchat extends Thread {
 			panel.add(textArea_1);
 			
 			JButton btnEnvoyer = new JButton("Envoyer");
-			btnEnvoyer.setBounds(285, 200, 89, 36);
+			btnEnvoyer.setBounds(285, 214, 89, 36);
 			panel.add(btnEnvoyer);
+			
+			JComboBox comboBoxUserCo = new JComboBox();
+			comboBoxUserCo.setBounds(285, 190, 89, 20);
+			panel.add(comboBoxUserCo);
 			jDialogChat.setVisible(true);
+			
 		
 	}
 }

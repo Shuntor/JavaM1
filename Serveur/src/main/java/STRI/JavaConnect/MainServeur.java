@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.*;
+import java.util.Hashtable;
 
 
 
@@ -21,6 +22,7 @@ public class MainServeur {
 		Socket connexionCourante;
 		InputStream entreeSocket;
 		OutputStream sortieSocket;
+		Hashtable ht = new Hashtable();
 		
 		
 		
