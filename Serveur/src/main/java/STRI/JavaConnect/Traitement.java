@@ -201,6 +201,35 @@ public class Traitement extends Thread {
 				System.out.println("tab pour "+mailCo+":"+ht.get(mailCo));
 				chaine="OK";
 				break;
+			case "address":
+                String tabAddress[] = requete.split("#");
+                System.out.println("tabCoordonnees="+tabAddress[1]+ "/////"+tabAddress[0]);
+                chaine=(String) ht.get(tabAddress[1]);
+                System.out.println("syso "+ht.get(mailCo));
+                break;
+			case "refreshCo":
+				ArrayList<String> listeCo=new ArrayList<String>();
+                for (int i = 0; i < ht.size(); i++) {
+					Enumeration e=ht.keys();
+					while(e.hasMoreElements()){
+						String clef=(String)e.nextElement();
+						listeCo.add(clef);
+						listeCo.add((String) ht.get(clef));
+					}
+				}
+                for (int i = 0; i < listeCo.size(); i++) {
+					if (i==0){
+						chaine=listeCo.get(i)+"#";
+						
+					}
+					else{
+						chaine=requete+listeCo.get(i)+"#";
+						
+					}
+				}
+                
+                break;
+
 			default:
 
 				
