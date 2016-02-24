@@ -20,6 +20,7 @@ public class VueTchat extends Thread {
 
 	private JDialog jDialogChat;
 	GestionProtocoleClient gestion = new GestionProtocoleClient();
+	JComboBox comboBoxUserCo;
 	/**
 	 * Launch the application.
 	 * @wbp.parser.entryPoint
@@ -53,10 +54,11 @@ public class VueTchat extends Thread {
 			btnEnvoyer.setBounds(285, 214, 89, 36);
 			panel.add(btnEnvoyer);
 			
-			JComboBox comboBoxUserCo = new JComboBox();
+			comboBoxUserCo = new JComboBox();
 			comboBoxUserCo.setBounds(285, 190, 89, 20);
 			panel.add(comboBoxUserCo);
 			jDialogChat.setVisible(true);
+			
 			
 		
 	}

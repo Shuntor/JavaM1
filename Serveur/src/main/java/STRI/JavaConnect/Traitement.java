@@ -196,6 +196,15 @@ public class Traitement extends Thread {
 				System.out.println("tab pour "+mailCo+":"+ht.get(mailCo));
 				chaine="OK";
 				break;
+			case "address":
+                String tabAddress[] = requete.split("#");
+                System.out.println("tabCoordonnees="+tabAddress[1]+ "/////"+tabAddress[0]);
+                chaine=(String) ht.get(tabAddress[1]);
+                System.out.println("syso "+ht.get(mailCo));
+               
+               
+                break;
+
 			default:
 
 				

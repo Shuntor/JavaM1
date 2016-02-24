@@ -12,6 +12,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.omg.CORBA.portable.ValueOutputStream;
+
 /**
  * @author Iungmann Vaurigaud Hernandez
  *
@@ -347,7 +349,7 @@ public class GestionProtocoleClient {
     
     
 }
-			requete="coordonnees#"+ chatSocket.getLocalSocketAddress().toString();
+			requete="coordonnees#"+ Integer.valueOf(port);
 			retour=envoiTrame(requete);
 			if (retour.startsWith("OK")){
 				Ecoute ecoute=new Ecoute(port, taille, buffer, chatSocket);
