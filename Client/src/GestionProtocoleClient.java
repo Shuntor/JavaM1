@@ -320,18 +320,7 @@ public class GestionProtocoleClient {
 			
 		}
 		
-		/**Envoi les coordonnées 
-		 * @param adresseIp
-		 * @param numPort
-		 * @throws IOException
-		 */
-		public void envoiCoordonnees(InetAddress adresseIp, int numPort) throws IOException{
-			String retour = null;
-			String requete="coordonnees#127.0.0.1";
-			retour=envoiTrame(requete);
-			
-			
-		}
+		
 		
 		public void runService() throws IOException{
 			
@@ -349,7 +338,7 @@ public class GestionProtocoleClient {
     
     
 }
-			requete="coordonnees#"+ Integer.valueOf(port);
+			requete="coordonnees#"+ port;
 			retour=envoiTrame(requete);
 			if (retour.startsWith("OK")){
 				Ecoute ecoute=new Ecoute(port, taille, buffer, chatSocket);
@@ -365,6 +354,8 @@ public class GestionProtocoleClient {
 			return retour;
 			
 		}
+		
+		
 	}
 	
 	

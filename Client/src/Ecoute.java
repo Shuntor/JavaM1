@@ -35,8 +35,9 @@ public class Ecoute extends Thread {
                                                // TODO Auto-generated catch block
                                                e.printStackTrace();
                                    }
-                                   ;
-                                  
+                                   String message=new String (data.getData());
+                                   String tabMessage[]= message.split("#");
+                                   VueTchat.getTextArea().setText("("+tabMessage[0]+")"+tabMessage[1]);
                                    
                                    
                                   

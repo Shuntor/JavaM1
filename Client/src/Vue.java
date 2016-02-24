@@ -55,7 +55,8 @@ public class Vue {
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JOptionPane jOption;
 	static JList listeCompetencesModif, listeCompetencesSelectionneesModif, listeCompetences, listeCompetencesSelectionnees;
-	private String mailCo, listeComps[];
+	private static String mailCo;
+	private String listeComps[];
 	private static DefaultListModel<String> DLM2;
 	private ArrayList<String> listeComps2=null;
 	private static ArrayList<String> listeCompsL=null;
@@ -338,7 +339,7 @@ public class Vue {
 		mntmSupprimerCompte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					gestion.supprimerCompte(mailCo);
+					gestion.supprimerCompte(getMailCo());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -406,7 +407,7 @@ public class Vue {
 				}
 				if (confirm==true){
 					connecte=true;
-					mailCo=eMail;
+					setMailCo(eMail);
 					jOption.showMessageDialog(null, "INFO: Vous etes bien connecte", "Information", JOptionPane.INFORMATION_MESSAGE);
 					if(connecte==true){
 						mntmSeDconnecter.setEnabled(true);
@@ -1090,6 +1091,14 @@ public class Vue {
 				//listeEtu.add(etudiant);
 			}
 		}
+	}
+
+	public static String getMailCo() {
+		return mailCo;
+	}
+
+	public void setMailCo(String mailCo) {
+		this.mailCo = mailCo;
 	}
 	
 //	public static void chargerCompetences2(){

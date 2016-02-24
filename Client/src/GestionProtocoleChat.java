@@ -7,13 +7,32 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 
 
 public final class GestionProtocoleChat {
 
 	GestionProtocoleClient gestion=new GestionProtocoleClient();
+	final static int taille = 1024; 
+	final static byte buffer[] = new byte[taille];
 	
+	public static void envoyerMessage(int port,String message, String mailCo) throws IOException{
+		  message=mailCo+"#"+message;
+		  int length=message.length();
+		  byte buffer[]=message.getBytes();
+		  InetAddress adresseIp = InetAddress.getByName("localhost"); 
+		  DatagramPacket dataSent = new DatagramPacket(buffer,length,port); 
+	      DatagramSocket socket = new DatagramSocket(); 
+	  
+	      socket.send(dataSent); 
+////////////////////////////////////////
+	      DatagramPacket dataRecieved = new DatagramPacket(new byte[length],length); 
+	      socket.receive(dataRecieved); 
+	      System.out.println("Data recieved : " + new String(dataRecieved.getData())); 
+	      System.out.println("From : " + dataRecieved.getAddress() + ":" + dataRecieved.getPort());
+		  
+	}
 	
 	
 	
