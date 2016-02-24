@@ -24,8 +24,7 @@ public class Traitement extends Thread {
 	private InputStream entreeSocket;
 	private OutputStream sortieSocket;
 	private String mailCo = null;
-	
-	Hashtable ht = new Hashtable();
+	private Hashtable ht;	
 	
 //	private BDD BDD;
 
@@ -37,14 +36,14 @@ public class Traitement extends Thread {
 	 * @param sortieSocket
 	 */
 	public Traitement(Socket connexionCourante, InputStream entreeSocket,
-			OutputStream sortieSocket) {
+			OutputStream sortieSocket, Hashtable ht) {
 
 //		this.gestion = gestion;
 		
 		this.connexionCourante = connexionCourante;
 		this.entreeSocket = entreeSocket;
 		this.sortieSocket = sortieSocket;
-		
+		this.ht=ht;
 		
 		
 	}

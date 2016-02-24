@@ -1,55 +1,54 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
-
+ 
 public class Ecoute extends Thread {
-	
-	private boolean fermeture=false;
-	private Socket connexionCourante;
-	private InputStream entreeSocket;
-	private OutputStream sortieSocket;
-	
-	public Ecoute(Socket connexionCourante, InputStream entreeSocket,
-			OutputStream sortieSocket) {
-
-
-		
-		this.connexionCourante = connexionCourante;
-		this.entreeSocket = entreeSocket;
-		this.sortieSocket = sortieSocket;
-		
-		
-		
-	}
-	
-	public void run(){
-		System.out.println("Client en écoute!!");
-		while (true) {
-		
-			try {
-				connexionCourante = GestionProtocoleClient.leServeur.accept();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}					
-			System.err.println("Nouvelle connexion : "+ connexionCourante);
-		
-			try {
-				entreeSocket = connexionCourante.getInputStream();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				sortieSocket = connexionCourante.getOutputStream();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			
-		}
-	}
+           
+            private boolean fermeture=false;
+            static int port = 8532;
+            static int taille = 1024;
+            static byte buffer[] = new byte[taille];
+            static DatagramSocket socket=null;
+           
+            public Ecoute( int port, int taille, byte buffer[], DatagramSocket chatSocket) {
+ 
+ 
+                       
+                        this.port = port;
+                        this.taille = taille;
+                        this.buffer = buffer;
+                        this.socket=chatSocket;
+                       
+                       
+            }
+           
+            public void run(){
+                        System.out.println("Client en écoute!!");
+                        while (true) {
+                                   DatagramPacket data = new DatagramPacket(buffer, buffer.length);
+                                   try {
+                                               socket.receive(data);
+                                   } catch (IOException e) {
+                                               // TODO Auto-generated catch block
+                                               e.printStackTrace();
+                                   }
+                                   System.out.println("Message: "+data.getData());
+                                   System.out.println("adresse:"+data.getAddress());
+                                  
+                                   try {
+                                               socket.send(data);
+                                   } catch (IOException e) {
+                                               // TODO Auto-generated catch block
+                                               e.printStackTrace();
+                                   }
+                                  
+                                  
+                                  
+                                  
+                                  
+                        }
+            }
 }

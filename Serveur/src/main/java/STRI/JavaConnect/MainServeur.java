@@ -17,6 +17,8 @@ public class MainServeur {
 	/* Port par defaut */
 	public final static int portEcho = 50000;
 	
+	
+	
 	public static void main(String[] args) {
 		ServerSocket leServeur=null;
 		Socket connexionCourante;
@@ -52,7 +54,7 @@ public class MainServeur {
 					entreeSocket = connexionCourante.getInputStream();
 					sortieSocket = connexionCourante.getOutputStream();
 					//Switch case
-					Traitement traitement1 = new Traitement(connexionCourante,entreeSocket,sortieSocket);					
+					Traitement traitement1 = new Traitement(connexionCourante,entreeSocket,sortieSocket, ht);					
 					traitement1.start();					
 				}
 			} catch (Exception ex) {
