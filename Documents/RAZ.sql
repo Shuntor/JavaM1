@@ -37,14 +37,19 @@ create table Messages(
 );
 
 
+<<<<<<< HEAD
+=======
 INSERT INTO Utilisateurs values
 	('Vaurigaud', 'Jordan', 'jojo@gmail.com', "2016", "0689784556", "root","1","1","1"	),
 	('Hernandez', 'Quentin', 'kent@yahoo.fr', "2018", "0689784556", "root","1","1","1"	),
 	('Iungmann', 'Victor', 'vic@gmail.com', "2017", "0689784556", "root","1","1","1"	);
+>>>>>>> 36e0c94a147ddd0e289596dcb7c132295929bfe2
 
 
 
 
+<<<<<<< HEAD
+=======
 INSERT INTO Competences(description) values
 	('Informatique'),
 	('Repassage'),
@@ -63,5 +68,6 @@ INSERT INTO Acquerir values
 	('vic@gmail.com','BDD'),
 	('vic@gmail.com','Maths'),
 	('vic@gmail.com','Informatique');
+>>>>>>> 36e0c94a147ddd0e289596dcb7c132295929bfe2
 
 

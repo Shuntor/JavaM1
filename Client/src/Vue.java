@@ -63,6 +63,8 @@ public class Vue {
 	static ArrayList<Etudiant> listeEtu;
 	VerifSaisie controle=new VerifSaisie();
 	private ArrayList<String> jListeCompSelectModif;
+	GestionProtocoleChat gestionChat = new GestionProtocoleChat();
+	
 	
 	/**
 	 * Launch the application.
@@ -78,6 +80,8 @@ public class Vue {
 					gestion.connexion();
 					chargerCompetences();
 					chargerEtudiants();
+					VueTchat chatWindow =new VueTchat();
+					chatWindow.start();
 					System.out.println("SYSO");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -410,7 +414,7 @@ public class Vue {
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
 						try {
-							gestion.envoiCoordonnees();
+							gestion.runService();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -918,7 +922,7 @@ public class Vue {
 		jDialogInfoEtudiant = new JDialog();
 		jDialogInfoEtudiant.setMinimumSize(new java.awt.Dimension(500, 400));
 		jDialogInfoEtudiant.setLocationRelativeTo(null);
-		jDialogInfoEtudiant.setModal(true);
+		jDialogInfoEtudiant.setModal(false);
 		jDialogInfoEtudiant.getContentPane().setLayout(null);
 		jDialogInfoEtudiant.setTitle("Information sur " + etudiant.getNom());
 		
@@ -929,6 +933,17 @@ public class Vue {
 		jLabelPrenomInfo = new JLabel("Prenom: " + etudiant.getPrenom());
 		jLabelPrenomInfo.setBounds(350, 10, 200, 23);
 		jDialogInfoEtudiant.getContentPane().add(jLabelPrenomInfo);
+		
+		JButton btnChat = new JButton("Chatter!");
+		btnChat.setBounds(350, 45, 110, 30);
+		jDialogInfoEtudiant.getContentPane().add(btnChat);
+		btnChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VueTchat chatWindow =new VueTchat();
+				chatWindow.start();
+				
+			}
+		});
         
 		jLabelEmailInfo = new JLabel("Adrese E-mail: " + etudiant.getMail());
 		jLabelEmailInfo.setBounds(60, 45, 200, 23);
@@ -948,7 +963,7 @@ public class Vue {
 				jDialogInfoEtudiant.getContentPane().add(jLabelTelInfo);
 			}
 		}
-		jLabelAnneeInfo = new JLabel("Ann�e diplomation: " + etudiant.getAnneeDip());
+		jLabelAnneeInfo = new JLabel("Annee diplomation: " + etudiant.getAnneeDip());
 		jLabelAnneeInfo.setBounds(60, 115, 200, 23);
 		//jDialogInfoEtudiant.getContentPane().add(jLabelAnneeInfo);
 		if(connecte==true){
@@ -1003,6 +1018,7 @@ public class Vue {
 		}
       
 	}
+	
 	
 	
 	/**Modifie le paramètre connecte pour savoir si l'utilisateur est connecté

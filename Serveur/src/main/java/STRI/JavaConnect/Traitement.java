@@ -9,6 +9,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Enumeration;
 
 
 /**
@@ -21,7 +23,8 @@ public class Traitement extends Thread {
 	private Socket connexionCourante;
 	private InputStream entreeSocket;
 	private OutputStream sortieSocket;
-	
+	private String mailCo = null;
+	private Hashtable ht;	
 	
 //	private BDD BDD;
 
@@ -33,14 +36,14 @@ public class Traitement extends Thread {
 	 * @param sortieSocket
 	 */
 	public Traitement(Socket connexionCourante, InputStream entreeSocket,
-			OutputStream sortieSocket) {
+			OutputStream sortieSocket, Hashtable ht) {
 
 //		this.gestion = gestion;
 		
 		this.connexionCourante = connexionCourante;
 		this.entreeSocket = entreeSocket;
 		this.sortieSocket = sortieSocket;
-		
+		this.ht=ht;
 		
 		
 	}
@@ -94,7 +97,10 @@ public class Traitement extends Thread {
 				Etudiant etu=null;
 				System.out.println("J'ai recu une "+ motClef);
 				chaine=base.ConnexionClient(tabRequete[1], tabRequete[2]);
-				
+				if (chaine.startsWith("OK")){
+					mailCo=tabRequete[1];
+					
+				}
 				connecte=true;
 				break;
 			
@@ -181,6 +187,13 @@ public class Traitement extends Thread {
 				break;
 			case "arret":
 				fermeture=true;
+				chaine="OK";
+				break;
+			case "coordonnees":
+				String tabCoordonnees[] = requete.split("#");
+				System.out.println("tabCoordonnees="+tabCoordonnees[1]+ "/////"+tabCoordonnees[0]);
+				ht.put(mailCo, tabCoordonnees[1]);
+				System.out.println("tab pour "+mailCo+":"+ht.get(mailCo));
 				chaine="OK";
 				break;
 			default:
