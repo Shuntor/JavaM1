@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -39,7 +40,6 @@ public class GestionProtocoleClient {
 	
 	//Chat:
 	private static DatagramSocket chatSocket;
-	final static int port = 8532;
     final static int taille = 1024;
     final static byte buffer[] = new byte[taille];
 		
@@ -86,11 +86,12 @@ public class GestionProtocoleClient {
 		 * @return retour
 		 * @throws IOException
 		 */
-		private String envoiTrame(String requete) throws IOException{
+		private synchronized String envoiTrame(String requete) throws IOException{
 			System.out.println("requete="+requete);
 			fluxSortieSocket.println(requete);
 			
 			String retour = fluxEntreeSocket.readLine();
+			System.out.println("retour serveur = "+retour);
 			return retour;
 		}
 		
@@ -320,40 +321,52 @@ public class GestionProtocoleClient {
 			
 		}
 		
-		
+		public String recupCo() throws IOException {
+			  String requete="CO";
+			  String retour=null;
+			  InetAddress serveur = InetAddress.getByName("localhost"); 
+		      int length = requete.length(); 
+		      byte buffer[] = requete.getBytes(); 
+		      DatagramPacket dataSent = new DatagramPacket(buffer,length,serveur,9000); 
+		      DatagramSocket socket = new DatagramSocket(); 
+		  
+		      socket.send(dataSent);
+		      DatagramPacket dataRecieved = new DatagramPacket(new byte[1024],1024); 
+		      socket.receive(dataRecieved); 
+		      retour =  new String(dataRecieved.getData()); 
+		      System.out.println("retour = "+retour);
+		      return retour; 
+		}
 		
 		public void runService() throws IOException{
+			int l;
+			String retour =null;
+			String requete = null;
 			
-			String retour, requete = null;
-			
-			 for (int port=10000;port<=65535;port++){
+			 for ( l=10000;l<=65535;l++){
                  
                  try {
-                             chatSocket = new DatagramSocket(port);
+                             chatSocket = new DatagramSocket(l);
                              break;
                  } catch (Exception e) {
                              // TODO Auto-generated catch block
-                             System.err.println("le port "+port+" est deja utilise!");
+                             System.err.println("le port "+l+" est deja utilise!");
                  }
     
     
 }
-			requete="coordonnees#"+ port;
-			retour=envoiTrame(requete);
+			requete="coordonnees#"+l;
+
+				retour=envoiTrame(requete);
+			
 			if (retour.startsWith("OK")){
-				Ecoute ecoute=new Ecoute(port, taille, buffer, chatSocket);
+				Ecoute ecoute=new Ecoute(l, taille, buffer, chatSocket);
                 ecoute.start();
 			}
 			
 		}
 	
-		public String recupCo() throws IOException{
-			String retour, requete = null;
-			requete="refreshCo";
-			retour=envoiTrame(requete);
-			return retour;
-			
-		}
+		
 		
 		
 	}

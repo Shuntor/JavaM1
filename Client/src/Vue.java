@@ -82,7 +82,7 @@ public class Vue {
 					chargerCompetences();
 					chargerEtudiants();
 					VueTchat chatWindow =new VueTchat();
-					chatWindow.start();
+					chatWindow.run();
 					System.out.println("SYSO");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -941,7 +941,7 @@ public class Vue {
 		btnChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				VueTchat chatWindow =new VueTchat();
-				chatWindow.start();
+				chatWindow.run();
 				
 			}
 		});

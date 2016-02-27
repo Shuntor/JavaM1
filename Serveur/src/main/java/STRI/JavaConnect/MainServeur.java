@@ -16,18 +16,26 @@ public class MainServeur {
 	
 	/* Port par defaut */
 	public final static int portEcho = 50000;
+	public static Hashtable ht = new Hashtable();
 	
+	//socketEcoute:
+	public static int port = 9000;
+	public static int taille = 1024;
+	public static byte buffer[] = new byte[taille];
+	public static DatagramSocket sSocket=null;
 	
-	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SocketException {
 		ServerSocket leServeur=null;
 		Socket connexionCourante;
 		InputStream entreeSocket;
 		OutputStream sortieSocket;
-		Hashtable ht = new Hashtable();
 		
 		
 		
+        sSocket = new DatagramSocket(port);
+		
+		EcouteServeur socketEcoute=new EcouteServeur (port, taille, buffer, sSocket);
+		socketEcoute.start();
 		
 		try {
 			leServeur = new ServerSocket(portEcho);

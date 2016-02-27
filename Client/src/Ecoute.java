@@ -26,21 +26,27 @@ public class Ecoute extends Thread {
             }
            
             public void run(){
-                        System.out.println("Client en écoute!!");
+                        System.out.println("Client en écoute!! sur le port: "+socket.getLocalPort());
                         while (true) {
-                                   DatagramPacket data = new DatagramPacket(buffer, buffer.length);
+                        	DatagramPacket data = new DatagramPacket(new byte[1024],1024); 
                                    try {
                                                socket.receive(data);
                                    } catch (IOException e) {
                                                // TODO Auto-generated catch block
                                                e.printStackTrace();
                                    }
+                                   
                                    String message=new String (data.getData());
+                                   System.out.println("messsage reçu du client: "+message);
                                    String tabMessage[]= message.split("#");
-                                   VueTchat.getTextArea().setText("("+tabMessage[0]+")"+tabMessage[1]);
+                                   System.out.println("tabMessage[0] = "+tabMessage[0]);
+                                   System.out.println("tabMessage[1] = "+tabMessage[1]);
+                                   String area=VueTchat.textArea.getText();
+                                   VueTchat.textArea.removeAll();
+                                   VueTchat.textArea.setText(area+System.getProperty("line.separator")+"("+tabMessage[0]+")"+tabMessage[1]);
                                    
                                    
-                                  
+                                   
                                   
                                   
                                   

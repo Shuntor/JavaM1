@@ -19,18 +19,17 @@ public final class GestionProtocoleChat {
 	
 	public static void envoyerMessage(int port,String message, String mailCo) throws IOException{
 		  message=mailCo+"#"+message;
+		  System.out.println("message = "+ message);
 		  int length=message.length();
 		  byte buffer[]=message.getBytes();
 		  InetAddress adresseIp = InetAddress.getByName("localhost"); 
-		  DatagramPacket dataSent = new DatagramPacket(buffer,length,port); 
+		  DatagramPacket dataSent = new DatagramPacket(buffer,length,adresseIp,port); 
 	      DatagramSocket socket = new DatagramSocket(); 
-	  
+	      System.out.println("port: "+port);
+	      System.out.println("adresseIp: "+adresseIp);
+	      System.out.println("length: "+length);
 	      socket.send(dataSent); 
-////////////////////////////////////////
-	      DatagramPacket dataRecieved = new DatagramPacket(new byte[length],length); 
-	      socket.receive(dataRecieved); 
-	      System.out.println("Data recieved : " + new String(dataRecieved.getData())); 
-	      System.out.println("From : " + dataRecieved.getAddress() + ":" + dataRecieved.getPort());
+
 		  
 	}
 	
