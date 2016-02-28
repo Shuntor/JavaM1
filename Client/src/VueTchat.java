@@ -49,7 +49,7 @@ public class VueTchat /*extends Thread*/ {
 			jDialogChat.setMinimumSize(new java.awt.Dimension(400, 300));
 			jDialogChat.setLocationRelativeTo(null);
 			jDialogChat.setModal(false);
-			jDialogChat.setTitle("Chat avec : ");
+			jDialogChat.setTitle("Chat!");
 			jDialogChat.getContentPane().setLayout(null);
 			
 			

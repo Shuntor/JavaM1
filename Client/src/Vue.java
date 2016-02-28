@@ -6,12 +6,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -65,7 +69,11 @@ public class Vue {
 	VerifSaisie controle=new VerifSaisie();
 	private ArrayList<String> jListeCompSelectModif;
 	GestionProtocoleChat gestionChat = new GestionProtocoleChat();
-	
+	private JDialog jDialogLaisserMessage, jDialogConsulterMail;
+	private String utilisateurSelectionne;
+	private JButton btnConsultMail;
+	private JTextArea textAreaMails;
+	private String mailsrecus[];
 	
 	/**
 	 * Launch the application.
@@ -135,6 +143,33 @@ public class Vue {
 		panel.setBounds(0, 0, 484, 516);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		
+		btnConsultMail = new JButton("Mail");
+		btnConsultMail.setBounds(326, 109, 117, 23);
+		panel.add(btnConsultMail);
+		btnConsultMail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					mailsrecus=gestion.recupererMail(mailCo);
+					if (mailsrecus==null){
+						textAreaMails.setText("Vous n'avez pas recu de mails");
+					}
+					else{
+						for (int m = 0; m < mailsrecus.length; m++) {
+							if (m%2==0){
+								String temp = textAreaMails.getText();
+								textAreaMails.setText(temp+System.getProperty("line.separator")+mailsrecus[m]+mailsrecus[m+1]);
+							}
+						}
+					}
+					jDialogConsulterMail.setVisible(true);
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		btnRafraichir = new JButton("Rafraichir");
 		btnRafraichir.setBounds(326, 12, 117, 23);
@@ -244,6 +279,7 @@ public class Vue {
 		        int row = table_1.rowAtPoint(evt.getPoint());
 		        //int col = table_1.columnAtPoint(evt.getPoint());
 		        adresseMail=(String) table_1.getValueAt(row, 2);
+		        utilisateurSelectionne=adresseMail;
 		        infoEtudiant(adresseMail);
 		        jDialogInfoEtudiant.setVisible(true);
 		        
@@ -897,6 +933,68 @@ public class Vue {
 			}
 		});
 		
+		/********************************************************************
+		 * PopUp de Laisser un message
+		 * 
+		 ********************************************************************/
+		
+		jDialogLaisserMessage = new JDialog();
+		jDialogLaisserMessage.setMinimumSize(new java.awt.Dimension(500, 600));
+		jDialogLaisserMessage.setLocationRelativeTo(null);
+		jDialogLaisserMessage.setModal(true);
+		jDialogLaisserMessage.getContentPane().setLayout(null);
+		jDialogLaisserMessage.setTitle("Laisser un message");
+		
+		JPanel panel2 = new JPanel();
+		panel2.setLocation(new Point(300, 0));
+		panel2.setBackground(new Color(128, 128, 128));
+		panel2.setBounds(0, 0, 465, 261);
+		jDialogLaisserMessage.getContentPane().add(panel2);
+		panel2.setLayout(null);
+		
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setBorder(new LineBorder(new Color(30, 144, 255)));
+		textArea_1.setBounds(10, 11, 364, 143);
+		panel2.add(textArea_1);
+		
+		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					gestion.envoiMail(textArea_1.getText(), utilisateurSelectionne);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnEnvoyer.setBounds(285, 214, 89, 36);
+		panel2.add(btnEnvoyer);
+		
+		
+		/********************************************************************
+		 * PopUp de Consulter Mail
+		 * 
+		 ********************************************************************/
+		jDialogConsulterMail = new JDialog();
+		jDialogConsulterMail.setMinimumSize(new java.awt.Dimension(500, 600));
+		jDialogConsulterMail.setLocationRelativeTo(null);
+		jDialogConsulterMail.setModal(true);
+		jDialogConsulterMail.getContentPane().setLayout(null);
+		jDialogConsulterMail.setTitle("Mes Mails");
+		
+		JPanel panel3 = new JPanel();
+		panel3.setLocation(new Point(300, 0));
+		panel3.setBackground(new Color(128, 128, 128));
+		panel3.setBounds(0, 0, 465, 261);
+		jDialogConsulterMail.getContentPane().add(panel3);
+		panel3.setLayout(null);
+		
+		textAreaMails = new JTextArea();
+		textAreaMails.setBorder(new LineBorder(new Color(30, 144, 255)));
+		textAreaMails.setBounds(10, 11, 364, 143);
+		textAreaMails.setEditable(false);
+		panel3.add(textAreaMails);
 	}
 	
 	
@@ -935,13 +1033,12 @@ public class Vue {
 		jLabelPrenomInfo.setBounds(350, 10, 200, 23);
 		jDialogInfoEtudiant.getContentPane().add(jLabelPrenomInfo);
 		
-		JButton btnChat = new JButton("Chatter!");
+		JButton btnChat = new JButton("Laisser un message");
 		btnChat.setBounds(350, 45, 110, 30);
 		jDialogInfoEtudiant.getContentPane().add(btnChat);
 		btnChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				VueTchat chatWindow =new VueTchat();
-				chatWindow.run();
+				jDialogLaisserMessage.setVisible(true);
 				
 			}
 		});

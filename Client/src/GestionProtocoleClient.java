@@ -365,8 +365,21 @@ public class GestionProtocoleClient {
 			}
 			
 		}
-	
 		
+		public void envoiMail(String message, String dest) throws IOException{
+			String retour, requete = null;
+			requete=serialisation ("mail", message, dest);
+			retour=envoiTrame(requete);
+			
+		}
+		
+		public String[] recupererMail(String mailCo) throws IOException{
+			String retour, requete = null;
+			requete=serialisation ("messages", mailCo);
+			retour=envoiTrame(requete);
+			String tabRetour[]=retour.split("#");
+			return tabRetour;
+		}
 		
 		
 	}

@@ -134,6 +134,15 @@ public class Traitement extends Thread {
 				}
 				
 				break;
+			
+			case "mail":
+				
+				base.ajouterMessage(tabRequete[1], tabRequete[2], mailCo);
+				chaine ="OK";	
+				
+				break;	
+				
+			
 				
 			case "infoEtudiant":
 				
@@ -199,7 +208,9 @@ public class Traitement extends Thread {
 				break;
 			case "arret":
 				fermeture=true;
-				ht.remove(mailCo);
+				if (mailCo!=null){
+					ht.remove(mailCo);
+				}
 				mailCo=null;
 				chaine="OK";
 				break;
