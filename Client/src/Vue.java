@@ -151,14 +151,14 @@ public class Vue {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					mailsrecus=gestion.recupererMail(mailCo);
-					if (mailsrecus==null){
+					if (mailsrecus[0]==""){
 						textAreaMails.setText("Vous n'avez pas recu de mails");
 					}
 					else{
 						for (int m = 0; m < mailsrecus.length; m++) {
 							if (m%2==0){
 								String temp = textAreaMails.getText();
-								textAreaMails.setText(temp+System.getProperty("line.separator")+mailsrecus[m]+mailsrecus[m+1]);
+								textAreaMails.setText(temp+System.getProperty("line.separator")+"("+mailsrecus[m]+") "+mailsrecus[m+1]);
 							}
 						}
 					}
@@ -986,7 +986,7 @@ public class Vue {
 		JPanel panel3 = new JPanel();
 		panel3.setLocation(new Point(300, 0));
 		panel3.setBackground(new Color(128, 128, 128));
-		panel3.setBounds(0, 0, 465, 261);
+		panel3.setBounds(0, 0, 500, 600);
 		jDialogConsulterMail.getContentPane().add(panel3);
 		panel3.setLayout(null);
 		
@@ -995,6 +995,23 @@ public class Vue {
 		textAreaMails.setBounds(10, 11, 364, 143);
 		textAreaMails.setEditable(false);
 		panel3.add(textAreaMails);
+		
+		JButton btnSupprMail = new JButton("Tout supprimer");
+		btnSupprMail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					gestion.supprTousMail(mailCo);
+					textAreaMails.setText("");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnSupprMail.setBounds(285, 214, 89, 36);
+		panel3.add(btnSupprMail);
+		
+		
 	}
 	
 	

@@ -378,7 +378,15 @@ public class GestionProtocoleClient {
 			requete=serialisation ("messages", mailCo);
 			retour=envoiTrame(requete);
 			String tabRetour[]=retour.split("#");
+			
 			return tabRetour;
+		}
+
+		public void supprTousMail(String email) throws IOException {
+			// TODO Auto-generated method stub
+			String retour, requete = null;
+			requete=serialisation ("supprMails", email);
+			retour=envoiTrame(requete);
 		}
 		
 		

@@ -119,6 +119,10 @@ public class Traitement extends Thread {
 				chaine="ok";
 				break;
 			
+			case "supprMails":
+				base.SupprimerTousMessages(tabRequete[1]);
+				chaine="OK";
+				break;
 			
 			case "modifier":
 				base.modifier(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], tabRequete[5], tabRequete[6], tabRequete[7], tabRequete[8], tabRequete[9]);

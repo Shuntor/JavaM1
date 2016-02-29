@@ -385,6 +385,12 @@ public class BDD {
 		String sql ="INSERT INTO Messages values('"+destinataire+"','"+source+"','"+message+"');";
 		requeteInsertion(sql);
 	}
+	
+	public synchronized static void SupprimerTousMessages(String destinataire){
+		String sql ="DELETE FROM Messages where dest='"+destinataire+"';";
+		requeteInsertion(sql);
+	}
+	
 	public synchronized static void SupprimerMessage(String message, String destinataire, String source){
 		String sql ="DELETE FROM Messages where dest='"+destinataire+"' AND source='"+source+"' AND Message='"+message+"';";
 		requeteInsertion(sql);
