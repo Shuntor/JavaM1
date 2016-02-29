@@ -54,10 +54,10 @@ public class Vue {
 	public static TableModel modTable;
 	private JTable table_1;
 	private JLabel jLabelCompetencesSelectModif, jLabelCompetencesModif, jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
-	private boolean connecte=false;
+	public boolean connecte=false;
 	private boolean verifMail, verifTel, verifAnnee=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
-	JOptionPane jOption;
+	static JOptionPane jOption;
 	static JList listeCompetencesModif, listeCompetencesSelectionneesModif, listeCompetences, listeCompetencesSelectionnees;
 	private static String mailCo;
 	private String listeComps[];
@@ -149,24 +149,36 @@ public class Vue {
 		panel.add(btnConsultMail);
 		btnConsultMail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					mailsrecus=gestion.recupererMail(mailCo);
-					if (mailsrecus[0]==""){
-						textAreaMails.setText("Vous n'avez pas recu de mails");
-					}
-					else{
-						for (int m = 0; m < mailsrecus.length; m++) {
-							if (m%2==0){
-								String temp = textAreaMails.getText();
-								textAreaMails.setText(temp+System.getProperty("line.separator")+"("+mailsrecus[m]+") "+mailsrecus[m+1]);
+				if(connecte==false){
+					jOption.showMessageDialog(null, "ERREUR: Il faut être connecte...", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					try {
+						mailsrecus=gestion.recupererMail(mailCo);
+						
+						
+							for (int m = 0; m < mailsrecus.length; m++) {
+								if (m%2==0){
+									if(m==0){
+										textAreaMails.setText("("+mailsrecus[m]+") "+mailsrecus[m+1]);
+									}
+									else{
+									String temp = textAreaMails.getText();
+									textAreaMails.setText(temp+System.getProperty("line.separator")+"("+mailsrecus[m]+") "+mailsrecus[m+1]);
+									}
+								}
+						
 							}
-						}
+							jDialogConsulterMail.setVisible(true);
+						
+					} catch (ArrayIndexOutOfBoundsException e1) {
+						// TODO Auto-generated catch block
+						textAreaMails.setText("Vous n'avez pas recu de mails");
+						jDialogConsulterMail.setVisible(true);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					jDialogConsulterMail.setVisible(true);
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 		});
@@ -351,6 +363,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(true);
 						mntmSinscrire.setEnabled(true);
 						mntmSupprimerCompte.setEnabled(false);
+						
 					}
 					
 				} 
@@ -361,6 +374,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
+						
 					}
 				}
 			}
@@ -962,6 +976,7 @@ public class Vue {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					gestion.envoiMail(textArea_1.getText(), utilisateurSelectionne);
+					jDialogLaisserMessage.dispose();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

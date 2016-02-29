@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
@@ -26,7 +27,7 @@ import java.awt.Point;
 
 public class VueTchat /*extends Thread*/ {
 
-	private JDialog jDialogChat;
+	static JDialog jDialogChat;
 	GestionProtocoleClient gestion = new GestionProtocoleClient();
 	JComboBox comboBoxUserCo;
 	public static JTextArea textArea;
@@ -50,6 +51,7 @@ public class VueTchat /*extends Thread*/ {
 			jDialogChat.setLocationRelativeTo(null);
 			jDialogChat.setModal(false);
 			jDialogChat.setTitle("Chat!");
+			jDialogChat.setVisible(false);
 			jDialogChat.getContentPane().setLayout(null);
 			
 			
@@ -74,24 +76,29 @@ public class VueTchat /*extends Thread*/ {
 			JButton btnEnvoyer = new JButton("Envoyer");
 			btnEnvoyer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				String message=textArea_1.getText();
-				String dest=(String) comboBoxUserCo.getSelectedItem();
-				System.out.println("dest = "+dest);
-				System.out.println("listeUserCo.get(0).getMail()= "+listeUserCo.get(0).getMail());
+					
+					
+			
 				
-				int p=rechercherPort(dest, listeUserCo);
-				System.out.println("p= "+p);
-				try {
-					GestionProtocoleChat.envoyerMessage(p, message, Vue.getMailCo());
-					System.out.println("Message bien envoyé!");
-					String areaTemp=textArea.getText();
-					textArea.setText(areaTemp+System.getProperty("line.separator")+"("+Vue.getMailCo()+")"+message);
-					textArea_1.setText("");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					System.err.println("error Socket UDP");
-					textArea.setText("Impossible de contacter cette personne, rafraichissez!");
-				}
+					String message=textArea_1.getText();
+					String dest=(String) comboBoxUserCo.getSelectedItem();
+					System.out.println("dest = "+dest);
+					System.out.println("listeUserCo.get(0).getMail()= "+listeUserCo.get(0).getMail());
+					
+					int p=rechercherPort(dest, listeUserCo);
+					System.out.println("p= "+p);
+					try {
+						GestionProtocoleChat.envoyerMessage(p, message, Vue.getMailCo());
+						System.out.println("Message bien envoyé!");
+						String areaTemp=textArea.getText();
+						textArea.setText(areaTemp+System.getProperty("line.separator")+"("+Vue.getMailCo()+")"+message);
+						textArea_1.setText("");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.err.println("error Socket UDP");
+						textArea.setText("Impossible de contacter cette personne, rafraichissez!");
+					}
+					
 				}
 			});
 			btnEnvoyer.setBounds(285, 214, 89, 36);
@@ -104,12 +111,14 @@ public class VueTchat /*extends Thread*/ {
 			JButton btnRefresh = new JButton("Refresh");
 			btnRefresh.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					try {
 						rafraichireComboBox();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
 				}
 			});
 			btnRefresh.setBounds(285, 165, 89, 23);
