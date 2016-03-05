@@ -384,10 +384,6 @@ public class BDD {
 		String sql ="INSERT INTO Messages values('"+destinataire+"','"+source+"','"+message+"');";
 		requeteInsertion(sql);
 	}
-<<<<<<< HEAD
-	public synchronized static void SupprimerMessages(String destinataire){
-		String sql ="DELETE FROM Messages where dest='"+destinataire+"';";
-=======
 	
 	public synchronized static void SupprimerTousMessages(String destinataire){
 		String sql ="DELETE FROM Messages where dest='"+destinataire+"';";
@@ -396,7 +392,7 @@ public class BDD {
 	
 	public synchronized static void SupprimerMessage(String message, String destinataire, String source){
 		String sql ="DELETE FROM Messages where dest='"+destinataire+"' AND source='"+source+"' AND Message='"+message+"';";
->>>>>>> 8ed84687986093fba263219d3dc0ccc25786c9b1
+
 		requeteInsertion(sql);
 	}
 	public synchronized static ArrayList<String> recupererMessages(String dest){
