@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.DatagramSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,6 +61,9 @@ public class Traitement extends Thread {
 		String motClef, requete=null;
 		BDD base=new BDD();
 		GestionProtocoleServeur gestionProtocoleServeur=new GestionProtocoleServeur();
+		
+		
+		
 		while (!fermeture) {
 			
 			chaine=null;
@@ -118,6 +122,10 @@ public class Traitement extends Thread {
 				chaine="ok";
 				break;
 			
+			case "supprMails":
+				base.SupprimerTousMessages(tabRequete[1]);
+				chaine="OK";
+				break;
 			
 			case "modifier":
 				base.modifier(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], tabRequete[5], tabRequete[6], tabRequete[7], tabRequete[8], tabRequete[9]);
@@ -133,6 +141,15 @@ public class Traitement extends Thread {
 				}
 				
 				break;
+			
+			case "mail":
+				
+				base.ajouterMessage(tabRequete[1], tabRequete[2], mailCo);
+				chaine ="OK";	
+				
+				break;	
+				
+			
 				
 			case "infoEtudiant":
 				
@@ -189,12 +206,19 @@ public class Traitement extends Thread {
 				break;
 			case "deconnexion":
 				System.out.println("1: "+tabRequete[0] + "et 2: "+tabRequete[1]);
-				connecte=false; 
+				connecte=false;
+				
+				ht.remove(mailCo);
+				mailCo=null;
 				chaine="OK";
 				
 				break;
 			case "arret":
 				fermeture=true;
+				if (mailCo!=null){
+					ht.remove(mailCo);
+				}
+				mailCo=null;
 				chaine="OK";
 				break;
 			case "coordonnees":
@@ -210,9 +234,9 @@ public class Traitement extends Thread {
                 chaine=(String) ht.get(tabAddress[1]);
                 System.out.println("syso "+ht.get(mailCo));
                 break;
-			case "refreshCo":
+			case "avoir":
 				ArrayList<String> listeCo=new ArrayList<String>();
-                for (int i = 0; i < ht.size(); i++) {
+                for (int o = 0; o < ht.size(); o++) {
 					Enumeration e=ht.keys();
 					while(e.hasMoreElements()){
 						String clef=(String)e.nextElement();
@@ -220,13 +244,13 @@ public class Traitement extends Thread {
 						listeCo.add((String) ht.get(clef));
 					}
 				}
-                for (int i = 0; i < listeCo.size(); i++) {
-					if (i==0){
-						chaine=listeCo.get(i)+"#";
+                for (int j = 0; j < listeCo.size(); j++) {
+					if (j==0){
+						chaine=listeCo.get(j)+"#";
 						
 					}
 					else{
-						chaine=requete+listeCo.get(i)+"#";
+						chaine=requete+listeCo.get(j)+"#";
 						
 					}
 				}

@@ -6,12 +6,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -50,12 +54,13 @@ public class Vue {
 	public static TableModel modTable;
 	private JTable table_1;
 	private JLabel jLabelCompetencesSelectModif, jLabelCompetencesModif, jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
-	private boolean connecte=false;
+	public boolean connecte=false;
 	private boolean verifMail, verifTel, verifAnnee=false;
 	private static GestionProtocoleClient gestion = new GestionProtocoleClient();
-	JOptionPane jOption;
+	static JOptionPane jOption;
 	static JList listeCompetencesModif, listeCompetencesSelectionneesModif, listeCompetences, listeCompetencesSelectionnees;
-	private String mailCo, listeComps[];
+	private static String mailCo;
+	private String listeComps[];
 	private static DefaultListModel<String> DLM2;
 	private ArrayList<String> listeComps2=null;
 	private static ArrayList<String> listeCompsL=null;
@@ -64,7 +69,11 @@ public class Vue {
 	VerifSaisie controle=new VerifSaisie();
 	private ArrayList<String> jListeCompSelectModif;
 	GestionProtocoleChat gestionChat = new GestionProtocoleChat();
-	
+	private JDialog jDialogLaisserMessage, jDialogConsulterMail;
+	private String utilisateurSelectionne;
+	private JButton btnConsultMail;
+	private JTextArea textAreaMails;
+	private String mailsrecus[];
 	
 	/**
 	 * Launch the application.
@@ -81,7 +90,7 @@ public class Vue {
 					chargerCompetences();
 					chargerEtudiants();
 					VueTchat chatWindow =new VueTchat();
-					chatWindow.start();
+					chatWindow.run();
 					System.out.println("SYSO");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -134,6 +143,45 @@ public class Vue {
 		panel.setBounds(0, 0, 484, 516);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		
+		btnConsultMail = new JButton("Mail");
+		btnConsultMail.setBounds(326, 109, 117, 23);
+		panel.add(btnConsultMail);
+		btnConsultMail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(connecte==false){
+					jOption.showMessageDialog(null, "ERREUR: Il faut être connecte...", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					try {
+						mailsrecus=gestion.recupererMail(mailCo);
+						
+						
+							for (int m = 0; m < mailsrecus.length; m++) {
+								if (m%2==0){
+									if(m==0){
+										textAreaMails.setText("("+mailsrecus[m]+") "+mailsrecus[m+1]);
+									}
+									else{
+									String temp = textAreaMails.getText();
+									textAreaMails.setText(temp+System.getProperty("line.separator")+"("+mailsrecus[m]+") "+mailsrecus[m+1]);
+									}
+								}
+						
+							}
+							jDialogConsulterMail.setVisible(true);
+						
+					} catch (ArrayIndexOutOfBoundsException e1) {
+						// TODO Auto-generated catch block
+						textAreaMails.setText("Vous n'avez pas recu de mails");
+						jDialogConsulterMail.setVisible(true);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		
 		btnRafraichir = new JButton("Rafraichir");
 		btnRafraichir.setBounds(326, 12, 117, 23);
@@ -243,6 +291,7 @@ public class Vue {
 		        int row = table_1.rowAtPoint(evt.getPoint());
 		        //int col = table_1.columnAtPoint(evt.getPoint());
 		        adresseMail=(String) table_1.getValueAt(row, 2);
+		        utilisateurSelectionne=adresseMail;
 		        infoEtudiant(adresseMail);
 		        jDialogInfoEtudiant.setVisible(true);
 		        
@@ -314,6 +363,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(true);
 						mntmSinscrire.setEnabled(true);
 						mntmSupprimerCompte.setEnabled(false);
+						
 					}
 					
 				} 
@@ -324,6 +374,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
+						
 					}
 				}
 			}
@@ -338,7 +389,7 @@ public class Vue {
 		mntmSupprimerCompte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					gestion.supprimerCompte(mailCo);
+					gestion.supprimerCompte(getMailCo());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -406,7 +457,7 @@ public class Vue {
 				}
 				if (confirm==true){
 					connecte=true;
-					mailCo=eMail;
+					setMailCo(eMail);
 					jOption.showMessageDialog(null, "INFO: Vous etes bien connecte", "Information", JOptionPane.INFORMATION_MESSAGE);
 					if(connecte==true){
 						mntmSeDconnecter.setEnabled(true);
@@ -896,6 +947,86 @@ public class Vue {
 			}
 		});
 		
+		/********************************************************************
+		 * PopUp de Laisser un message
+		 * 
+		 ********************************************************************/
+		
+		jDialogLaisserMessage = new JDialog();
+		jDialogLaisserMessage.setMinimumSize(new java.awt.Dimension(500, 600));
+		jDialogLaisserMessage.setLocationRelativeTo(null);
+		jDialogLaisserMessage.setModal(true);
+		jDialogLaisserMessage.getContentPane().setLayout(null);
+		jDialogLaisserMessage.setTitle("Laisser un message");
+		
+		JPanel panel2 = new JPanel();
+		panel2.setLocation(new Point(300, 0));
+		panel2.setBackground(new Color(128, 128, 128));
+		panel2.setBounds(0, 0, 465, 261);
+		jDialogLaisserMessage.getContentPane().add(panel2);
+		panel2.setLayout(null);
+		
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setBorder(new LineBorder(new Color(30, 144, 255)));
+		textArea_1.setBounds(10, 11, 364, 143);
+		panel2.add(textArea_1);
+		
+		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					gestion.envoiMail(textArea_1.getText(), utilisateurSelectionne);
+					jDialogLaisserMessage.dispose();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnEnvoyer.setBounds(285, 214, 89, 36);
+		panel2.add(btnEnvoyer);
+		
+		
+		/********************************************************************
+		 * PopUp de Consulter Mail
+		 * 
+		 ********************************************************************/
+		jDialogConsulterMail = new JDialog();
+		jDialogConsulterMail.setMinimumSize(new java.awt.Dimension(500, 600));
+		jDialogConsulterMail.setLocationRelativeTo(null);
+		jDialogConsulterMail.setModal(true);
+		jDialogConsulterMail.getContentPane().setLayout(null);
+		jDialogConsulterMail.setTitle("Mes Mails");
+		
+		JPanel panel3 = new JPanel();
+		panel3.setLocation(new Point(300, 0));
+		panel3.setBackground(new Color(128, 128, 128));
+		panel3.setBounds(0, 0, 500, 600);
+		jDialogConsulterMail.getContentPane().add(panel3);
+		panel3.setLayout(null);
+		
+		textAreaMails = new JTextArea();
+		textAreaMails.setBorder(new LineBorder(new Color(30, 144, 255)));
+		textAreaMails.setBounds(10, 11, 364, 143);
+		textAreaMails.setEditable(false);
+		panel3.add(textAreaMails);
+		
+		JButton btnSupprMail = new JButton("Tout supprimer");
+		btnSupprMail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					gestion.supprTousMail(mailCo);
+					textAreaMails.setText("");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnSupprMail.setBounds(285, 214, 89, 36);
+		panel3.add(btnSupprMail);
+		
+		
 	}
 	
 	
@@ -934,13 +1065,12 @@ public class Vue {
 		jLabelPrenomInfo.setBounds(350, 10, 200, 23);
 		jDialogInfoEtudiant.getContentPane().add(jLabelPrenomInfo);
 		
-		JButton btnChat = new JButton("Chatter!");
+		JButton btnChat = new JButton("Laisser un message");
 		btnChat.setBounds(350, 45, 110, 30);
 		jDialogInfoEtudiant.getContentPane().add(btnChat);
 		btnChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				VueTchat chatWindow =new VueTchat();
-				chatWindow.start();
+				jDialogLaisserMessage.setVisible(true);
 				
 			}
 		});
@@ -1090,6 +1220,14 @@ public class Vue {
 				//listeEtu.add(etudiant);
 			}
 		}
+	}
+
+	public static String getMailCo() {
+		return mailCo;
+	}
+
+	public void setMailCo(String mailCo) {
+		this.mailCo = mailCo;
 	}
 	
 //	public static void chargerCompetences2(){
