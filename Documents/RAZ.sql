@@ -36,6 +36,16 @@ create table Messages(
 	constraint fk_messages_utlisateur2 foreign key(source) references Utilisateurs(mail)
 );
 
+create table Recommander(
+	comp varchar(200),
+	utilisateurQuiRecommande varchar(80),
+	utilisateurRecommande varchar(80),
+	constraint pk_recommander PRIMARY KEY(comp, utilisateurQuiRecommande, utilisateurRecommande),
+	constraint fk_recommander_utlisateur foreign key(utilisateurQuiRecommande) references Utilisateurs(mail),
+	constraint fk_recommander_acquerir1 foreign key(comp) references Acquerir(description),	
+	constraint fk_recommander_acquerir2 foreign key(utilisateurRecommande) references Acquerir(mail)	
+);
+
 
 
 INSERT INTO Utilisateurs values
@@ -63,5 +73,11 @@ INSERT INTO Acquerir values
 	('vic@gmail.com','Maths'),
 	('vic@gmail.com','Informatique');
 
+
+INSERT INTO Recommander values
+	('Repassage','kent@yahoo.fr','jojo@gmail.com'),
+	('Repassage','kent@yahoo.fr','vic@gmail.com'),
+	('Gestion','jojo@gmail.com','vic@gmail.com'),
+	('BDD','vic@gmail.com','kent@yahoo.fr');
 
 
