@@ -107,8 +107,11 @@ public class Traitement extends Thread {
 				ArrayList<String> messages = new ArrayList<String>();
 				messages=BDD.recupererMessages(tabRequete[1]);
 				chaine=gestionProtocoleServeur.serialisation(messages);
+				BDD.SupprimerMessages(tabRequete[1]);
 				break;
+			case "ajoutMessage":
 				
+				break;
 			case "supprimer":
 				base.supprimerAcquerir(tabRequete[1]);
 				base.supprimerUtilisateur(tabRequete[1]);

@@ -378,15 +378,14 @@ public class BDD {
 		supprimerUtilisateur(mail);
 		insererUtilisateur(nom,prenom,mail,tel, anneeDipl, mdp, showTel, showAnneeDipl, showComp );
 		
-		
 	}
 	
 	public synchronized static void ajouterMessage(String message, String destinataire, String source){
 		String sql ="INSERT INTO Messages values('"+destinataire+"','"+source+"','"+message+"');";
 		requeteInsertion(sql);
 	}
-	public synchronized static void SupprimerMessage(String message, String destinataire, String source){
-		String sql ="DELETE FROM Messages where dest='"+destinataire+"' AND source='"+source+"' AND Message='"+message+"';";
+	public synchronized static void SupprimerMessages(String destinataire){
+		String sql ="DELETE FROM Messages where dest='"+destinataire+"';";
 		requeteInsertion(sql);
 	}
 	public synchronized static ArrayList<String> recupererMessages(String dest){
