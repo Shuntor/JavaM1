@@ -256,7 +256,12 @@ public class Traitement extends Thread {
 				}
                 
                 break;
-
+			case "LIKER":
+				base.ajouterLike(tabRequete[1], mailCo ,tabRequete[2]);
+				break;
+			case "UNLIKER":
+				base.SupprimerLike(tabRequete[1], mailCo ,tabRequete[2]);
+				break;
 			default:
 
 				
