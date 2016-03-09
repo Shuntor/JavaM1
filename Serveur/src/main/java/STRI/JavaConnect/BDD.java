@@ -115,7 +115,7 @@ public class BDD {
 	 */
 	public synchronized String selectDescriptionParMail(String mail) throws SQLException{
 		String requete;
-		ResultSet resultat = requeteSelection("SELECT description  FROM Acquerir WHERE mail='"+mail+"';" );
+		ResultSet resultat = requeteSelection("SELECT description FROM Acquerir WHERE mail='"+mail+"';" );
 		resultat.next();
 		requete = resultat.getString("description") + "#";
         while ( resultat.next() ) {

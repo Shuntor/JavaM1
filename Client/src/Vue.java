@@ -52,6 +52,7 @@ public class Vue {
 	private JDialog jDialogInfoEtudiant, jDialogConnexion, jDialogModif, jDialogInscription;
 	private JButton btnDeleteCompModif, btnAddCompModif, btnNewCompModif, btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
+	public static TableModelComp modTableComp;
 	private JTable table_1;
 	private JLabel jLabelCompetencesSelectModif, jLabelCompetencesModif, jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
 	public boolean connecte=false;
@@ -74,6 +75,7 @@ public class Vue {
 	private JButton btnConsultMail;
 	private JTextArea textAreaMails;
 	private String mailsrecus[];
+	private JButton btnLike, btnUnlike;
 	
 	/**
 	 * Launch the application.
@@ -1125,7 +1127,34 @@ public class Vue {
 		}
 		String tabRequete2[]=comps.split("#");
 		
+//		for (int o = 0; o < tabRequete2.length; o++) {
+//			System.out.println("requete="+requete);
+//			Competence comp = new Competence(tabRequete2[o]);
+//			modTableComp.addCompetence(comp);
+//			
+//		}
 		
+//		JScrollPane scrollPane2 = new JScrollPane();
+//		scrollPane2.setBounds(10, 146, 464, 359);
+//		jDialogInfoEtudiant.getContentPane().add(scrollPane2);
+//		
+//		JTable tableComp= new JTable();
+//		tableComp.setModel(modTableComp);
+//		scrollPane2.setViewportView(tableComp);
+//		
+//		tableComp.addMouseListener(new java.awt.event.MouseAdapter() {
+//		    @Override
+//		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+//		    	String competence;
+//		        int row = table_1.rowAtPoint(evt.getPoint());
+//		        //int col = table_1.columnAtPoint(evt.getPoint());
+//		        competence=(String) table_1.getValueAt(row, 1);
+//		        
+//		        
+//		        
+//		        
+//		    }
+//		});
 		
 		JList listeCompetencesInfo =new JList();
 		listeCompetencesInfo.setBounds(200, 150, 130, 170);
@@ -1146,6 +1175,20 @@ public class Vue {
 				jDialogInfoEtudiant.getContentPane().add(listeCompetencesInfo);
 			}
 		}
+        
+        btnLike=new JButton("Liker");
+        btnLike.setBounds(400, 150, 110, 30);
+		jDialogInfoEtudiant.getContentPane().add(btnLike);
+		btnLike.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					gestion.likerComp(listeCompetencesInfo.getSelectedValue().toString(), mailCo, utilisateurSelectionne);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
       
 	}
 	
@@ -1221,6 +1264,24 @@ public class Vue {
 			}
 		}
 	}
+	
+//	public static void chargerCompTable() throws IOException{
+//		
+//		
+//		ArrayList<String> requete =gestion.recupererCompetences();
+//		
+//		Etudiant etudiant = null;
+//		for (int i = 0; i < requete.size(); i++) {
+//			System.out.println("requete="+requete);
+//			
+//			
+//			if(i%3==0){
+//				Competence comp = new Competence(requete.get(i), requete.get(i+1), requete.get(i+2));
+//				modTableComp.addCompetence(comp);
+//				//listeEtu.add(etudiant);
+//			}
+//		}
+//	}
 
 	public static String getMailCo() {
 		return mailCo;
