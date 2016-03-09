@@ -17,38 +17,24 @@ import com.mysql.jdbc.Statement;
  *
  */
 public class BDD {
-	
-//    private List<String> messages = new ArrayList<String>();
-//
-//    public List<String> executerTests( String requete ) {
-//    	/* Chargement du driver JDBC pour MySQL */
-//    	try {
-//    	    Class.forName( "com.mysql.jdbc.Driver" );
-//	    
-//    	} catch ( ClassNotFoundException e ) {
-//    	    /* Gerer les eventuelles erreurs ici. */
-//    	}
-//    	
-//    	
-//    	
-//
-//        return messages;
-//    } 
 	/**
 	 * @param args
 	 */
-/*	public static void main(String[] args){
-		Etudiant etu = null;
-		ArrayList<String> comp;
+	public static void main(String[] args){
+//		Etudiant etu = null;
+//		ArrayList<String> comp;
 //		etu = Connexion("vic@gmail.com","root");
 //		System.out.println(etu.getNom());
 //		comp=SelectionCompetences();
 //		for (int i = 0; i < comp.size(); i++) {
 //			System.out.println(comp);
 //		}
-		comp=SelectionCompetencesUtilisateur("vic@gmail.com");
-		System.out.println(comp);
-	}*/
+//		comp=SelectionCompetencesUtilisateur("vic@gmail.com");
+//		System.out.println(comp);
+//		ajouterLike("Maths","vic@gmail.com","kent@yahoo.fr");
+     
+		
+	}
 	
 
 	/** Inserer une competence
@@ -379,7 +365,7 @@ public class BDD {
 		insererUtilisateur(nom,prenom,mail,tel, anneeDipl, mdp, showTel, showAnneeDipl, showComp );
 		
 	}
-	
+	/*Les messages*/
 	public synchronized static void ajouterMessage(String message, String destinataire, String source){
 		String sql ="INSERT INTO Messages values('"+destinataire+"','"+source+"','"+message+"');";
 		requeteInsertion(sql);
@@ -412,6 +398,17 @@ public class BDD {
 			e.printStackTrace();
 		}
 		return messages;
+	}
+	
+	/* LES LIKES */
+	
+	public synchronized static void ajouterLike(String comp, String mailDeCeluiQuiRecommande, String MailDuRecommande){
+		String sql = "INSERT INTO Recommander values('"+comp+"','"+MailDuRecommande+"','"+mailDeCeluiQuiRecommande+"');";
+		requeteInsertion(sql);
+	}
+	public synchronized static void SupprimerLike(String comp, String mailDeCeluiQuiRecommande, String MailDuRecommande){
+		String sql = "DELETE FROM Recommander WHERE(comp='"+comp+"',utilisateurQuiRecommande='"+MailDuRecommande+"',utilisateurRecommande='"+mailDeCeluiQuiRecommande+"');";
+		requeteInsertion(sql);
 	}
 	
 }
