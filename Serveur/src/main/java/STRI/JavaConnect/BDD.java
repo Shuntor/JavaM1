@@ -410,5 +410,9 @@ public class BDD {
 		String sql = "DELETE FROM Recommander WHERE(comp='"+comp+"',utilisateurQuiRecommande='"+MailDuRecommande+"',utilisateurRecommande='"+mailDeCeluiQuiRecommande+"');";
 		requeteInsertion(sql);
 	}
+	public synchronized static void nbrLike(String comp, String mail){
+		String sql = "SELECT COUNT( utilisateurQuiRecommande ) FROM Recommander WHERE utilisateurRecommande ='"+mail+"' AND comp = '"+comp+"';";
+		requeteInsertion(sql);
+	}
 	
 }
