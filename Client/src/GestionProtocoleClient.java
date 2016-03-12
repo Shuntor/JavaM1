@@ -382,13 +382,22 @@ public class GestionProtocoleClient {
 			return tabRetour;
 		}
 		
-		public String[] likerComp(String comp, String mailCo, String recommande) throws IOException{
+		public void likerComp(String comp, String mailCo, String recommande) throws IOException{
 			String retour, requete = null;
 			requete=serialisation ("LIKER", comp, mailCo, recommande );
 			retour=envoiTrame(requete);
-			String tabRetour[]=retour.split("#");
+			//String tabRetour[]=retour.split("#");
 			
-			return tabRetour;
+		
+		}
+		
+		public void unlikerComp(String comp, String mailCo, String recommande) throws IOException{
+			String retour, requete = null;
+			requete=serialisation ("UNLIKER", comp, mailCo, recommande );
+			retour=envoiTrame(requete);
+			//String tabRetour[]=retour.split("#");
+			
+		
 		}
 
 		public void supprTousMail(String email) throws IOException {

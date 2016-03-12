@@ -1189,6 +1189,20 @@ public class Vue {
 				}
 			}
 		});
+		
+		btnUnlike=new JButton("Unliker");
+        btnUnlike.setBounds(400, 190, 110, 30);
+		jDialogInfoEtudiant.getContentPane().add(btnUnlike);
+		btnUnlike.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					gestion.unlikerComp(listeCompetencesInfo.getSelectedValue().toString(), mailCo, utilisateurSelectionne);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
       
 	}
 	

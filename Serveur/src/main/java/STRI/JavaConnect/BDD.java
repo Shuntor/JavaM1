@@ -133,7 +133,8 @@ public class BDD {
 			//Etape 4 : execution requete
 			st.executeUpdate(requete);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("tentative sur un inexistant");
+//			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -407,7 +408,8 @@ public class BDD {
 		requeteInsertion(sql);
 	}
 	public synchronized static void SupprimerLike(String comp, String mailDeCeluiQuiRecommande, String MailDuRecommande){
-		String sql = "DELETE FROM Recommander WHERE(comp='"+comp+"',utilisateurQuiRecommande='"+MailDuRecommande+"',utilisateurRecommande='"+mailDeCeluiQuiRecommande+"');";
+		String sql = "DELETE FROM Recommander WHERE(comp='"+comp+"',utilisateurQuiRecommande='"+ mailDeCeluiQuiRecommande+"',utilisateurRecommande='"+MailDuRecommande+"');";
+		System.out.println("requete= "+sql);
 		requeteInsertion(sql);
 	}
 	

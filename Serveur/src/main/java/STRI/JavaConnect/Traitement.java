@@ -258,9 +258,13 @@ public class Traitement extends Thread {
                 break;
 			case "LIKER":
 				base.ajouterLike(tabRequete[1], mailCo ,tabRequete[2]);
+				chaine="OK";
 				break;
 			case "UNLIKER":
+				System.out.println("mailCo= "+mailCo);
 				base.SupprimerLike(tabRequete[1], mailCo ,tabRequete[2]);
+				
+				chaine="OK";
 				break;
 			default:
 
