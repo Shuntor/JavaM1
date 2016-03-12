@@ -412,5 +412,9 @@ public class BDD {
 		System.out.println("requete= "+sql);
 		requeteInsertion(sql);
 	}
+	public synchronized static void nbrLike(String comp, String mail){
+		String sql = "SELECT COUNT( utilisateurQuiRecommande ) FROM Recommander WHERE utilisateurRecommande ='"+mail+"' AND comp = '"+comp+"';";
+		requeteInsertion(sql);
+	}
 	
 }
