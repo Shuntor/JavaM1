@@ -257,15 +257,23 @@ public class Traitement extends Thread {
                 
                 break;
 			case "LIKER":
-				base.ajouterLike(tabRequete[1], mailCo ,tabRequete[2]);
+				base.ajouterLike(tabRequete[1], mailCo ,tabRequete[3]);
 				chaine="OK";
 				break;
 			case "UNLIKER":
 				System.out.println("mailCo= "+mailCo);
-				base.SupprimerLike(tabRequete[1], mailCo ,tabRequete[2]);
+				chaine=base.SupprimerLike(tabRequete[1], tabRequete[2] ,tabRequete[3]);
 				
-				chaine="OK";
+				
 				break;
+			case "LIKEURS":
+				ArrayList<String> recommandeurs = new ArrayList<String>();
+				recommandeurs=base.selectLikers(tabRequete[1]);
+				chaine=gestionProtocoleServeur.serialisation(recommandeurs);
+				break;
+				
+				
+				
 			default:
 
 				

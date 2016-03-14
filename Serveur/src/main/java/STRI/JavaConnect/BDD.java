@@ -133,8 +133,7 @@ public class BDD {
 			//Etape 4 : execution requete
 			st.executeUpdate(requete);
 		} catch (SQLException e) {
-			System.out.println("tentative sur un inexistant");
-//			e.printStackTrace();
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -404,17 +403,63 @@ public class BDD {
 	/* LES LIKES */
 	
 	public synchronized static void ajouterLike(String comp, String mailDeCeluiQuiRecommande, String MailDuRecommande){
-		String sql = "INSERT INTO Recommander values('"+comp+"','"+MailDuRecommande+"','"+mailDeCeluiQuiRecommande+"');";
+		String sql = "INSERT INTO Recommander values('"+comp+"','"+mailDeCeluiQuiRecommande+"','"+ MailDuRecommande+"');";
 		requeteInsertion(sql);
 	}
-	public synchronized static void SupprimerLike(String comp, String mailDeCeluiQuiRecommande, String MailDuRecommande){
-		String sql = "DELETE FROM Recommander WHERE(comp='"+comp+"',utilisateurQuiRecommande='"+ mailDeCeluiQuiRecommande+"',utilisateurRecommande='"+MailDuRecommande+"');";
+	public synchronized static String SupprimerLike(String comp, String mailDeCeluiQuiRecommande, String MailDuRecommande){
+		String sql;		
+		ResultSet result;
+		ArrayList<String> recommandeurs = new ArrayList<String>();
+		
+		
+		sql = "Select utilisateurQuiRecommande, comp FROM Recommander WHERE comp='"+comp+"' AND utilisateurQuiRecommande='"+ mailDeCeluiQuiRecommande+"' AND utilisateurRecommande='"+MailDuRecommande+"';";
 		System.out.println("requete= "+sql);
-		requeteInsertion(sql);
+		result=requeteSelection(sql);
+		try {
+			if (!result.next()){
+				return "NOK";
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+//		try {
+//			while (result.next()) {
+//				recommandeurs.add(result.getString(1));
+//			}
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			return "NOK";
+//		}
+		sql = "DELETE FROM Recommander WHERE comp='"+comp+"' AND utilisateurQuiRecommande='"+ mailDeCeluiQuiRecommande+"' AND utilisateurRecommande='"+MailDuRecommande+"';";
+		System.out.println("requete= "+sql);
+		try {
+			requeteInsertion(sql);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return "NOK";
+		}
+		return "OK";
 	}
-	public synchronized static void nbrLike(String comp, String mail){
-		String sql = "SELECT COUNT( utilisateurQuiRecommande ) FROM Recommander WHERE utilisateurRecommande ='"+mail+"' AND comp = '"+comp+"';";
-		requeteInsertion(sql);
+	public synchronized static ArrayList<String> selectLikers(String recommande){
+		ResultSet result;
+		ArrayList<String> recommandeurs = new ArrayList<String>();
+		
+		String sql = "Select utilisateurQuiRecommande, comp FROM Recommander WHERE utilisateurRecommande='"+recommande+"';";
+		System.out.println("requete= "+sql);
+		result=requeteSelection(sql);
+		try {
+			while (result.next()) {
+				recommandeurs.add(result.getString(1));
+				recommandeurs.add(result.getString(2));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return recommandeurs;
 	}
 	
 }

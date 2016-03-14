@@ -49,7 +49,7 @@ public class Vue {
 	private JTextField jTextField_NewCompetenceModif, jTextField_NewCompetence, textField_1, textField_MailConnexion, textField_MDPConnexion, textField_MailModif, textField_NomModif, textField_prenomModif, textField_TelModif, textField_anneeModif, textField_MailInscription, textField_NomInscription, textField_prenomInscription, textField_TelInscription, textField_anneeInscription, textField_MDPInscription, textField_MDPConfInscription;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JDialog jDialogInfoEtudiant, jDialogConnexion, jDialogModif, jDialogInscription;
+	private JDialog jDialogInfoEtudiant, jDialogConnexion, jDialogModif, jDialogInscription, jDialogLikers;
 	private JButton btnDeleteCompModif, btnAddCompModif, btnNewCompModif, btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
 	public static TableModelComp modTableComp;
@@ -73,9 +73,11 @@ public class Vue {
 	private JDialog jDialogLaisserMessage, jDialogConsulterMail;
 	private String utilisateurSelectionne;
 	private JButton btnConsultMail;
-	private JTextArea textAreaMails;
+	private JTextArea textAreaMails, textArealikers;
 	private String mailsrecus[];
-	private JButton btnLike, btnUnlike;
+	private JButton btnLike, btnUnlike, btnQuiLike;
+	private String reqLikers = null;
+	private String testUnlike=null;
 	
 	/**
 	 * Launch the application.
@@ -145,6 +147,38 @@ public class Vue {
 		panel.setBounds(0, 0, 484, 516);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		
+		btnQuiLike=new JButton("likers");
+		btnQuiLike.setBounds(10, 0, 110, 25);
+		panel.add(btnQuiLike);
+		btnQuiLike.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					reqLikers=gestion.quiLike(mailCo);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String tabReqLikers[]=reqLikers.split("#");
+				for (int j = 0; j < tabReqLikers.length; j++) {
+					if (reqLikers==null){
+						
+					}
+					else{
+						if(j%2==0){
+							if (j==0){
+								textArealikers.setText("("+tabReqLikers[j]+") - " + tabReqLikers[j+1]);
+							}
+							else{
+								String mem=textArealikers.getText();
+								textArealikers.setText(mem+System.getProperty("line.separator")+"("+tabReqLikers[j]+") - " + tabReqLikers[j+1]);
+							}
+						}
+					}
+				}
+				jDialogLikers.setVisible(true);
+			}
+		});
 		
 		btnConsultMail = new JButton("Mail");
 		btnConsultMail.setBounds(326, 109, 117, 23);
@@ -366,6 +400,7 @@ public class Vue {
 						mntmSinscrire.setEnabled(true);
 						mntmSupprimerCompte.setEnabled(false);
 						
+						
 					}
 					
 				} 
@@ -377,6 +412,7 @@ public class Vue {
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
 						
+
 					}
 				}
 			}
@@ -1028,7 +1064,27 @@ public class Vue {
 		btnSupprMail.setBounds(285, 214, 89, 36);
 		panel3.add(btnSupprMail);
 		
+		/**********************************************************
+		 * PopUp de Likers
+		 * *******************************************************/
+		jDialogLikers = new JDialog();
+		jDialogLikers.setMinimumSize(new java.awt.Dimension(500, 600));
+		jDialogLikers.setLocationRelativeTo(null);
+		jDialogLikers.setModal(true);
+		jDialogLikers.getContentPane().setLayout(null);
+		jDialogLikers.setTitle("Mes Mails");
 		
+		JPanel panel4 = new JPanel();
+		panel4.setLocation(new Point(300, 0));
+		panel4.setBounds(0, 0, 500, 600);
+		jDialogLikers.getContentPane().add(panel4);
+		panel4.setLayout(null);
+		
+		textArealikers = new JTextArea();
+		textArealikers.setBorder(new LineBorder(new Color(30, 144, 255)));
+		textArealikers.setBounds(10, 11, 364, 143);
+		textArealikers.setEditable(false);
+		panel4.add(textArealikers);
 	}
 	
 	
@@ -1196,14 +1252,23 @@ public class Vue {
 		btnUnlike.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					gestion.unlikerComp(listeCompetencesInfo.getSelectedValue().toString(), mailCo, utilisateurSelectionne);
+					testUnlike=gestion.unlikerComp(listeCompetencesInfo.getSelectedValue().toString(), mailCo, utilisateurSelectionne);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				if (testUnlike.startsWith("NOK")){
+					jOption.showMessageDialog(null, "ERREUR:Vous n'avez pas like cette compétence de cette personne... ", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
+		
+		
+		
       
+		
+		
+		 
 	}
 	
 	
