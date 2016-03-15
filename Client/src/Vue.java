@@ -53,6 +53,7 @@ public class Vue {
 	private JButton btnDeleteCompModif, btnAddCompModif, btnNewCompModif, btnRafraichir, btnDeleteComp, btnNewComp, btnAddComp, btnConnexion, btnAnnulerConnexion,  btnModifier,  btnAnnulerModifier, btnInscription, btnAnnulerInscription;
 	public static TableModel modTable;
 	public static TableModelComp modTableComp;
+	private JLabel jLabelNbLikes;
 	private JTable table_1;
 	private JLabel jLabelCompetencesSelectModif, jLabelCompetencesModif, jLabelEmailInfo, jLabelNomInfo, jLabelPrenomInfo, jLabelTelInfo, jLabelAnneeInfo, jLabelCompetences, jLabelCompetencesSelect, jLabelEmailConnexion, jLabelMDPConnexion, jLabelEmailModif, jLabelNomModif, jLabelPrenomModif, jLabelTelModif, jLabelAnneeModif, jLabelEmailInscription, jLabelNomInscription, jLabelPrenomInscription, jLabelTelInscription, jLabelAnneeInscription, jLabelMDPInscription, jLabelMDPConfInscription;
 	public boolean connecte=false;
@@ -63,8 +64,10 @@ public class Vue {
 	private static String mailCo;
 	private String listeComps[];
 	private static DefaultListModel<String> DLM2;
-	private ArrayList<String> listeComps2=null;
+	private static ArrayList<String> listeComps2=null;
 	private static ArrayList<String> listeCompsL=null;
+	private static ArrayList<String> listeCompsLModif=null;
+	private static String retourCompModif;
 	private static ArrayList<String> listeCompsSelectModif, listeCompsSelect=new ArrayList<String>();
 	static ArrayList<Etudiant> listeEtu;
 	VerifSaisie controle=new VerifSaisie();
@@ -78,6 +81,10 @@ public class Vue {
 	private JButton btnLike, btnUnlike, btnQuiLike;
 	private String reqLikers = null;
 	private String testUnlike=null;
+	private JButton btn_modifInfo;
+	private String infoModif;
+	JRadioButton jRadioShowCompetencesModif, jRadioShowAnneeDipModif, jRadioShowTelModif;
+	private int nbLikes;
 	
 	/**
 	 * Launch the application.
@@ -149,7 +156,7 @@ public class Vue {
 		panel.setLayout(null);
 		
 		btnQuiLike=new JButton("likers");
-		btnQuiLike.setBounds(10, 0, 110, 25);
+		btnQuiLike.setBounds(26, 12, 110, 19);
 		panel.add(btnQuiLike);
 		btnQuiLike.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -160,22 +167,25 @@ public class Vue {
 					e.printStackTrace();
 				}
 				String tabReqLikers[]=reqLikers.split("#");
-				for (int j = 0; j < tabReqLikers.length; j++) {
+				for (nbLikes = 0; nbLikes < tabReqLikers.length; nbLikes++) {
 					if (reqLikers==null){
 						
 					}
 					else{
-						if(j%2==0){
-							if (j==0){
-								textArealikers.setText("("+tabReqLikers[j]+") - " + tabReqLikers[j+1]);
+						if(nbLikes%2==0){
+							if (nbLikes==0){
+								textArealikers.setText("("+tabReqLikers[nbLikes]+") - " + tabReqLikers[nbLikes+1]);
 							}
 							else{
 								String mem=textArealikers.getText();
-								textArealikers.setText(mem+System.getProperty("line.separator")+"("+tabReqLikers[j]+") - " + tabReqLikers[j+1]);
+								textArealikers.setText(mem+System.getProperty("line.separator")+"("+tabReqLikers[nbLikes]+") - " + tabReqLikers[nbLikes+1]);
 							}
 						}
 					}
 				}
+				nbLikes=nbLikes+1;
+				System.out.println("tabReqLikers.length= "+tabReqLikers.length);
+				System.out.println("nbLikes= "+nbLikes);
 				jDialogLikers.setVisible(true);
 			}
 		});
@@ -375,6 +385,35 @@ public class Vue {
 		
 		JMenuItem mntmModifierMesInformations = new JMenuItem("Modifier mes informations");
 		mnGestionDuCompte.add(mntmModifierMesInformations);
+		mntmModifierMesInformations.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					infoModif=gestion.infoEtudiant(mailCo);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String tabInfoModif[]=infoModif.split("#");
+				textField_NomModif.setText(tabInfoModif[0]);
+				textField_prenomModif.setText(tabInfoModif[1]);
+				textField_MailModif.setText(tabInfoModif[2]);
+				textField_TelModif.setText(tabInfoModif[3]);
+				textField_anneeModif.setText(tabInfoModif[4]);
+				if(tabInfoModif[5].startsWith("1")){
+					jRadioShowTelModif.setSelected(true);
+				}
+				if(tabInfoModif[6].startsWith("1")){
+					jRadioShowAnneeDipModif.setSelected(true);
+				}
+				if(tabInfoModif[7].startsWith("1")){
+					jRadioShowCompetencesModif.setSelected(true);
+				}
+				chargerCompetencesModif();
+				chargerCompetencesSelectionneesModif();
+				jDialogModif.setVisible(true);
+				
+			}
+		});
 		mntmModifierMesInformations.setEnabled(false);
 		
 		JMenuItem mntmSupprimerCompte = new JMenuItem("Supprimer mon compte");
@@ -399,6 +438,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(true);
 						mntmSinscrire.setEnabled(true);
 						mntmSupprimerCompte.setEnabled(false);
+						mntmModifierMesInformations.setEnabled(false);
 						
 					}
 					
@@ -410,7 +450,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
-						
+						mntmModifierMesInformations.setEnabled(true);
 
 					}
 				}
@@ -436,6 +476,7 @@ public class Vue {
 				mntmSeConnecter.setEnabled(true);
 				mntmSinscrire.setEnabled(true);
 				mntmSupprimerCompte.setEnabled(false);
+				mntmModifierMesInformations.setEnabled(false);
 			}
 		});
 		
@@ -501,6 +542,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(false);
 						mntmSinscrire.setEnabled(false);
 						mntmSupprimerCompte.setEnabled(true);
+						mntmModifierMesInformations.setEnabled(true);
 						try {
 							gestion.runService();
 						} catch (IOException e) {
@@ -518,6 +560,7 @@ public class Vue {
 						mntmSeConnecter.setEnabled(true);
 						mntmSinscrire.setEnabled(true);
 						mntmSupprimerCompte.setEnabled(false);
+						mntmModifierMesInformations.setEnabled(false);
 					}
 				}
 					
@@ -574,6 +617,7 @@ public class Vue {
 		textField_MailModif.setBounds(60, 105, 86, 20);
 		jDialogModif.getContentPane().add(textField_MailModif);
 		textField_MailModif.setColumns(10);
+		textField_MailModif.setEditable(false);
 		
 		jLabelTelModif = new JLabel("Tel.:");
 		jLabelTelModif.setBounds(350, 10, 117, 23);
@@ -583,6 +627,36 @@ public class Vue {
 		textField_TelModif.setBounds(350, 35, 86, 20);
 		jDialogModif.getContentPane().add(textField_TelModif);
 		textField_TelModif.setColumns(10);
+		
+		btn_modifInfo = new JButton("Modifier mes informations");
+		btn_modifInfo.setBounds(270, 207, 200, 23);
+		jDialogModif.getContentPane().add(btn_modifInfo);
+		btn_modifInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String sh_tel, sh_annee, sh_comp;
+				sh_tel="0";
+				sh_annee="0";
+				sh_comp="0";
+				
+				if (jRadioShowTelModif.isSelected()){
+					sh_tel="1";
+				}
+				if (jRadioShowAnneeDipModif.isSelected()){
+					sh_annee="1";
+				}
+				if (jRadioShowCompetencesModif.isSelected()){
+					sh_comp="1";
+				}
+				
+					
+				try {
+					gestion.modifInfo(mailCo, textField_NomModif.getText(), textField_prenomModif.getText(), textField_TelModif.getText(), textField_anneeModif.getText(), sh_tel, sh_annee, sh_comp);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		jLabelAnneeModif = new JLabel("Annee:");
 		jLabelAnneeModif.setBounds(60, 147, 117, 23);
@@ -602,7 +676,7 @@ public class Vue {
 		jDialogModif.getContentPane().add(btnModifier);
 		
 		btnNewCompModif=new JButton("Creer une competence");
-		btnNewCompModif.setBounds(275, 230, 200, 20);
+		btnNewCompModif.setBounds(275, 260, 200, 20);
 		jDialogModif.getContentPane().add(btnNewCompModif);
 		btnNewCompModif.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -620,7 +694,7 @@ public class Vue {
 		});
 		
 		jTextField_NewCompetenceModif = new JTextField();
-		jTextField_NewCompetenceModif.setBounds(20, 230, 250, 20);
+		jTextField_NewCompetenceModif.setBounds(20, 260, 250, 20);
 		jDialogModif.getContentPane().add(jTextField_NewCompetenceModif);
 		jTextField_NewCompetenceModif.setColumns(10);
 		
@@ -640,33 +714,41 @@ public class Vue {
 		listeCompetencesSelectionneesModif.setBounds(320, 320, 130, 170);
 		jDialogModif.getContentPane().add(listeCompetencesSelectionneesModif);
 		
-//		btnAddCompModif = new JButton("Add >>");
-//		btnAddCompModif.setBounds(188, 365, 110, 30);
-//		jDialogModif.getContentPane().add(btnAddCompModif);
-//		btnAddCompModif.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				String com;
-//				com=(String) listeCompetencesModif.getSelectedValue();
-//				System.out.println("j= "+com+"/");
-//				listeComps2.add(com);
-//				chargerCompetencesSelectionnees2();
-//				
-//			}
-//		});
-//		
-//		btnDeleteCompModif = new JButton("<< Delete");
-//		btnDeleteCompModif.setBounds(188, 400, 110, 30);
-//		jDialogModif.getContentPane().add(btnDeleteCompModif);
-//		btnDeleteCompModif.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				String com;
-//				com=(String) listeCompetencesSelectionneesModif.getSelectedValue();
-//				System.out.println("j= "+com+"/");				
-//				listeComps2.remove(com);
-//				chargerCompetences2();
-//				
-//			}
-//		});
+		btnAddCompModif = new JButton("Add >>");
+		btnAddCompModif.setBounds(188, 365, 110, 30);
+		jDialogModif.getContentPane().add(btnAddCompModif);
+		btnAddCompModif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String com;
+				com=(String) listeCompetencesModif.getSelectedValue();
+				System.out.println("j= "+com+"/");
+				try {
+					gestion.ajouterCompUtilisateur(mailCo, com);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				chargerCompetencesSelectionneesModif();
+			}
+		});
+		
+		btnDeleteCompModif = new JButton("<< Delete");
+		btnDeleteCompModif.setBounds(188, 400, 110, 30);
+		jDialogModif.getContentPane().add(btnDeleteCompModif);
+		btnDeleteCompModif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String com;
+				com=(String) listeCompetencesSelectionneesModif.getSelectedValue();
+				System.out.println("j= "+com+"/");
+				try {
+					gestion.supprCompUtilisateur(mailCo, com);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				chargerCompetencesSelectionneesModif();
+			}
+		});
 //		
 //		btnModifier.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent arg0) {
@@ -680,17 +762,17 @@ public class Vue {
 //			}
 //		});
 //		
-//		JRadioButton jRadioShowTelModif = new JRadioButton("Vue Visiteurs");
-//		jRadioShowTelModif.setBounds(350,55,130,23);
-//		jDialogModif.getContentPane().add(jRadioShowTelModif);
-//		
-//		JRadioButton jRadioShowAnneeDipModif  = new JRadioButton("Vue Visiteurs");
-//		jRadioShowAnneeDipModif.setBounds(60,197,130,23);
-//		jDialogModif.getContentPane().add(jRadioShowAnneeDipModif);
-//		
-//		JRadioButton jRadioShowCompetencesModif = new JRadioButton("Vue Visiteurs");
-//		jRadioShowCompetencesModif.setBounds(180,435,130,23);
-//		jDialogModif.getContentPane().add(jRadioShowCompetencesModif);
+		jRadioShowTelModif = new JRadioButton("Vue Visiteurs du Telephone");
+		jRadioShowTelModif.setBounds(220,80,200,23);
+		jDialogModif.getContentPane().add(jRadioShowTelModif);
+		
+		jRadioShowAnneeDipModif  = new JRadioButton("Vue Visiteurs de l'année dipl.");
+		jRadioShowAnneeDipModif.setBounds(220,113,200,23);
+		jDialogModif.getContentPane().add(jRadioShowAnneeDipModif);
+		
+		jRadioShowCompetencesModif = new JRadioButton("Vue Visiteurs des comp.");
+		jRadioShowCompetencesModif.setBounds(220,146,200,23);
+		jDialogModif.getContentPane().add(jRadioShowCompetencesModif);
 //		
 //		btnModifier.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent arg0) {
@@ -1084,6 +1166,10 @@ public class Vue {
 		textArealikers.setBounds(10, 11, 364, 143);
 		textArealikers.setEditable(false);
 		panel4.add(textArealikers);
+		
+//		jLabelNbLikes = new JLabel("Nombre de likes: "+ nbLikes );
+//		jLabelNbLikes.setBounds(350, 10, 200, 23);
+//		panel4.add(jLabelNbLikes);
 	}
 	
 	
@@ -1284,7 +1370,7 @@ public class Vue {
 		}
 	}
 	
-	/**Recharge la JList des competences generales
+	/**Recharge la JList des competences generales a l'INSCRIPTION
 	 * 
 	 */
 	public static void chargerCompetences(){
@@ -1305,7 +1391,54 @@ public class Vue {
         listeCompetences.setModel(DLM);
 	}
 	
-	/**Recharge la JList des competences que l'utilisateur selectionne
+	public static void chargerCompetencesModif(){
+		listeCompetencesModif.removeAll();
+			
+		try{
+			listeCompsLModif= gestion.recupererCompetences();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			
+		}
+		DefaultListModel DLMModif = new DefaultListModel();
+        for (int i = 0; i < listeCompsLModif.size(); i++)
+            {
+                 DLMModif.addElement(listeCompsLModif.get(i)); 
+            }
+        listeCompetencesModif.setModel(DLMModif);
+	}
+	
+	public static void chargerCompetencesSelectionneesModif(){
+		listeCompetencesSelectionneesModif.removeAll();
+			
+		try{
+			retourCompModif= gestion.competencesUtilisateur(mailCo);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();	
+		}
+		String tabRetourCompModif[]=retourCompModif.split("#");
+		DefaultListModel DLMModif = new DefaultListModel();
+        for (int i = 0; i < tabRetourCompModif.length; i++)
+            {
+                 DLMModif.addElement(tabRetourCompModif[i]); 
+            }
+        listeCompetencesSelectionneesModif.setModel(DLMModif);
+	}
+	
+//	public static void refreshCompetencesSelectionneesModif(){
+//		listeCompetencesSelectionneesModif.removeAll();
+//
+//		DefaultListModel DLM2 = new DefaultListModel();
+//        for (int i = 0; i < listeCompsSelectModif.size(); i++)
+//            {
+//                 DLM2.addElement(listeCompsSelectModif.get(i)); 
+//            }
+//        listeCompetencesSelectionneesModif.setModel(DLM2);
+//	}
+	
+	/**Recharge la JList des competences que l'utilisateur selectionne à l'INSCRIPTION
 	 * 
 	 */
 	public static void chargerCompetencesSelectionnees(){

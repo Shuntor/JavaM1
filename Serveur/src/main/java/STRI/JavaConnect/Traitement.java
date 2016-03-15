@@ -97,6 +97,16 @@ public class Traitement extends Thread {
 				System.out.println("J'ai recu une "+ motClef);
                 chaine="ok";
 				break;
+			case "ajouterCompUtilisateur":
+				base.insererCompUtilisateur(tabRequete[1], tabRequete[2]);
+				System.out.println("J'ai recu une "+ motClef);
+                chaine="ok";
+				break;
+			case "supprCompUtilisateur":
+				base.supprimerCompUtilisateur(tabRequete[1], tabRequete[2]);
+				System.out.println("J'ai recu une "+ motClef);
+                chaine="ok";
+				break;
 			case "connexion":
 				Etudiant etu=null;
 				System.out.println("J'ai recu une "+ motClef);
@@ -116,6 +126,14 @@ public class Traitement extends Thread {
 			case "ajoutMessage":
 				
 				break;
+				
+			case "modifInfoUtilisateur":
+				base.updateUtilisateur(tabRequete[1], tabRequete[2], tabRequete[3], tabRequete[4], tabRequete[5], tabRequete[6], tabRequete[7], tabRequete[8] );
+				chaine="OK";
+				
+				
+				break;
+				
 			case "supprimer":
 				base.supprimerAcquerir(tabRequete[1]);
 				base.supprimerUtilisateur(tabRequete[1]);

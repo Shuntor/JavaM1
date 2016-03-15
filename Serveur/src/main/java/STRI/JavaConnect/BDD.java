@@ -36,7 +36,21 @@ public class BDD {
 		
 	}
 	
-
+	public synchronized static void updateUtilisateur(String email, String nom, String prenom, String tel, String annee, String sh_tel, String sh_annee, String sh_comp){
+		String sql = "UPDATE utilisateurs SET nom='"+nom+"', prenom='"+prenom+"', tel='"+tel+"', showTel='"+sh_tel+"', showAnneDiplomation='"+sh_annee+"', showCompetences='"+sh_comp+"' WHERE mail='"+email+"';";
+		requeteInsertion(sql);
+	}
+	
+	public synchronized static void insererCompUtilisateur(String mail, String competence){
+		String sql="INSERT INTO acquerir (mail,description) VALUES ('"+mail+"', '"+competence+"');" ;
+		requeteInsertion(sql);
+	}
+	
+	public synchronized static void supprimerCompUtilisateur(String mail, String competence){
+		String sql="DELETE FROM Acquerir WHERE (mail='"+mail+"', description='"+competence+"');" ;
+		requeteInsertion(sql);
+	}
+	
 	/** Inserer une competence
 	 * @param competence
 	 */

@@ -414,6 +414,32 @@ public class GestionProtocoleClient {
 			retour=envoiTrame(requete);
 		}
 		
+		public void modifInfo (String email, String nom, String prenom, String tel, String annee, String sh_tel, String sh_annee, String sh_comp) throws IOException{
+			String requete, retour=null;
+			requete=serialisation("modifInfoUtilisateur", email,  nom,  prenom,  tel,  annee,  sh_tel,  sh_annee,  sh_comp);
+			retour = envoiTrame(requete);
+			System.out.println("retour = "+retour);
+			
+					
+		}
+		
+		public void ajouterCompUtilisateur (String mailCo, String comp) throws IOException{
+			String requete, retour=null;
+			requete=serialisation("ajouterCompUtilisateur", mailCo, comp);
+			retour = envoiTrame(requete);
+			System.out.println("retour = "+retour);
+			
+					
+		}
+		
+		public void supprCompUtilisateur (String mailCo, String comp) throws IOException{
+			String requete, retour=null;
+			requete=serialisation("supprCompUtilisateur", mailCo, comp);
+			retour = envoiTrame(requete);
+			System.out.println("retour = "+retour);
+			
+					
+		}
 		
 	}
 	
