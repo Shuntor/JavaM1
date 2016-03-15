@@ -400,7 +400,6 @@ public class Vue {
 						mntmSinscrire.setEnabled(true);
 						mntmSupprimerCompte.setEnabled(false);
 						
-						
 					}
 					
 				} 
@@ -537,110 +536,110 @@ public class Vue {
 		
 
 
-//		/********************************************************************
-//		 * PopUp de gestion infos
-//		 * 
-//		 ********************************************************************/
-//		jDialogModif = new JDialog();
-//		jDialogModif.setMinimumSize(new java.awt.Dimension(500, 600));
-//		jDialogModif.setLocationRelativeTo(null);
-//		jDialogModif.setModal(true);
-//		jDialogModif.getContentPane().setLayout(null);
-//		jDialogModif.setTitle("Modifier ses informations");
-//        		
-//		jLabelNomModif = new JLabel("Nom:");
-//		jLabelNomModif.setBounds(60, 10, 117, 23);
-//		jDialogModif.getContentPane().add(jLabelNomModif);
-//        
-//		textField_NomModif = new JTextField();
-//		textField_NomModif.setBounds(60, 35, 86, 20);
-//		jDialogModif.getContentPane().add(textField_NomModif);
-//		textField_NomModif.setColumns(10);
-//
-//		
-//		jLabelPrenomModif = new JLabel("Prenom:");
-//		jLabelPrenomModif.setBounds(200, 10, 117, 23);
-//		jDialogModif.getContentPane().add(jLabelPrenomModif);
-//        
-//		textField_prenomModif = new JTextField();
-//		textField_prenomModif.setBounds(200, 35, 86, 20);
-//		jDialogModif.getContentPane().add(textField_prenomModif);
-//		textField_prenomModif.setColumns(10);
-//
-//        jLabelEmailModif = new JLabel("Adrese E-mail:");
-//        jLabelEmailModif.setBounds(60, 80, 117, 23);
-//		jDialogModif.getContentPane().add(jLabelEmailModif);
-//		
-//		textField_MailModif = new JTextField();
-//		textField_MailModif.setBounds(60, 105, 86, 20);
-//		jDialogModif.getContentPane().add(textField_MailModif);
-//		textField_MailModif.setColumns(10);
-//		
-//		jLabelTelModif = new JLabel("Tel.:");
-//		jLabelTelModif.setBounds(350, 10, 117, 23);
-//		jDialogModif.getContentPane().add(jLabelTelModif);
-//        
-//		textField_TelModif = new JTextField();
-//		textField_TelModif.setBounds(350, 35, 86, 20);
-//		jDialogModif.getContentPane().add(textField_TelModif);
-//		textField_TelModif.setColumns(10);
-//		
-//		jLabelAnneeModif = new JLabel("Annee:");
-//		jLabelAnneeModif.setBounds(60, 147, 117, 23);
-//		jDialogModif.getContentPane().add(jLabelAnneeModif);
-//        
-//		textField_anneeModif = new JTextField();
-//		textField_anneeModif.setBounds(60, 175, 86, 20);
-//		jDialogModif.getContentPane().add(textField_anneeModif);
-//		textField_anneeModif.setColumns(10);
-//		
-//		btnAnnulerModifier = new JButton("Annuler");
-//		btnAnnulerModifier.setBounds(20, 510, 200, 23);
-//		jDialogModif.getContentPane().add(btnAnnulerModifier);
-//        
-//        btnModifier = new JButton("Envoyer les modifications");
-//		btnModifier.setBounds(270, 510, 200, 23);
-//		jDialogModif.getContentPane().add(btnModifier);
-//		
-//		btnNewCompModif=new JButton("Creer une competence");
-//		btnNewCompModif.setBounds(275, 230, 200, 20);
-//		jDialogModif.getContentPane().add(btnNewCompModif);
-//		btnNewCompModif.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				
-//				try {
-//					gestion.creerCompetence(jTextField_NewCompetenceModif.getText());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				chargerCompetences();
-//				
-//				;
-//			}
-//		});
-//		
-//		jTextField_NewCompetenceModif = new JTextField();
-//		jTextField_NewCompetenceModif.setBounds(20, 230, 250, 20);
-//		jDialogModif.getContentPane().add(jTextField_NewCompetenceModif);
-//		jTextField_NewCompetenceModif.setColumns(10);
-//		
-//		jLabelCompetencesModif = new JLabel("Selectionnez vos competences:");
-//		jLabelCompetencesModif.setBounds(20, 295, 250, 23);
-//		jDialogModif.getContentPane().add(jLabelCompetencesModif);
-//		
-//		listeCompetencesModif=new JList();
-//		listeCompetencesModif.setBounds(30, 320, 130, 170);
-//		jDialogModif.getContentPane().add(listeCompetencesModif);
-//		
-//		jLabelCompetencesSelectModif = new JLabel("Competences selectionnees:");
-//		jLabelCompetencesSelectModif.setBounds(300, 295, 250, 23);
-//		jDialogModif.getContentPane().add(jLabelCompetencesSelectModif);
-//		
-//		listeCompetencesSelectionneesModif=new JList();
-//		listeCompetencesSelectionneesModif.setBounds(320, 320, 130, 170);
-//		jDialogModif.getContentPane().add(listeCompetencesSelectionneesModif);
-//		
+		/********************************************************************
+		 * PopUp de gestion infos
+		 * 
+		 ********************************************************************/
+		jDialogModif = new JDialog();
+		jDialogModif.setMinimumSize(new java.awt.Dimension(500, 600));
+		jDialogModif.setLocationRelativeTo(null);
+		jDialogModif.setModal(true);
+		jDialogModif.getContentPane().setLayout(null);
+		jDialogModif.setTitle("Modifier ses informations");
+        		
+		jLabelNomModif = new JLabel("Nom:");
+		jLabelNomModif.setBounds(60, 10, 117, 23);
+		jDialogModif.getContentPane().add(jLabelNomModif);
+        
+		textField_NomModif = new JTextField();
+		textField_NomModif.setBounds(60, 35, 86, 20);
+		jDialogModif.getContentPane().add(textField_NomModif);
+		textField_NomModif.setColumns(10);
+
+		
+		jLabelPrenomModif = new JLabel("Prenom:");
+		jLabelPrenomModif.setBounds(200, 10, 117, 23);
+		jDialogModif.getContentPane().add(jLabelPrenomModif);
+        
+		textField_prenomModif = new JTextField();
+		textField_prenomModif.setBounds(200, 35, 86, 20);
+		jDialogModif.getContentPane().add(textField_prenomModif);
+		textField_prenomModif.setColumns(10);
+
+        jLabelEmailModif = new JLabel("Adrese E-mail:");
+        jLabelEmailModif.setBounds(60, 80, 117, 23);
+		jDialogModif.getContentPane().add(jLabelEmailModif);
+		
+		textField_MailModif = new JTextField();
+		textField_MailModif.setBounds(60, 105, 86, 20);
+		jDialogModif.getContentPane().add(textField_MailModif);
+		textField_MailModif.setColumns(10);
+		
+		jLabelTelModif = new JLabel("Tel.:");
+		jLabelTelModif.setBounds(350, 10, 117, 23);
+		jDialogModif.getContentPane().add(jLabelTelModif);
+        
+		textField_TelModif = new JTextField();
+		textField_TelModif.setBounds(350, 35, 86, 20);
+		jDialogModif.getContentPane().add(textField_TelModif);
+		textField_TelModif.setColumns(10);
+		
+		jLabelAnneeModif = new JLabel("Annee:");
+		jLabelAnneeModif.setBounds(60, 147, 117, 23);
+		jDialogModif.getContentPane().add(jLabelAnneeModif);
+        
+		textField_anneeModif = new JTextField();
+		textField_anneeModif.setBounds(60, 175, 86, 20);
+		jDialogModif.getContentPane().add(textField_anneeModif);
+		textField_anneeModif.setColumns(10);
+		
+		btnAnnulerModifier = new JButton("Annuler");
+		btnAnnulerModifier.setBounds(20, 510, 200, 23);
+		jDialogModif.getContentPane().add(btnAnnulerModifier);
+        
+        btnModifier = new JButton("Envoyer les modifications");
+		btnModifier.setBounds(270, 510, 200, 23);
+		jDialogModif.getContentPane().add(btnModifier);
+		
+		btnNewCompModif=new JButton("Creer une competence");
+		btnNewCompModif.setBounds(275, 230, 200, 20);
+		jDialogModif.getContentPane().add(btnNewCompModif);
+		btnNewCompModif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					gestion.creerCompetence(jTextField_NewCompetenceModif.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				chargerCompetences();
+				
+				;
+			}
+		});
+		
+		jTextField_NewCompetenceModif = new JTextField();
+		jTextField_NewCompetenceModif.setBounds(20, 230, 250, 20);
+		jDialogModif.getContentPane().add(jTextField_NewCompetenceModif);
+		jTextField_NewCompetenceModif.setColumns(10);
+		
+		jLabelCompetencesModif = new JLabel("Selectionnez vos competences:");
+		jLabelCompetencesModif.setBounds(20, 295, 250, 23);
+		jDialogModif.getContentPane().add(jLabelCompetencesModif);
+		
+		listeCompetencesModif=new JList();
+		listeCompetencesModif.setBounds(30, 320, 130, 170);
+		jDialogModif.getContentPane().add(listeCompetencesModif);
+		
+		jLabelCompetencesSelectModif = new JLabel("Competences selectionnees:");
+		jLabelCompetencesSelectModif.setBounds(300, 295, 250, 23);
+		jDialogModif.getContentPane().add(jLabelCompetencesSelectModif);
+		
+		listeCompetencesSelectionneesModif=new JList();
+		listeCompetencesSelectionneesModif.setBounds(320, 320, 130, 170);
+		jDialogModif.getContentPane().add(listeCompetencesSelectionneesModif);
+		
 //		btnAddCompModif = new JButton("Add >>");
 //		btnAddCompModif.setBounds(188, 365, 110, 30);
 //		jDialogModif.getContentPane().add(btnAddCompModif);
