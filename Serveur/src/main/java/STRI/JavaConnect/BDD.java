@@ -47,7 +47,13 @@ public class BDD {
 	}
 	
 	public synchronized static void supprimerCompUtilisateur(String mail, String competence){
-		String sql="DELETE FROM Acquerir WHERE (mail='"+mail+"', description='"+competence+"');" ;
+		String sql;
+		sql="DELETE FROM Recommander where (comp='"+competence+"' AND utilisateurRecommande='"+mail+"');";
+		System.out.println("sql Recommander="+sql);
+		requeteInsertion(sql);
+		//System.out.println("Supprimé de Recommander");
+		sql="DELETE FROM Acquerir WHERE (mail='"+mail+"' AND description='"+competence+"');" ;
+		System.out.println("sql Acquerir ="+sql);
 		requeteInsertion(sql);
 	}
 	
