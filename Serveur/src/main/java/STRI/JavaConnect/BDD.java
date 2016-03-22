@@ -32,6 +32,7 @@ public class BDD {
 //		comp=SelectionCompetencesUtilisateur("vic@gmail.com");
 //		System.out.println(comp);
 //		ajouterLike("Maths","vic@gmail.com","kent@yahoo.fr");
+		supprimerCompUtilisateur("kent@yahoo.fr","Repassage");
      
 		
 	}
